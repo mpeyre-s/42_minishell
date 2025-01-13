@@ -60,7 +60,3 @@
 - **Lessons Learned**:  
   - The importance of modular code and clear function responsibilities.  
   - Debugging and testing are key to building a stable shell.  
-
----
-
-> This project was a rewarding journey into the world of system programming and Unix internals, providing a deeper appreciation for the complexities behind everyday tools like Bash.
