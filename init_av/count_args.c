@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   count_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hduflos <hduflos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 14:47:39 by hduflos           #+#    #+#             */
-/*   Updated: 2025/01/20 14:48:22 by hduflos          ###   ########.fr       */
+/*   Updated: 2025/01/20 19:42:12 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	is_metachar(int c)
+int	is_metachar(int c)
 {
 	return (c == '|' || c == '>' || c == '<');
 }
@@ -65,7 +65,7 @@ int	count_args(char *s)
 		if (s[i] != '\0')
 		{
 			count++;
-			if (logic_count_args(s, &i, &count) == -1)
+			if (logic_count_args(s, &i, quote) == -1)
 				return (-1);
 		}
 	}

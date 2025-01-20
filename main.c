@@ -3,46 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hduflos <hduflos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:31:16 by hduflos           #+#    #+#             */
-/*   Updated: 2025/01/20 10:56:20 by hduflos          ###   ########.fr       */
+/*   Updated: 2025/01/20 19:44:27 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-int	parsing(char *rl, t_args *args, t_exp *exp)
+int	parsing(char *rl, t_args *args /*t_exp *exp*/)
 {
-	args->av = init_av(rl);
+	args->ac = 0;
+	args->av = init_av(rl, &args->ac, 0);
+	if (!args->av)
+		return (free_split(args->av, args->ac));
+	if (check_error_quote(args->av, args->ac))
+	{
+		if (print_quote(args->av, args->ac) == -1)
+			return (free_split(args->av, args->ac));
+	}
+	return (0);
 }
 
 int	main(void)
 {
 	char	*rl;
 	t_args	*args;
-	t_exp	*expansion;
+	t_exp	*exp;
 
 	printf("%s\n\n\n", MINISHELL_TEST);
 
+	rl = NULL;
 	args = malloc(sizeof(t_args));
-	if (!args)
-		return (error_handle("problem with args allocation\n"));
-	expansion = malloc(sizeof(t_exp));
-	if (!expansion)
-		return (error_handle("problem with expansion allocation\n"));
-	// TODO : init basic extantions
+	exp = malloc(sizeof(t_exp));
+	if (!args || !exp)
+		return (free_main("problem w/ malloc\n", args, exp, rl));
+	init_exp(exp);
 	while(1)
 	{
 		rl = readline (COMPUTER " Minishell > " RESET);
 		if (!rl)
-			return (error_handle("problem with rl fct\n"));
-		if (parsing(rl, args, expansion) == -1)
-			return (parsing_error(rl, args, expansion));
+			return (free_main("problem with rl fct\n", args, exp, rl));
+		if (parsing(rl, args /*, exp*/) == -1)
+			return (free_main("pb parsing\n", args, exp, rl));
 	}
+	free_main("All good\n", args, exp, rl);
 	return (0);
 }
-
-
-//TODO : errors

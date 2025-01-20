@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hduflos <hduflos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:34:03 by hduflos           #+#    #+#             */
-/*   Updated: 2025/01/20 15:25:28 by hduflos          ###   ########.fr       */
+/*   Updated: 2025/01/20 19:42:19 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,23 @@ typedef struct s_command
 }				t_command;
 
 
+// --------INIT_AV-----------
+char	**init_av(char *str, int *index, int i);
+int		count_args(char *s);
+int		parse_args(char *s, int *i, int *start);
+int		is_metachar(int c);
+
+// --------INIT_EXP-----------
+void	init_exp(t_exp *exp);
+
+// --------ERRORS-----------
+int		free_main(char *s, t_args *args, t_exp *exp, char *rl);
+int		free_split(char **str, int index);
+
+// --------ERRORS QUOTE-----------
+int		print_quote(char **result, int index);
+int		check_error_quote(char **str, int index);
+int		quote(char *s);
 
 
 #endif
