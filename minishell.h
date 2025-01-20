@@ -6,7 +6,7 @@
 /*   By: hduflos <hduflos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:34:03 by hduflos           #+#    #+#             */
-/*   Updated: 2025/01/20 14:50:00 by hduflos          ###   ########.fr       */
+/*   Updated: 2025/01/20 15:25:28 by hduflos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,21 @@ typedef struct s_exp
 	char	**av; // ici on a les arguments "bruts" rentre en ligne de commande
 	char	**transltate; // ici on a la traduction de ceux-ci
 }				t_exp;
+
+
+// CE QUE TU VAS RECUPERER
+typedef struct s_command
+{
+	char	**args;          // Les arguments spécifiques à cette commande
+	char	*input_file;     // Fichier d'entrée si '<'
+	char	*heredoc_delim;  // Délimiteur pour le heredoc si '<<'
+	char	*output_file;    // Fichier de sortie si '>' ou '>>'
+	int		append;          // 1 si '>>', 0 si '>'
+	int		pipe_out;        // 1 si cette commande envoie sa sortie dans un pipe
+	struct s_command *next;  // Pointeur vers la commande suivante (liste chaînée)
+}				t_command;
+
+
 
 
 #endif
