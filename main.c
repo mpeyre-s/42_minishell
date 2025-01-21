@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:31:16 by hduflos           #+#    #+#             */
-/*   Updated: 2025/01/20 19:44:27 by spike            ###   ########.fr       */
+/*   Updated: 2025/01/21 15:36:11 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,26 @@ int	parsing(char *rl, t_args *args /*t_exp *exp*/)
 	return (0);
 }
 
+static t_command	*generate_command(void)
+{
+	char		**args;
+	t_command	*command;
+
+	command = (t_command *)malloc(sizeof(t_command));
+	if (!command)
+		return (NULL);
+	args = (char **)malloc(2 * sizeof(char **));
+	args[0] = "exit";
+	args[1] = NULL;
+	command->args = args;
+	command->input_file = 0;
+	command->heredoc_delim = 0;
+	command->output_file = 0;
+	command->append = 0;
+	command->pipe_out = 0;
+	return (command);
+}
+
 int	main(void)
 {
 	char	*rl;
@@ -41,6 +61,7 @@ int	main(void)
 	if (!args || !exp)
 		return (free_main("problem w/ malloc\n", args, exp, rl));
 	init_exp(exp);
+	start_exec(generate_command());
 	while(1)
 	{
 		rl = readline (COMPUTER " Minishell > " RESET);

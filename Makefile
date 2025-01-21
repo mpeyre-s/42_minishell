@@ -23,7 +23,9 @@ OBJ_DIR = objects
 SRC_FILES = init_av/count_args.c init_av/init_av.c init_av/parse_args.c \
 			exp/init_exp.c \
 			errors/error_quote.c errors/errors.c \
-			main.c
+			main.c \
+			execution/execution.c \
+			execution/errors/free.c
 
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
 
