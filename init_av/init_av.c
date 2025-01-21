@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_av.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hduflos <hduflos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:56:49 by hduflos           #+#    #+#             */
-/*   Updated: 2025/01/20 17:48:50 by spike            ###   ########.fr       */
+/*   Updated: 2025/01/21 13:59:45 by hduflos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,12 @@ char	**init_av(char *str, int *index, int i)
 	{
 		if (!parse_args(str, &i, &start))
 			break ;
+		printf("init_av: words=%d\n", words);
 		result[*index] = extract_words(str, i, start);
+		printf("init_av: result[%d] = %s\n\n", *index, result[*index]);
 		if (!result[*index])
 			return (NULL);
-		index++;
+		(*index)++;
 	}
 	result[*index] = NULL;
 	return (result);

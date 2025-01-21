@@ -6,25 +6,29 @@
 /*   By: hduflos <hduflos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:28:05 by hduflos           #+#    #+#             */
-/*   Updated: 2025/01/20 15:29:54 by hduflos          ###   ########.fr       */
+/*   Updated: 2025/01/21 15:29:28 by hduflos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	handle_metachar(char *s, int *i)
+
+// Gère la détection et l'avancement des métacaractères
+int	forward_metachar(char *s, int *i)
 {
 	if (is_metachar(s[*i]))
 	{
+		// Gestion des métacaractères doubles (>> ou <<)
 		if ((s[*i] == '>' || s[*i] == '<') && s[*i + 1] == s[*i])
 			(*i) += 2;
 		else
 			(*i)++;
-		return (1); // Métacaractère détecté
+		return (1);
 	}
-	return (0); // Aucun métacaractère traité
+	return (0);
 }
 
+// Gère les guillemets
 int	handle_quotes(char *s, int *i, char *quote)
 {
 	if ((s[*i] == '\'' || s[*i] == '"') && *quote == '\0')
@@ -33,42 +37,49 @@ int	handle_quotes(char *s, int *i, char *quote)
 		(*i)++;
 		return (1);
 	}
-	else if (s[*i] == *quote && *quote != '\0')
+	else if (s[*i] == *quote)
 	{
 		*quote = '\0';
 		(*i)++;
 		return (1);
 	}
-	return (0); // Aucun guillemet traité
+	return (0);
 }
 
+// Parse les arguments
 int	parse_args(char *s, int *i, int *start)
 {
-	char	quote = '\0';
+	char	quote;
 
-	// Ignorer les espaces
+	quote = '\0';
 	while (s[*i] == ' ')
 		(*i)++;
 	if (s[*i] == '\0')
-		return (0); // Plus d'arguments
+		return (0);
 
-	*start = *i; // Marquer le début de l'argument
+	// Si on commence par un métacaractère, on le traite comme un token unique
+	if (is_metachar(s[*i]))
+	{
+		*start = *i;
+		forward_metachar(s, i);
+		return (1);
+	}
 
+	*start = *i;
 	while (s[*i] != '\0')
 	{
-		// Gérer les guillemets
 		if (handle_quotes(s, i, &quote))
 			continue;
 
-		// Gérer les métacaractères
-		if (handle_metachar(s, i))
+		// Si on trouve un métacaractère hors des guillemets, on arrête
+		if (quote == '\0' && is_metachar(s[*i]))
 			break;
 
-		// Fin d'un argument standard
+		// Si on trouve un espace hors des guillemets, on arrête
 		if (quote == '\0' && s[*i] == ' ')
 			break;
 
 		(*i)++;
 	}
-	return (1); // Argument trouvé
+	return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hduflos <hduflos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:34:03 by hduflos           #+#    #+#             */
-/*   Updated: 2025/01/20 19:42:19 by spike            ###   ########.fr       */
+/*   Updated: 2025/01/21 13:20:53 by hduflos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,9 @@ int		free_split(char **str, int index);
 int		print_quote(char **result, int index);
 int		check_error_quote(char **str, int index);
 int		quote(char *s);
+
+
+void	print_split_result(char **lines);
 
 
 #endif

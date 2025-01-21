@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hduflos <hduflos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:31:16 by hduflos           #+#    #+#             */
-/*   Updated: 2025/01/20 19:44:27 by spike            ###   ########.fr       */
+/*   Updated: 2025/01/21 13:21:36 by hduflos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	parsing(char *rl, t_args *args /*t_exp *exp*/)
 		if (print_quote(args->av, args->ac) == -1)
 			return (free_split(args->av, args->ac));
 	}
+	print_split_result(args->av); // DEL
 	return (0);
 }
 
