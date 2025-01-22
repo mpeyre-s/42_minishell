@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
+/*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:34:03 by hduflos           #+#    #+#             */
-/*   Updated: 2025/01/21 15:38:25 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/01/20 19:42:19 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef struct s_command
 	struct s_command *next;  // Pointeur vers la commande suivante (liste chaînée)
 }				t_command;
 
+
 // --------INIT_AV-----------
 char	**init_av(char *str, int *index, int i);
 int		count_args(char *s);
@@ -101,10 +102,5 @@ int		print_quote(char **result, int index);
 int		check_error_quote(char **str, int index);
 int		quote(char *s);
 
-// --------EXECUTION-----------
-void	start_exec(t_command *command);
-void	exit_properly(t_command *command);
 
-// --------EXEC ERRORS-----------
-void	free_command(t_command *command);
 #endif
