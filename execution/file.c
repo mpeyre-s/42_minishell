@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 18:10:35 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/01/22 21:32:45 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/01/23 13:35:19 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * Redirects stdout to a file and executes a command.
  * @cmd: Command structure with command and output file path.
  */
-int	modify_stdout_and_exec(t_command *cmd)
+int	modify_stdout_and_exec(t_command *cmd, char **env)
 {
 	int	original_stdout;
 	int	file_fd;
@@ -30,7 +30,7 @@ int	modify_stdout_and_exec(t_command *cmd)
 		close(file_fd);
 		return (1);
 	}
-	exec_cmd(cmd);
+	exec_cmd(cmd, env);
 	if (dup2(original_stdout, STDOUT_FILENO) < 0)
 	{
 		close(file_fd);
