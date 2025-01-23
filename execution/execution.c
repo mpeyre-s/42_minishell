@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:19:28 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/01/23 13:56:16 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/01/23 14:57:58 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,13 @@ static int	exec_bin(t_command *cmd, char **env)
 	}
 	else
 	{
+		// Waits for the child process with the given pid to finish execution.
+		//The &status argument is used to store the exit status of the child process.
 		waitpid(pid, &status, 0);
+		// checks if the child process terminated normally
 		if (WIFEXITED(status))
+			// If the child process terminated normally,
+			//this macro returns the exit status of the child process.
 			return (WEXITSTATUS(status));
 	}
 	return (0);
