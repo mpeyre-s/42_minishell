@@ -25,7 +25,6 @@ SRC_FILES = init_av/count_args.c init_av/init_av.c init_av/parse_args.c \
 			errors/error_quote.c errors/errors.c \
 			execution/execution.c execution/file.c \
 			execution/builtin/echo.c \
-			tests/tests.c \
 			main.c
 
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))

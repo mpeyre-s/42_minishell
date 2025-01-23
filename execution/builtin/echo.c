@@ -6,15 +6,14 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:23:15 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/01/22 20:00:22 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/01/23 10:36:34 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static void	print_args(char **args, int option)
+static void	print_string(char **args, int option)
 {
-	printf("(%d)", option);
 	size_t	i;
 
 	i = 0;
@@ -24,7 +23,6 @@ static void	print_args(char **args, int option)
 	if (!option)
 		ft_putchar_fd('\n', 1);
 }
-
 
 static int	is_option(t_command *cmd)
 {
@@ -52,7 +50,7 @@ int	ft_echo(t_command *cmd)
 	}
 	else if (pid == 0)
 	{
-		print_args(cmd->args, is_option(cmd));
+		print_string(cmd->args, is_option(cmd));
 		exit(EXIT_SUCCESS);
 	}
 	return (EXIT_SUCCESS);
