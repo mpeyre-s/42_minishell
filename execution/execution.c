@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:19:28 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/01/23 14:57:58 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/01/27 17:18:37 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	exec_bin(t_command *cmd, char **env)
 	pid = fork();
 	if (pid == 0)
 	{
-		if (execve(cmd->args[0], cmd->args, env) == -1)
+		if (execve(ft_strjoin("/usr/bin/", cmd->args[0]), cmd->args, env) == -1)
 			exit(EXIT_FAILURE);
 	}
 	else if (pid < 0)
@@ -81,9 +81,9 @@ void	start_exec(t_command *cmd, char **env)
 if it is an external command or an internal (builtin) command. */
 void	exec_cmd(t_command *cmd, char **env)
 {
-	if (exec_builtin(cmd))
+	if (!exec_builtin(cmd))
 		return ;
-	else if (exec_bin(cmd, env))
+	else if (!exec_bin(cmd, env))
 		return ;
 	else
 		printf("\n%s: command not found\n", cmd->args[0]);
