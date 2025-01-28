@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:31:16 by hduflos           #+#    #+#             */
-/*   Updated: 2025/01/28 17:57:28 by spike            ###   ########.fr       */
+/*   Updated: 2025/01/28 23:27:26 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,18 @@ int	exec(char *rl, t_args *args, t_exp *exp)
 		ft_putstr_fd("Error: failed to parse commands\n", 2);
 		return (-1);
 	}
-	//free_main(NULL, args, NULL, rl);
-	print_command_list(cmd); // test
+	//free_main(NULL, args, NULL, rl); // provoque un bug je crois
+
+	print_command_list(cmd); // print de test, doit aussi etre delete
+
 
 	/* Ici tu devrais faire une fonction pour lancer ton execution */
 
-	// Libérer la mémoire
+
+	// Libérer la mémoire, il fautdrait tout libérer
 	free_command_list(cmd);
-	//free(rl);
+
+	// Faut delete ces 2 lignes, c'est juste pour ne pas etre stop par un -Werror
 	rl = "hi";
 	printf("\n\n\n\n\nrl = %s, exp->ac = %d\n", rl, exp->ac);
 

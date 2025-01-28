@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 14:47:39 by hduflos           #+#    #+#             */
-/*   Updated: 2025/01/26 10:26:11 by spike            ###   ########.fr       */
+/*   Updated: 2025/01/28 23:24:15 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,6 @@ int	count_args(char *s)
 				return (-1);
 		}
 	}
-	printf("count ==== %d\n", count);
+	//printf("count ==== %d\n", count);
 	return (count);
 }
