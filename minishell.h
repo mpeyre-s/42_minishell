@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:34:03 by hduflos           #+#    #+#             */
-/*   Updated: 2025/01/28 11:47:21 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/01/28 16:32:20 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <readline/history.h>
 # include <stdlib.h>
 # include <fcntl.h>
+#	include <dirent.h>
 # include "libft/libft.h"
 
 
@@ -41,12 +42,12 @@
 #define COLOR(i) "\033[38;5;" #i "m"  // Utilisation des couleurs 256 disponibles en ANSI
 
 #define MINISHELL_TEST  \
-  COLOR(33) "            _         _       _            _  _\n" \
-  COLOR(39) "           (_)       (_)     | |          | || |\n" \
-  COLOR(45) " _ __ ___   _  _ __   _  ___ | |__    ___ | || |\n" \
-  COLOR(51) "| '_ ` _ \\ | || '_ \\ | |/ __|| '_ \\  / _ \\| || |\n" \
-  COLOR(57) "| | | | | || || | | || |\\__ \\| | | ||  __/| || |\n" \
-  COLOR(63) "|_| |_| |_||_||_| |_||_||___/|_| |_| \\___||_||_|" RESET_COLOR
+  COLOR(51) "            _         _       _            _  _\n" \
+  COLOR(45) "           (_)       (_)     | |          | || |\n" \
+  COLOR(39) " _ __ ___   _  _ __   _  ___ | |__    ___ | || |\n" \
+  COLOR(33) "| '_ ` _ \\ | || '_ \\ | |/ __|| '_ \\  / _ \\| || |\n" \
+  COLOR(63) "| | | | | || || | | || |\\__ \\| | | ||  __/| || |\n" \
+  COLOR(57) "|_| |_| |_||_||_| |_||_||___/|_| |_| \\___||_||_|" RESET_COLOR
 
 
 

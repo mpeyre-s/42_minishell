@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 11:04:34 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/01/28 11:46:41 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/01/28 12:57:20 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ static int	print_path(t_command *cmd)
 	size_t	size;
 
 	(void)cmd;
-	buffer = malloc(size);
 	size = 4916;
+	buffer = malloc(size);
 	if (buffer == NULL)
 	{
 		perror("malloc");
