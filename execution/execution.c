@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:19:28 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/01/28 10:41:58 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/01/28 11:44:46 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ static int	exec_builtin(t_command *cmd)
 		return (ft_echo(cmd));
 	else if (ft_strncmp(cmd->args[0], "exit", ft_strlen(cmd->args[0])) == 0)
 		return (ft_exit(cmd));
+	else if (ft_strncmp(cmd->args[0], "pwd", ft_strlen(cmd->args[0])) == 0)
+		return (ft_pwd(cmd));
 	// else if (ft_strncmp(cmd->args[0], "cd", ft_strlen(cmd->args[0])) == 0)
 	// 	return (ft_cd(cmd));
-	// else if (ft_strncmp(cmd->args[0], "pwd", ft_strlen(cmd->args[0])) == 0)
-	// 	return (ft_pwd(cmd));
 	// else if (ft_strncmp(cmd->args[0], "export", ft_strlen(cmd->args[0])) == 0)
 	// 	return (ft_export(cmd));
 	// else if (ft_strncmp(cmd->args[0], "unset", ft_strlen(cmd->args[0])) == 0)
