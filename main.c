@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:31:16 by hduflos           #+#    #+#             */
-/*   Updated: 2025/01/28 13:50:20 by spike            ###   ########.fr       */
+/*   Updated: 2025/01/28 17:57:28 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@ int	exec(char *rl, t_args *args, t_exp *exp)
 
 	// Libérer la mémoire
 	free_command_list(cmd);
-	free(rl);
-	free(exp); // ne doit pas etre free, je l'ai mis la simplement pour eviter une erreur de con
+	//free(rl);
+	rl = "hi";
+	printf("\n\n\n\n\nrl = %s, exp->ac = %d\n", rl, exp->ac);
 
 	return (0);
 }
