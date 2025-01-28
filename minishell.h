@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:34:03 by hduflos           #+#    #+#             */
-/*   Updated: 2025/01/28 09:26:34 by spike            ###   ########.fr       */
+/*   Updated: 2025/01/28 12:53:50 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,13 @@ int		check_expansion(char *s, t_exp *exp);
 int		inside_single_quote(char *av, int limit);
 int		init_all(t_args *args);
 
+// --------FINAL_INIT-----------
+t_command	*create_command(t_args *args, int start);
+void		free_str(char **str);
+void	free_command_list(t_command *cmd);
+void	free_command(t_command *cmd);
+
+
 // -------- QUOTE -----------
 int	deal_with_quote(t_args *args);
 
@@ -119,6 +126,6 @@ int		quote(char *s);
 void	print_split_result(char **lines);
 void	print_test_quote(t_args *args);
 void	print_all(t_args *args);
-
+void	print_command_list(t_command *cmd_list);
 
 #endif

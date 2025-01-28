@@ -26,6 +26,7 @@ SRC_FILES = init_av/count_args.c init_av/init_av.c init_av/parse_args.c \
 			delete_quote/quote.c \
 			print_all.c \
 			metachar/init_metachar.c \
+			before_exec/command.c before_exec/free.c \
 			main.c
 
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))

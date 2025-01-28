@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:02:39 by spike             #+#    #+#             */
-/*   Updated: 2025/01/27 18:03:41 by spike            ###   ########.fr       */
+/*   Updated: 2025/01/28 13:37:05 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ int	free_main(char *s, t_args *args, t_exp *exp, char *rl)
 	}
 	if (rl)
 		free (rl);
-	perror(s);
+	if (s)
+		perror(s); // perror pas ouf
 	return (1);
 }
 

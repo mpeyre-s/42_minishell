@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 15:08:49 by spike             #+#    #+#             */
-/*   Updated: 2025/01/27 18:02:08 by spike            ###   ########.fr       */
+/*   Updated: 2025/01/28 12:53:40 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,53 @@ void print_test_quote(t_args *args)
 		i++;
 	}
 	printf("\n\n");
+}
+
+void	print_command(t_command *cmd)
+{
+	int i;
+
+	if (!cmd)
+		return;
+
+	printf("Command:\n");
+
+	// Affiche les arguments
+	printf("  Arguments:\n");
+	if (cmd->args)
+	{
+		i = 0;
+		while (cmd->args[i])
+		{
+			printf("    - [%s]\n", cmd->args[i]);
+			i++;
+		}
+	}
+	else
+		printf("    (no arguments)\n");
+
+	// Affiche les fichiers redirigés et heredoc
+	printf("  Input file: %s\n", cmd->input_file ? cmd->input_file : "(none)");
+	printf("  Heredoc delimiter: %s\n", cmd->heredoc_delim ? cmd->heredoc_delim : "(none)");
+	printf("  Output file: %s\n", cmd->output_file ? cmd->output_file : "(none)");
+	printf("  Append mode: %d\n", cmd->append);
+
+	// Pipe
+	printf("  Pipe out: %d\n", cmd->pipe_out);
+
+	// Ligne suivante
+	printf("\n");
+}
+
+void	print_command_list(t_command *cmd_list)
+{
+	int cmd_num = 1;
+
+	while (cmd_list)
+	{
+		printf("=== Command %d ===\n", cmd_num);
+		print_command(cmd_list);
+		cmd_list = cmd_list->next;
+		cmd_num++;
+	}
 }

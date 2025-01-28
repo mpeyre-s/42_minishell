@@ -6,12 +6,34 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:31:16 by hduflos           #+#    #+#             */
-/*   Updated: 2025/01/28 09:26:31 by spike            ###   ########.fr       */
+/*   Updated: 2025/01/28 13:40:18 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	exec(char *rl, t_args *args, t_exp *exp)
+{
+	t_command	*cmd;
+
+	cmd = create_command(args, 0);
+	if (!cmd)
+	{
+		ft_putstr_fd("Error: failed to parse commands\n", 2);
+		return (-1);
+	}
+	//free_main(NULL, args, NULL, rl);
+	print_command_list(cmd); // test
+
+	/* Ici tu devrais faire une fonction pour lancer ton execution */
+
+	// Libérer la mémoire
+	free_command_list(cmd);
+	free(rl);
+	free(exp); // ne doit pas etre free, je l'ai mis la simplement pour eviter une erreur de con
+
+	return (0);
+}
 
 int	parsing(char *rl, t_args *args, t_exp *exp)
 {
@@ -24,15 +46,15 @@ int	parsing(char *rl, t_args *args, t_exp *exp)
 		if (print_quote(args->av, args->ac) == -1)
 			return (free_split(args->av, args->ac));
 	}
-	print_split_result(args->av); // DEL
+	//print_split_result(args->av); // DEL
 	if (parse_exp(args, exp) == -1)
 		return (-1);  // est ce que je dois free_split ou est ce que mon free main fait deja tout ? meme chose au dessus ?
-	if (deal_with_quote(args) == -1) // lequel first ?
+	if (deal_with_quote(args) == -1)
 		return ((free_split(args->av, args->ac)));
-	print_test_quote(args);
+	//print_test_quote(args);
 	if (init_all(args) == -1)
 		return (-1);
-	print_all(args);
+	//print_all(args);
 	return (0);
 }
 
@@ -57,7 +79,7 @@ int	main(void)
 			return (free_main("problem with rl fct\n", args, exp, rl));
 		if (parsing(rl, args, exp) == -1)
 			return (free_main("pb parsing\n", args, exp, rl));
-		if (send_to_exec(args, exp, rl) == -1)
+		exec(rl, args, exp);
 
 	}
 	free_main("All good\n", args, exp, rl);
