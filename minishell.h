@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hduflos <hduflos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:34:03 by hduflos           #+#    #+#             */
-/*   Updated: 2025/01/21 13:20:53 by hduflos          ###   ########.fr       */
+/*   Updated: 2025/01/28 09:26:34 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ typedef struct s_args
 {
 	int		ac;
 	char	**av;
-	int		*was_in_quote; // tableau d'int de taille index qui represente pour chaque index l'argument : 1 si meta 0 sinon
+	int		*was_quoted; // tableau d'int de taille index qui represente pour chaque index l'argument : 1 si meta 0 sinon
+	int		*metachar;
 	int		*pipe; // |
 	int		*redirect_output; // >
 	int		*append_redirect; // >>
@@ -67,7 +68,7 @@ typedef struct s_exp
 {
 	int		ac;
 	char	**av; // ici on a les arguments "bruts" rentre en ligne de commande
-	char	**transltate; // ici on a la traduction de ceux-ci
+	char	**translate; // ici on a la traduction de ceux-ci
 }				t_exp;
 
 
@@ -78,7 +79,7 @@ typedef struct s_command
 	char	*input_file;     // Fichier d'entrée si '<'
 	char	*heredoc_delim;  // Délimiteur pour le heredoc si '<<'
 	char	*output_file;    // Fichier de sortie si '>' ou '>>'
-	int		append;          // 1 si '>>', 0 si '>'
+	int		append;          // 2 si '>>', 1 si '>'
 	int		pipe_out;        // 1 si cette commande envoie sa sortie dans un pipe
 	struct s_command *next;  // Pointeur vers la commande suivante (liste chaînée)
 }				t_command;
@@ -92,10 +93,20 @@ int		is_metachar(int c);
 
 // --------INIT_EXP-----------
 void	init_exp(t_exp *exp);
+int		parse_exp(t_args *args, t_exp *exp);
+int		replace_av(char *substr, char **av, int start, t_exp *exp);
+char	*build_new_av(char *before, char *exp, char *after);
+int		check_expansion(char *s, t_exp *exp);
+int		inside_single_quote(char *av, int limit);
+int		init_all(t_args *args);
+
+// -------- QUOTE -----------
+int	deal_with_quote(t_args *args);
 
 // --------ERRORS-----------
 int		free_main(char *s, t_args *args, t_exp *exp, char *rl);
 int		free_split(char **str, int index);
+int		free_metachar(t_args *args);
 
 // --------ERRORS QUOTE-----------
 int		print_quote(char **result, int index);
@@ -103,7 +114,11 @@ int		check_error_quote(char **str, int index);
 int		quote(char *s);
 
 
+
+
 void	print_split_result(char **lines);
+void	print_test_quote(t_args *args);
+void	print_all(t_args *args);
 
 
 #endif

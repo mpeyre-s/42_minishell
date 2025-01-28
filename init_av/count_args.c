@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   count_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hduflos <hduflos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 14:47:39 by hduflos           #+#    #+#             */
-/*   Updated: 2025/01/21 14:20:54 by hduflos          ###   ########.fr       */
+/*   Updated: 2025/01/26 10:26:11 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	logic_count_args(char *s, int *i, char *quote)
 	return (0);
 }
 
-
+/* il y a un pb ici, pour les inputs du style test'ici' il faudrait compter seulement un mot. Tout le reste est correct */
 int	count_args(char *s)
 {
 	int		i;
