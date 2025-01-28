@@ -6,12 +6,16 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:31:16 by hduflos           #+#    #+#             */
-/*   Updated: 2025/01/28 13:40:18 by spike            ###   ########.fr       */
+/*   Updated: 2025/01/28 13:50:20 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+C'est ce code qui va lancer ton execution, dans la partie que j'ai faite, je crée la liste chainée
+commande, depuis cette fonction t'as du coup "commande" et "exp" que tu pourras utiliser.
+*/
 int	exec(char *rl, t_args *args, t_exp *exp)
 {
 	t_command	*cmd;
@@ -35,6 +39,9 @@ int	exec(char *rl, t_args *args, t_exp *exp)
 	return (0);
 }
 
+/*
+Ici je fais juste mon parsing avec ma structure perso, c'est pas interessant pour toi
+*/
 int	parsing(char *rl, t_args *args, t_exp *exp)
 {
 	args->ac = 0;
@@ -79,7 +86,7 @@ int	main(void)
 			return (free_main("problem with rl fct\n", args, exp, rl));
 		if (parsing(rl, args, exp) == -1)
 			return (free_main("pb parsing\n", args, exp, rl));
-		exec(rl, args, exp);
+		exec(rl, args, exp); // peut etre faire un if ?
 
 	}
 	free_main("All good\n", args, exp, rl);
