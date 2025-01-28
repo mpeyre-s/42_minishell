@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:56:49 by hduflos           #+#    #+#             */
-/*   Updated: 2025/01/20 17:48:50 by spike            ###   ########.fr       */
+/*   Updated: 2025/01/28 23:24:33 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	**init_av(char *str, int *index, int i)
 		result[*index] = extract_words(str, i, start);
 		if (!result[*index])
 			return (NULL);
-		index++;
+		(*index)++;
 	}
 	result[*index] = NULL;
 	return (result);

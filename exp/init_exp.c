@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 19:05:41 by spike             #+#    #+#             */
-/*   Updated: 2025/01/20 19:35:00 by spike            ###   ########.fr       */
+/*   Updated: 2025/01/23 18:02:25 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	init_variable(t_exp *exp, const char *var_name)
 	if (value)
 	{
 		exp->av[exp->ac] = ft_strdup(var_name);
-		exp->transltate[exp->ac] = ft_strdup(value);
+		exp->translate[exp->ac] = ft_strdup(value);
 		exp->ac++;
 	}
 }
@@ -31,16 +31,16 @@ void	init_exp(t_exp *exp)
 
 	size = 6;	// 6 variables à gérer : HOME, PATH, USER, PWD, SHELL, HOSTNAME (on peut faire plus mais j'ai la flemme)
 	exp->av = calloc(size + 1, sizeof(char *));
-	exp->transltate = calloc(size + 1, sizeof(char *));
+	exp->translate = calloc(size + 1, sizeof(char *));
 
 
-	if (!exp->av || !exp->transltate)
+	if (!exp->av || !exp->translate)
 	{
 		perror("Erreur d'allocation mémoire pour les variables d'environnement");
 		return ;
 	}
 
-	exp->ac = 0;
+	exp->ac = 0; // il faut mettre le dollar non ?
 	init_variable(exp, "HOME");
 	init_variable(exp, "PATH");
 	init_variable(exp, "USER");
@@ -49,5 +49,5 @@ void	init_exp(t_exp *exp)
 	init_variable(exp, "HOSTNAME");
 
 	exp->av[exp->ac] = NULL;
-	exp->transltate[exp->ac] = NULL;
+	exp->translate[exp->ac] = NULL;
 }

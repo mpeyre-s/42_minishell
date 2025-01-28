@@ -21,10 +21,14 @@ OBJ_DIR = objects
 
 # Fichiers sources
 SRC_FILES = init_av/count_args.c init_av/init_av.c init_av/parse_args.c \
-			exp/init_exp.c \
+			exp/init_exp.c exp/parsing_exp.c exp/replace_exp.c exp/check_and_build.c \
 			errors/error_quote.c errors/errors.c \
 			execution/execution.c execution/file.c \
 			execution/builtin/echo.c execution/builtin/exit.c execution/builtin/pwd.c \
+			delete_quote/quote.c \
+			print_all.c \
+			metachar/init_metachar.c \
+			before_exec/command.c before_exec/free.c \
 			main.c
 
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
