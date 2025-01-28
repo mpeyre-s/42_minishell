@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:19:28 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/01/27 17:18:37 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/01/28 10:41:58 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	exec_builtin(t_command *cmd)
 	return (1);
 }
 
-static int	exec_bin(t_command *cmd, char **env)
+static int	exec_bin(t_command *cmd, char **env, char *path)
 {
 	pid_t	pid;
 	int		status;
@@ -39,13 +39,13 @@ static int	exec_bin(t_command *cmd, char **env)
 	pid = fork();
 	if (pid == 0)
 	{
-		if (execve(ft_strjoin("/usr/bin/", cmd->args[0]), cmd->args, env) == -1)
+		if (execve(ft_strjoin(path, cmd->args[0]), cmd->args, env) == -1)
 			exit(EXIT_FAILURE);
 	}
 	else if (pid < 0)
 	{
 		printf("\nFailed to fork\n");
-		return (0);
+		return (-1);
 	}
 	else
 	{
@@ -81,10 +81,17 @@ void	start_exec(t_command *cmd, char **env)
 if it is an external command or an internal (builtin) command. */
 void	exec_cmd(t_command *cmd, char **env)
 {
-	if (!exec_builtin(cmd))
+	int	builtin_result;
+	int	bin_result;
+
+	builtin_result = exec_builtin(cmd);
+	if (!builtin_result)
 		return ;
-	else if (!exec_bin(cmd, env))
+	bin_result = exec_bin(cmd, env, "/bin/");
+	if (bin_result != -1)
 		return ;
-	else
-		printf("\n%s: command not found\n", cmd->args[0]);
+	bin_result = exec_bin(cmd, env, "/usr/bin/");
+	if (bin_result != -1)
+		return ;
+	printf("\n%s: command not found\n", cmd->args[0]);
 }
