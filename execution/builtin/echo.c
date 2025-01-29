@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:23:15 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/01/23 10:36:34 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/01/29 08:58:15 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,26 @@ static void	print_string(char **args, int option)
 {
 	size_t	i;
 
-	i = 0;
+	i = 1;
+	if (option)
+		i = 2;
 	while (args[i])
+	{
+		ft_putstr_fd(args[i], 1);
+		if (args[i + 1])
+			ft_putchar_fd(' ', 1);
 		i++;
-	ft_putstr_fd(args[i - 1], 1);
+	}
 	if (!option)
 		ft_putchar_fd('\n', 1);
 }
 
 static int	is_option(t_command *cmd)
 {
-	size_t	i;
-
-	i = 1;
-	while (cmd->args[i] && cmd->args[i][0] == '-')
+	if (cmd->args[1] && cmd->args[1][0])
 	{
-		if (ft_strncmp(cmd->args[i], "-n", ft_strlen(cmd->args[i])) == 0)
+		if (ft_strncmp(cmd->args[1], "-n", ft_strlen(cmd->args[1])) == 0)
 			return (1);
-		i++;
 	}
 	return (0);
 }
