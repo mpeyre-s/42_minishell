@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:19:28 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/01/29 09:09:44 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/01/29 09:17:12 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,5 @@ void	exec_cmd(t_command *cmd, char **env)
 	bin_result = exec_bin(cmd, env, "/usr/bin/");
 	if (bin_result == 0)
 		return ;
-	printf("\n%s: command not found\n", cmd->args[0]);
+	printf("%s: command not found\n", cmd->args[0]);
 }
