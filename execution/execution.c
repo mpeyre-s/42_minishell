@@ -6,13 +6,13 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:19:28 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/01/29 09:17:12 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/01/29 09:37:27 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	exec_builtin(t_command *cmd)
+static int	exec_builtin(t_command *cmd, char **env)
 {
 	if (ft_strncmp(cmd->args[0], "echo", ft_strlen(cmd->args[0])) == 0)
 		return (ft_echo(cmd));
@@ -26,8 +26,8 @@ static int	exec_builtin(t_command *cmd)
 	// 	return (ft_export(cmd));
 	// else if (ft_strncmp(cmd->args[0], "unset", ft_strlen(cmd->args[0])) == 0)
 	// 	return (ft_unset(cmd));
-	// else if (ft_strncmp(cmd->args[0], "env", ft_strlen(cmd->args[0])) == 0)
-	// 	return (ft_env(cmd));
+	else if (ft_strncmp(cmd->args[0], "env", ft_strlen(cmd->args[0])) == 0)
+		return (ft_env(env));
 	return (1);
 }
 
@@ -85,7 +85,7 @@ void	exec_cmd(t_command *cmd, char **env)
 	int	builtin_result;
 	int	bin_result;
 
-	builtin_result = exec_builtin(cmd);
+	builtin_result = exec_builtin(cmd, env);
 	if (builtin_result == 0)
 		return ;
 	bin_result = exec_bin(cmd, env, "/bin/");
