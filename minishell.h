@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:34:03 by hduflos           #+#    #+#             */
-/*   Updated: 2025/01/28 17:03:35 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/01/29 09:09:39 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ int		quote(char *s);
 
 // --------EXECUTION-----------
 
-void	start_exec(t_command *cmd, char **env);
+int		start_exec(t_command *cmd, char **env);
 void	exec_cmd(t_command *cmd, char **env);
 int		ft_echo(t_command *cmd);
 int		ft_exit(t_command *cmd);

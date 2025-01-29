@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:19:28 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/01/29 09:06:16 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/01/29 09:09:44 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static int	exec_bin(t_command *cmd, char **env, char *path)
 * Execution of the entire commandS stocked in the linked list. Depending on the
 * presence of pipes or redirections, it modifies the standard input/output
 (stdin/stdout) accordingly. */
-void	start_exec(t_command *cmd, char **env)
+int	start_exec(t_command *cmd, char **env)
 {
 	while (cmd)
 	{
@@ -75,6 +75,7 @@ void	start_exec(t_command *cmd, char **env)
 			exec_cmd(cmd, env);
 		cmd = cmd->next;
 	}
+	return (0);
 }
 
 /** This function is called only to execute the command after checking
