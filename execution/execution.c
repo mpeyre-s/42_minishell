@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:19:28 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/01/29 09:37:27 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/01/29 13:42:57 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ static int	exec_builtin(t_command *cmd, char **env)
 		return (ft_pwd(cmd));
 	// else if (ft_strncmp(cmd->args[0], "cd", ft_strlen(cmd->args[0])) == 0)
 	// 	return (ft_cd(cmd));
-	// else if (ft_strncmp(cmd->args[0], "export", ft_strlen(cmd->args[0])) == 0)
-	// 	return (ft_export(cmd));
+	else if (ft_strncmp(cmd->args[0], "export", ft_strlen(cmd->args[0])) == 0)
+		return (ft_export(cmd, env));
 	// else if (ft_strncmp(cmd->args[0], "unset", ft_strlen(cmd->args[0])) == 0)
 	// 	return (ft_unset(cmd));
 	else if (ft_strncmp(cmd->args[0], "env", ft_strlen(cmd->args[0])) == 0)
@@ -82,16 +82,19 @@ int	start_exec(t_command *cmd, char **env)
 if it is an external command or an internal (builtin) command. */
 void	exec_cmd(t_command *cmd, char **env)
 {
-	int	builtin_result;
-	int	bin_result;
+	int			builtin_result;
+	int			bin_result;
+	static char	**static_env = NULL;
 
-	builtin_result = exec_builtin(cmd, env);
+	if (!static_env)
+		static_env = env;
+	builtin_result = exec_builtin(cmd, static_env);
 	if (builtin_result == 0)
 		return ;
-	bin_result = exec_bin(cmd, env, "/bin/");
+	bin_result = exec_bin(cmd, static_env, "/bin/");
 	if (bin_result == 0)
 		return ;
-	bin_result = exec_bin(cmd, env, "/usr/bin/");
+	bin_result = exec_bin(cmd, static_env, "/usr/bin/");
 	if (bin_result == 0)
 		return ;
 	printf("%s: command not found\n", cmd->args[0]);

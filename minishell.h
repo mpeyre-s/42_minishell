@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:34:03 by hduflos           #+#    #+#             */
-/*   Updated: 2025/01/29 09:37:25 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/01/29 11:25:57 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,10 @@ int		ft_echo(t_command *cmd);
 int		ft_exit(t_command *cmd);
 int		ft_pwd(t_command *cmd);
 int		ft_env(char **env);
+int		ft_export(t_command *cmd, char **env);
+
+char	**ft_strdup_env(char **env);
+void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 
 // --------FILE MANAGMENT-----------
 
