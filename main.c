@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:31:16 by hduflos           #+#    #+#             */
-/*   Updated: 2025/01/28 23:27:26 by spike            ###   ########.fr       */
+/*   Updated: 2025/01/29 11:30:04 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int	parsing(char *rl, t_args *args, t_exp *exp)
 	return (0);
 }
 
+/* Il faudra diviser le main en 2 car on va faire plus de 25 lignes */
 int	main(void)
 {
 	char	*rl;
@@ -89,11 +90,13 @@ int	main(void)
 		rl = readline (COMPUTER " Minishell > " RESET);
 		if (!rl)
 			return (free_main("problem with rl fct\n", args, exp, rl));
+		add_history(rl);
 		if (parsing(rl, args, exp) == -1)
 			return (free_main("pb parsing\n", args, exp, rl));
 		exec(rl, args, exp); // peut etre faire un if ?
 
 	}
+	clear_history();
 	free_main("All good\n", args, exp, rl);
 	return (0);
 }
