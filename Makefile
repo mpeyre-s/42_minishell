@@ -27,6 +27,7 @@ SRC_FILES = init_av/count_args.c init_av/init_av.c init_av/parse_args.c \
 			print_all.c \
 			metachar/init_metachar.c \
 			before_exec/command.c before_exec/free.c \
+			signals.c \
 			main.c
 
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
@@ -39,6 +40,14 @@ INCLUDES = -I. -I$(LIBFT_DIR)
 # Bibliothèques et headers
 LIBFT = $(LIBFT_DIR)/libft.a
 INC = minishell.h $(LIBFT_DIR)/libft.h
+
+# Lire la librairie Readline
+READLINE_PATH = /opt/homebrew/opt/readline
+ifneq ($(READLINE_PATH),)
+INCLUDES += -I$(READLINE_PATH)/include
+LDFLAGS += -L$(READLINE_PATH)/lib
+endif
+LDLIBS += -lreadline -lncurses
 
 # Règle par défaut : compiler les exécutables
 all: $(OBJ_DIR) $(LIBFT) $(MINISHELL)
@@ -57,7 +66,7 @@ $(LIBFT): $(LIBFT_DIR)/Makefile
 # Créer l'exécutable
 $(MINISHELL): $(OBJ_DIR) $(OBJ) $(LIBFT)
 	@echo "$(YELLOW)Compiling $(MINISHELL)... $(COMPUTER)$(RESET)"
-	@$(CC) $(CFLAGS) $(OBJ) -o $(MINISHELL) $(LIBFT) -lreadline -lncurses
+	@$(CC) $(CFLAGS) $(OBJ) -o $(MINISHELL) $(LIBFT) $(LDFLAGS) $(LDLIBS)
 	@echo "$(GREEN)$(MINISHELL) successfully created! $(THUMBS_UP)$(RESET)"
 
 # Règle pour générer les fichiers objets

@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:31:16 by hduflos           #+#    #+#             */
-/*   Updated: 2025/01/29 11:01:59 by spike            ###   ########.fr       */
+/*   Updated: 2025/01/31 18:30:08 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,18 @@ int	main(void)
 	if (!args || !exp)
 		return (free_main("problem w/ malloc\n", args, exp, rl));
 	init_exp(exp);
+
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
+
 	while(1)
 	{
 		rl = readline (COMPUTER " Minishell > " RESET);
-		if (!rl)
-			return (free_main("problem with rl fct\n", args, exp, rl));
+		 if (!rl)  // Si readline est interrompue
+		{
+			printf("\n");
+			continue;  // On recommence au prompt sans quitter
+		}
 		add_history(rl);
 		if (parsing(rl, args, exp) == -1)
 			return (free_main("pb parsing\n", args, exp, rl));

@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:34:03 by hduflos           #+#    #+#             */
-/*   Updated: 2025/01/28 12:53:50 by spike            ###   ########.fr       */
+/*   Updated: 2025/01/31 18:31:55 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@
 # include <readline/history.h>
 # include <stdlib.h>
 # include "libft/libft.h"
+
+
+#include <string.h>
+#include <unistd.h>
+#include <signal.h>
 
 
 // Color codes
@@ -120,7 +125,7 @@ int		print_quote(char **result, int index);
 int		check_error_quote(char **str, int index);
 int		quote(char *s);
 
-
+void	handle_sigint(int sig);
 
 
 void	print_split_result(char **lines);
