@@ -6,54 +6,74 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 09:18:52 by spike             #+#    #+#             */
-/*   Updated: 2025/01/27 15:21:06 by spike            ###   ########.fr       */
+/*   Updated: 2025/01/31 23:34:28 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	quoted(char *av)
+int quoted(char *av)
 {
-	int	i;
-	int	count;
+	int i = 0;
+	int count = 0;
+	char quote = '\0';
 
-	i = 0;
-	count = 0;
 	while (av[i])
 	{
-		if (av[i] == '\'' || av[i] == '"')
-			count++;
+		if ((av[i] == '\'' || av[i] == '"'))
+		{
+			if (quote == '\0')
+			{
+				quote = av[i];
+				count++;
+			}
+			else if (quote == av[i])
+			{
+				quote = '\0';
+				count++;
+			}
+		}
 		i++;
 	}
-	return (count);
+	return count;
 }
 
-int	delete_quote(char **av)
+char	*remove_outer_quotes(char *av, char quote, int i, int j)
 {
-	int		i;
-	int		j;
 	int		nb_quote;
 	int		len;
 	char	*new_av;
 
-	nb_quote = quoted(*av);
-	len = ft_strlen(*av) - nb_quote;
+	nb_quote = quoted(av);
+	len = ft_strlen(av) - nb_quote;
 	new_av = malloc(len + 1);
+	if (!new_av)
+		return (NULL);
+
+	while (av[++i])
+	{
+		if (av[i] == '\'' || av[i] == '"')
+		{
+			if (quote == '\0') // Ouvrir une quote
+				quote = av[i];
+			else if (quote == av[i]) // Fermer la quote
+				quote = '\0';
+			else
+				new_av[j++] = av[i]; // Quote interne, on la garde
+		}
+		else
+			new_av[j++] = av[i];
+	}
+	new_av[j] = '\0';
+	return (new_av);
+}
+
+int	delete_quote(char **av)
+{
+	char *new_av = remove_outer_quotes(*av, '\0', -1, 0);
 	if (!new_av)
 		return (-1);
 
-	i = 0;
-	j = 0;
-	while ((*av)[i])
-	{
-		if ((*av)[i] != '\'' && (*av)[i] != '"')
-		{
-			new_av[j] = (*av)[i];
-			j++;
-		}
-		i++;
-	}
-	new_av[j] = '\0';
 	free(*av);
 	*av = new_av;
 	return (0);

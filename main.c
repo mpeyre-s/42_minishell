@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:31:16 by hduflos           #+#    #+#             */
-/*   Updated: 2025/01/31 18:30:08 by spike            ###   ########.fr       */
+/*   Updated: 2025/01/31 22:06:33 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	main(void)
 		 if (!rl)  // Si readline est interrompue
 		{
 			printf("\n");
-			continue;  // On recommence au prompt sans quitter
+			exit(0);  // On recommence au prompt sans quitter
 		}
 		add_history(rl);
 		if (parsing(rl, args, exp) == -1)
