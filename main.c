@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:31:16 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/03 14:22:45 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/03 20:42:11 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,7 @@ int	exec(char *rl, t_args *args, t_exp *exp)
 	// Libérer la mémoire, il fautdrait tout libérer
 	free_command_list(cmd);
 
-	// Faut delete ces 2 lignes, c'est juste pour ne pas etre stop par un -Werror
-	rl = "hi";
+	// Faut delete cette ligne, c'est juste pour ne pas etre stop par un -Werror
 	printf("\n\n\n\n\nrl = %s, exp->ac = %d\n", rl, exp->ac);
 
 	return (0);
@@ -68,17 +67,46 @@ int	parsing(char *rl, t_args *args, t_exp *exp)
 	return (0);
 }
 
+
+void shell_loop(char *rl, t_args *args, t_exp *exp)
+{
+	while (1)
+	{
+		rl = readline (COMPUTER " Minishell > " RESET);
+		if (!rl || (strncmp(rl, "exit", 4) == 0 && (rl[4] == '\0' || rl[4] == ' ')))
+		{
+			free_main("\nbye bye\n", args, exp, rl); // doit gerer $?
+			exit(0);
+		}
+		add_history(rl);
+
+		if (parsing(rl, args, exp) == -1)
+		{
+			free_main("pb parsing\n", args, NULL, rl);
+			continue;
+		}
+
+		if (exec(rl, args, exp) == -1)
+		{
+			free_main("pb exec\n", args, NULL, rl);
+			continue;
+		}
+
+		//free_main(NULL, args, NULL, rl); // on ne libère pas exp si c'est correct
+	}
+}
+
 int	main(void)
 {
-	char	*rl;
 	t_args	*args;
 	t_exp	*exp;
+	char *rl;
 
 	printf("%s\n\n\n", MINISHELL_TEST);
 
-	rl = NULL;
 	args = malloc(sizeof(t_args));
 	exp = malloc(sizeof(t_exp));
+	rl = NULL;
 	if (!args || !exp)
 		return (free_main("problem w/ malloc\n", args, exp, rl));
 	init_exp(exp);
@@ -86,17 +114,6 @@ int	main(void)
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
 
-	while(1)
-	{
-		rl = readline (COMPUTER " Minishell > " RESET);
-		if (!rl || ft_strncmp(rl, "exit", ft_strlen(rl)))
-			return (free_main("bye bye\n", args, exp, rl));
-		if (parsing(rl, args, exp) == -1)
-			return (free_main("pb parsing\n", args, exp, rl));
-		if (exec(rl, args, exp) == -1)
-			return (free_main("pb parsing\n", args, exp, rl));
-		free_main(NULL, args, NULL, rl);
-	}
-	free_main("All good\n", args, exp, rl);
+	shell_loop(rl, args, exp);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 19:05:41 by spike             #+#    #+#             */
-/*   Updated: 2025/01/23 18:02:25 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/03 19:55:44 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	init_exp(t_exp *exp)
 
 	if (!exp->av || !exp->translate)
 	{
-		perror("Erreur d'allocation mémoire pour les variables d'environnement");
+		ft_putstr_fd("Erreur d'allocation mémoire pour les variables d'environnement", 2);
 		return ;
 	}
 

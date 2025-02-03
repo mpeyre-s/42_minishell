@@ -6,13 +6,13 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:02:39 by spike             #+#    #+#             */
-/*   Updated: 2025/02/03 13:01:37 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/03 20:42:07 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ree_metachar2(t_args *args)
+void	free_metachar2(t_args *args)
 {
 	if (args->append_redirect)
 	{
@@ -82,8 +82,11 @@ int	free_main(char *s, t_args *args, t_exp *exp, char *rl)
 		free (exp);
 	}
 	if (rl)
+	{
+		clear_history();
 		free (rl);
-	if (s)
+	}
+	if (s) // si il y a un message d'erreur mettre env $? a 1 sinon a 0
 		ft_putstr_fd(s, 2);
 	return (1);
 }

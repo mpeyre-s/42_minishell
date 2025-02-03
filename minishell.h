@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:34:03 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/03 12:21:21 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/03 15:16:23 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,9 @@ int		ft_pwd(t_command *cmd);
 // --------FILE MANAGMENT-----------
 
 int		modify_stdout_and_exec(t_command *cmd, char **env);
+
+//------------UTILS---------------
+
 
 void	handle_sigint(int sig);
 
