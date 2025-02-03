@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:55:27 by spike             #+#    #+#             */
-/*   Updated: 2025/01/20 18:10:40 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/03 13:02:27 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	print_quote(char **result, int index)
 		qline = readline("quote> ");
 		if (!qline)
 		{
-			perror("problem with readline fct\n");
+			ft_putstr_fd("problem with readline fct\n", 2);
 			return (-1);
 		}
 		temp = ft_strjoin(result[index - 1], qline);
@@ -71,7 +71,7 @@ int	print_quote(char **result, int index)
 		free(qline);
 		if (!temp)
 		{
-			perror("Memory alloc error while concatenating strings");
+			ft_putstr_fd("Memory alloc error while concatenating strings", 2);
 			return (-1);
 		}
 		result[index - 1] = temp;
