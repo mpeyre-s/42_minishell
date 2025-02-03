@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:31:16 by hduflos           #+#    #+#             */
-/*   Updated: 2025/01/29 11:30:04 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/04 01:05:55 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ int	exec(char *rl, t_args *args, t_exp *exp)
 		ft_putstr_fd("Error: failed to parse commands\n", 2);
 		return (-1);
 	}
-	//free_main(NULL, args, NULL, rl); // provoque un bug je crois
-
 	print_command_list(cmd); // print de test, doit aussi etre delete
 
 
@@ -37,8 +35,7 @@ int	exec(char *rl, t_args *args, t_exp *exp)
 	// Libérer la mémoire, il fautdrait tout libérer
 	free_command_list(cmd);
 
-	// Faut delete ces 2 lignes, c'est juste pour ne pas etre stop par un -Werror
-	rl = "hi";
+	// Faut delete cette ligne, c'est juste pour ne pas etre stop par un -Werror
 	printf("\n\n\n\n\nrl = %s, exp->ac = %d\n", rl, exp->ac);
 
 	return (0);
@@ -52,17 +49,17 @@ int	parsing(char *rl, t_args *args, t_exp *exp)
 	args->ac = 0;
 	args->av = init_av(rl, &args->ac, 0);
 	if (!args->av)
-		return (free_split(args->av, args->ac));
+		return (-1);
 	if (check_error_quote(args->av, args->ac))
 	{
 		if (print_quote(args->av, args->ac) == -1)
-			return (free_split(args->av, args->ac));
+			return (-1);
 	}
 	//print_split_result(args->av); // DEL
 	if (parse_exp(args, exp) == -1)
-		return (-1);  // est ce que je dois free_split ou est ce que mon free main fait deja tout ? meme chose au dessus ?
+		return (-1);
 	if (deal_with_quote(args) == -1)
-		return ((free_split(args->av, args->ac)));
+		return (-1);
 	//print_test_quote(args);
 	if (init_all(args) == -1)
 		return (-1);
@@ -70,33 +67,53 @@ int	parsing(char *rl, t_args *args, t_exp *exp)
 	return (0);
 }
 
-/* Il faudra diviser le main en 2 car on va faire plus de 25 lignes */
+
+void shell_loop(char *rl, t_args *args, t_exp *exp)
+{
+	while (1)
+	{
+		rl = readline (COMPUTER " Minishell > " RESET);
+		if (!rl || (strncmp(rl, "exit", 4) == 0 && (rl[4] == '\0' || rl[4] == ' ')))
+		{
+			free_main("\nbye bye\n", args, exp, rl); // doit gerer $?
+			exit(0);
+		}
+		add_history(rl);
+
+		if (parsing(rl, args, exp) == -1)
+		{
+			free_main("pb parsing\n", args, NULL, rl);
+			continue;
+		}
+
+		if (exec(rl, args, exp) == -1)
+		{
+			free_main("pb exec\n", args, NULL, rl);
+			continue;
+		}
+
+		//free_main(NULL, args, NULL, rl); // on ne libère pas exp si c'est correct
+	}
+}
+
 int	main(void)
 {
-	char	*rl;
 	t_args	*args;
 	t_exp	*exp;
+	char *rl;
 
 	printf("%s\n\n\n", MINISHELL_TEST);
 
-	rl = NULL;
 	args = malloc(sizeof(t_args));
 	exp = malloc(sizeof(t_exp));
+	rl = NULL;
 	if (!args || !exp)
 		return (free_main("problem w/ malloc\n", args, exp, rl));
 	init_exp(exp);
-	while(1)
-	{
-		rl = readline (COMPUTER " Minishell > " RESET);
-		if (!rl)
-			return (free_main("problem with rl fct\n", args, exp, rl));
-		add_history(rl);
-		if (parsing(rl, args, exp) == -1)
-			return (free_main("pb parsing\n", args, exp, rl));
-		exec(rl, args, exp); // peut etre faire un if ?
 
-	}
-	clear_history();
-	free_main("All good\n", args, exp, rl);
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
+
+	shell_loop(rl, args, exp);
 	return (0);
 }
