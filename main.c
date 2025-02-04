@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:31:16 by hduflos           #+#    #+#             */
-/*   Updated: 2025/01/29 13:38:45 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/04 23:48:21 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,7 @@ int	exec(char *rl, t_args *args, t_exp *exp, char **env)
 		ft_putstr_fd("Error: failed to parse commands\n", 2);
 		return (-1);
 	}
-	//free_main(NULL, args, NULL, rl); // provoque un bug je crois
-
-	//print_command_list(cmd); // print de test, doit aussi etre delete
-
+	print_command_list(cmd); // print de test, doit aussi etre delete
 
 	/* Ici tu devrais faire une fonction pour lancer ton execution */
 
@@ -41,10 +38,10 @@ int	exec(char *rl, t_args *args, t_exp *exp, char **env)
 
 	// Libérer la mémoire, il fautdrait tout libérer
 	free_command_list(cmd);
+	
+	// Faut delete cette ligne, c'est juste pour ne pas etre stop par un -Werror
+	printf("\n\n\n\n\nrl = %s, exp->ac = %d\n", rl, exp->ac);
 
-	// Faut delete ces 2 lignes, c'est juste pour ne pas etre stop par un -Werror
-	rl = "hi";
-	//printf("\n\n\n\n\nrl = %s, exp->ac = %d\n", rl, exp->ac);
 	return (result);
 }
 
@@ -56,52 +53,76 @@ int	parsing(char *rl, t_args *args, t_exp *exp)
 	args->ac = 0;
 	args->av = init_av(rl, &args->ac, 0);
 	if (!args->av)
-		return (free_split(args->av, args->ac));
+		return (-1);
 	if (check_error_quote(args->av, args->ac))
 	{
 		if (print_quote(args->av, args->ac) == -1)
-			return (free_split(args->av, args->ac));
+			return (-1);
 	}
-	//print_split_result(args->av); // DEL
+	print_split_result(args->av); // DEL
 	if (parse_exp(args, exp) == -1)
-		return (-1);  // est ce que je dois free_split ou est ce que mon free main fait deja tout ? meme chose au dessus ?
+		return (-1);
 	if (deal_with_quote(args) == -1)
-		return ((free_split(args->av, args->ac)));
-	//print_test_quote(args);
+		return (-1);
+	if (is_new_env(args->av, args, exp) == -2)
+		return (-2);
+	print_test_quote(args);
 	if (init_all(args) == -1)
 		return (-1);
 	//print_all(args);
 	return (0);
 }
 
-int	main(int ac, char **av, char **ev)
+void shell_loop(char *rl, t_args *args, t_exp *exp)
 {
-	char	*rl;
-	char	**env;
+	int	i;
+
+	while (1)
+	{
+		rl = readline (COMPUTER " Minishell > " RESET);
+		if (!rl || (strncmp(rl, "exit", 4) == 0 && (rl[4] == '\0' || rl[4] == ' ')))
+		{
+			free_main("\nbye bye\n", args, exp, rl); // doit gerer $?
+			exit(0);
+		}
+		add_history(rl);
+		i = parsing(rl, args, exp);
+		if (i < 0)
+		{
+			if (i == -1)
+				free_main("pb parsing\n", args, NULL, rl);
+			if (i == -2)
+			{
+				free_main(NULL, args, NULL, rl);
+			}
+			continue;
+		}
+
+		if (exec(rl, args, exp) == -1)
+		{
+			free_main("pb exec\n", args, NULL, rl);
+			continue;
+		}
+		free_main(NULL, args, NULL, rl); // on ne libère pas exp si c'est correct
+	}
+}
+
+int	main(int ac, char **av, char **env)
+{
 	t_args	*args;
 	t_exp	*exp;
+	char *rl;
 
 	(void)ac;
 	(void)av;
 	env = ft_strdup_env(ev);
 	printf("%s\n\n\n", MINISHELL_TEST);
-
-	rl = NULL;
+	(void)ac;
+	(void)av;
 	args = malloc(sizeof(t_args));
 	exp = malloc(sizeof(t_exp));
+	rl = NULL;
 	if (!args || !exp)
 		return (free_main("problem w/ malloc\n", args, exp, rl));
-	init_exp(exp);
-	while(1)
-	{
-		rl = readline (COMPUTER " Minishell > " RESET);
-		if (!rl)
-			return (free_main("problem with rl fct\n", args, exp, rl));
-		if (parsing(rl, args, exp) == -1)
-			return (free_main("pb parsing\n", args, exp, rl));
-		exec(rl, args, exp, env); // peut etre faire un if ?
-		usleep(2000);
-	}
-	free_main("All good\n", args, exp, rl);
 	return (0);
 }

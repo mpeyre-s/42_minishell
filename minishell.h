@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
+/*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:34:03 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/04 15:22:50 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/04 17:00:18 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,13 +97,18 @@ int		is_metachar(int c);
 
 // --------INIT_EXP-----------
 
-void	init_exp(t_exp *exp);
+int		init_exp(t_exp *exp, char **env);
 int		parse_exp(t_args *args, t_exp *exp);
 int		replace_av(char *substr, char **av, int start, t_exp *exp);
 char	*build_new_av(char *before, char *exp, char *after);
 int		check_expansion(char *s, t_exp *exp);
 int		inside_single_quote(char *av, int limit);
 int		init_all(t_args *args);
+int		is_new_env(char **av, t_args *args, t_exp *exp);
+void	modify_exp(char *s1, char *s2, t_exp *exp, int flag);
+
+void	delete_one_exp(t_exp *exp, int n);
+void	add_new_exp(t_exp *exp, char *s1, char *s2);
 
 // --------FINAL_INIT-----------
 t_command	*create_command(t_args *args, int start);
@@ -146,11 +151,15 @@ void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 
 int		modify_stdout_and_exec(t_command *cmd, char **env);
 
+//------------UTILS---------------
 
+
+void	handle_sigint(int sig);
 
 void	print_split_result(char **lines);
 void	print_test_quote(t_args *args);
 void	print_all(t_args *args);
 void	print_command_list(t_command *cmd_list);
+void	print_exp(t_exp *exp);
 
 #endif

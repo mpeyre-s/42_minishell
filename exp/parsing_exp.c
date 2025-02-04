@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 15:30:41 by spike             #+#    #+#             */
-/*   Updated: 2025/01/23 20:34:59 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/03 14:45:01 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	*substr_dollar(char *av)
 		i++;
 	}
 	start = i;
-	printf("start a cb ? %d\n", start);
+	printf("start a cb ? %d\n", start); // del
 	i++;
 	while (av[i])
 	{
@@ -69,7 +69,7 @@ char	*substr_dollar(char *av)
 			break ;
 		i++;
 	}
-	printf("i a cb ? %d\n", i);
+	printf("i a cb ? %d\n", i); // del
 	sub_av = ft_substr(av, start, i - start);
 	if (!sub_av)
 		return (NULL);
@@ -98,7 +98,7 @@ int	parse_exp(t_args *args, t_exp *exp) // je vais probablement devoir mettre i 
 					free(sub_av);
 					return (-1);
 				}
-				printf("av[%d] // new av = %s\n\n", i, args->av[i]);
+				printf("av[%d] // new av = %s\n\n", i, args->av[i]); //del
 				free(sub_av);
 			}
 		}

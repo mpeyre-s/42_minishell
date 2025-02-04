@@ -6,48 +6,57 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 19:05:41 by spike             #+#    #+#             */
-/*   Updated: 2025/01/23 18:02:25 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/04 12:59:37 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	init_variable(t_exp *exp, const char *var_name)
+int	parse_each_env(t_exp *exp, char *env)
 {
-	char *value;
+	int	i;
+	int	total_len;
 
-	value = getenv(var_name);
-	if (value)
-	{
-		exp->av[exp->ac] = ft_strdup(var_name);
-		exp->translate[exp->ac] = ft_strdup(value);
-		exp->ac++;
-	}
+	total_len = ft_strlen(env);
+	i = 0;
+	while (env[i] && env[i] != '=')
+		i++;
+	exp->av[exp->ac] = ft_substr(env, 0, i);
+	if (!exp->av[exp->ac])
+		return (-1);
+
+	// Valeur (après '=' si présent, sinon "")
+	if (env[i] == '=')
+		exp->translate[exp->ac] = ft_substr(env, i + 1, total_len - (i + 1));
+	else
+		exp->translate[exp->ac] = ft_strdup("");
+	if (!exp->translate[exp->ac])
+		return (-1);
+	exp->ac++;
+	return (0);
 }
 
-void	init_exp(t_exp *exp)
+int	init_exp(t_exp *exp, char **env)
 {
-	int	size;
+	int	i;
 
-	size = 6;	// 6 variables à gérer : HOME, PATH, USER, PWD, SHELL, HOSTNAME (on peut faire plus mais j'ai la flemme)
-	exp->av = calloc(size + 1, sizeof(char *));
-	exp->translate = calloc(size + 1, sizeof(char *));
-
-
+	i = 0;
+	while (env[i])
+		i++;
+	exp->av = calloc(i + 2, sizeof(char *)); // + 2 pour NULL et pour le 0 qui sera $?
+	exp->translate = calloc(i + 2, sizeof(char *));
 	if (!exp->av || !exp->translate)
+		return (-1);
+
+	exp->av[0] = ft_strdup("?");
+	exp->translate[0] = ft_strdup("0");
+	exp->ac = 1;
+	i = 0;
+	while (env[i])
 	{
-		perror("Erreur d'allocation mémoire pour les variables d'environnement");
-		return ;
+		if (parse_each_env(exp, env[i]) == -1)
+			return (-1);
+		i++;
 	}
-
-	exp->ac = 0; // il faut mettre le dollar non ?
-	init_variable(exp, "HOME");
-	init_variable(exp, "PATH");
-	init_variable(exp, "USER");
-	init_variable(exp, "PWD");
-	init_variable(exp, "SHELL");
-	init_variable(exp, "HOSTNAME");
-
-	exp->av[exp->ac] = NULL;
-	exp->translate[exp->ac] = NULL;
+	return (0);
 }

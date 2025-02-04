@@ -19,9 +19,10 @@ MINISHELL = minishell
 LIBFT_DIR = libft
 OBJ_DIR = objects
 
+
 # Fichiers sources
 SRC_FILES = init_av/count_args.c init_av/init_av.c init_av/parse_args.c \
-			exp/init_exp.c exp/parsing_exp.c exp/replace_exp.c exp/check_and_build.c \
+			exp/init_exp.c exp/parsing_exp.c exp/replace_exp.c exp/check_and_build.c exp/new_env.c exp/add_or_del_env.c \
 			errors/error_quote.c errors/errors.c \
 			execution/execution.c execution/file.c execution/env_manager.c execution/pipe.c\
 			execution/builtin/echo.c execution/builtin/exit.c execution/builtin/pwd.c  execution/builtin/env.c execution/builtin/export.c\
@@ -29,6 +30,7 @@ SRC_FILES = init_av/count_args.c init_av/init_av.c init_av/parse_args.c \
 			print_all.c \
 			metachar/init_metachar.c \
 			before_exec/command.c before_exec/free.c \
+			signals.c \
 			main.c
 
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
@@ -41,6 +43,14 @@ INCLUDES = -I. -I$(LIBFT_DIR)
 # Bibliothèques et headers
 LIBFT = $(LIBFT_DIR)/libft.a
 INC = minishell.h $(LIBFT_DIR)/libft.h
+
+# Lire la librairie Readline
+READLINE_PATH = /opt/homebrew/opt/readline
+ifneq ($(READLINE_PATH),)
+INCLUDES += -I$(READLINE_PATH)/include
+LDFLAGS += -L$(READLINE_PATH)/lib
+endif
+LDLIBS += -lreadline -lncurses
 
 # Règle par défaut : compiler les exécutables
 all: $(OBJ_DIR) $(LIBFT) $(MINISHELL)
@@ -59,7 +69,7 @@ $(LIBFT): $(LIBFT_DIR)/Makefile
 # Créer l'exécutable
 $(MINISHELL): $(OBJ_DIR) $(OBJ) $(LIBFT)
 	@echo "$(YELLOW)Compiling $(MINISHELL)... $(COMPUTER)$(RESET)"
-	@$(CC) $(CFLAGS) $(OBJ) -o $(MINISHELL) $(LIBFT) -lreadline -lncurses
+	@$(CC) $(CFLAGS) $(OBJ) -o $(MINISHELL) $(LIBFT) $(LDFLAGS) $(LDLIBS)
 	@echo "$(GREEN)$(MINISHELL) successfully created! $(THUMBS_UP)$(RESET)"
 
 # Règle pour générer les fichiers objets
