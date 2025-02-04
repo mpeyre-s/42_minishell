@@ -6,35 +6,40 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 10:01:43 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/01/29 13:43:37 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/03 16:14:54 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static int	add_env_var(t_command *cmd, char **env)
+static int	add_env_var(t_command *cmd, char ***env)
 {
-	size_t	i;
 	size_t	size;
-	size_t	var_len;
-	char	*new_var;
+	char	**new_env;
+	size_t	i;
 
-	i = -1;
 	size = 0;
-	var_len = ft_strlen(cmd->args[1]);
-	while (env[++i])
+	while ((*env)[size])
 		size++;
-	if (ft_realloc(env, size, size + 2) < 0)
+	new_env = malloc(sizeof(char *) * (size + 2));
+	if (!new_env)
 		return (-1);
-	new_var = (char *)malloc((var_len + 1) * sizeof(char));
-	if (!new_var)
-		return (-1);
-	i = -1;
-	while (++i < var_len)
-		new_var[i] = cmd->args[1][i];
-	new_var[i] = '\0';
-	env[size] = new_var;
-	env[size + 1] = NULL;
+	i = 0;
+	while (i < size)
+	{
+		new_env[i] = ft_strdup((*env)[i]);
+		if (!new_env[i])
+		{
+			while (i--)
+				free(new_env[i]);
+			free(new_env);
+			return (-1);
+		}
+		i++;
+	}
+	new_env[size] = ft_strdup(cmd->args[1]);
+	new_env[size + 1] = NULL;
+	*env = new_env;
 	return (0);
 }
 
@@ -83,25 +88,14 @@ static int	env_var_exist(t_command *cmd, char **env)
 
 int ft_export(t_command *cmd, char **env)
 {
-	int	pid;
 	int	index_to_modify;
-
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("fork");
-		return (1);
-	}
-	else if (pid == 0)
-	{
-		if (!cmd->args[1])
-			return (ft_env(env));
-		index_to_modify = env_var_exist(cmd, env);
-		if (index_to_modify != -1)
-			modify_env_var(cmd, env, index_to_modify);
-		else
-			add_env_var(cmd, env);
-		exit(EXIT_SUCCESS);
-	}
+	if (!cmd->args[1])
+		return (ft_env(&(*env)));
+	index_to_modify = env_var_exist(cmd, &(*env));
+	if (index_to_modify != -1)
+		modify_env_var(cmd, &(*env), index_to_modify);
+	else
+		add_env_var(cmd, &env);
+	*env = *env;
 	return (EXIT_SUCCESS);
 }

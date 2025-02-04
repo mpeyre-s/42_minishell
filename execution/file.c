@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 18:10:35 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/01/23 13:35:19 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/01/29 17:09:26 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	modify_stdout_and_exec(t_command *cmd, char **env)
 		close(file_fd);
 		return (1);
 	}
-	exec_cmd(cmd, env);
+	exec_cmd(cmd, &(*env));
 	if (dup2(original_stdout, STDOUT_FILENO) < 0)
 	{
 		close(file_fd);

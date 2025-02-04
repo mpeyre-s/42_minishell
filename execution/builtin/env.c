@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 09:27:53 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/01/29 09:38:26 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/04 09:58:41 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_env(char **env)
 	}
 	else if (pid == 0)
 	{
-		print_env(env);
+		print_env(&(*env));
 		exit(EXIT_SUCCESS);
 	}
 	return (EXIT_SUCCESS);
