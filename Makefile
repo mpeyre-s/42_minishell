@@ -22,7 +22,7 @@ OBJ_DIR = objects
 
 # Fichiers sources
 SRC_FILES = init_av/count_args.c init_av/init_av.c init_av/parse_args.c \
-			exp/init_exp.c exp/parsing_exp.c exp/replace_exp.c exp/check_and_build.c \
+			exp/init_exp.c exp/parsing_exp.c exp/replace_exp.c exp/check_and_build.c exp/new_env.c exp/add_or_del_env.c \
 			errors/error_quote.c errors/errors.c \
 			delete_quote/quote.c \
 			print_all.c \

@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 15:08:49 by spike             #+#    #+#             */
-/*   Updated: 2025/01/28 12:53:40 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/04 16:30:39 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,5 +114,14 @@ void	print_command_list(t_command *cmd_list)
 		print_command(cmd_list);
 		cmd_list = cmd_list->next;
 		cmd_num++;
+	}
+}
+void	print_exp(t_exp *exp)
+{
+	int i = 0;
+	while (i < exp->ac)
+	{
+		printf("%s = %s\n", exp->av[i], exp->translate[i]);
+		i++;
 	}
 }
