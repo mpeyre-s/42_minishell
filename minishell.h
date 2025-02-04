@@ -18,7 +18,8 @@
 # include <readline/history.h>
 # include <stdlib.h>
 # include <fcntl.h>
-#	include <dirent.h>
+# include <dirent.h>
+# include <sys/wait.h>
 # include "libft/libft.h"
 
 
@@ -133,11 +134,18 @@ int		quote(char *s);
 
 // --------EXECUTION-----------
 
-void	start_exec(t_command *cmd, char **env);
+int		start_exec(t_command *cmd, char **env);
 void	exec_cmd(t_command *cmd, char **env);
+void	execute_pipe(t_command *cmd1, t_command *cmd2, char **env);
+
 int		ft_echo(t_command *cmd);
 int		ft_exit(t_command *cmd);
 int		ft_pwd(t_command *cmd);
+int		ft_env(char **env);
+int		ft_export(t_command *cmd, char **env);
+
+char	**ft_strdup_env(char **env);
+void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 
 // --------FILE MANAGMENT-----------
 

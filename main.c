@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:31:16 by hduflos           #+#    #+#             */
 /*   Updated: 2025/02/04 23:48:21 by spike            ###   ########.fr       */
@@ -16,9 +16,13 @@
 C'est ce code qui va lancer ton execution, dans la partie que j'ai faite, je crée la liste chainée
 commande, depuis cette fonction t'as du coup "commande" et "exp" que tu pourras utiliser.
 */
-int	exec(char *rl, t_args *args, t_exp *exp)
+int	exec(char *rl, t_args *args, t_exp *exp, char **env)
 {
 	t_command	*cmd;
+	int			result;
+
+	(void)rl;
+	(void)exp;
 
 	cmd = create_command(args, 0);
 	if (!cmd)
@@ -28,17 +32,17 @@ int	exec(char *rl, t_args *args, t_exp *exp)
 	}
 	print_command_list(cmd); // print de test, doit aussi etre delete
 
-
 	/* Ici tu devrais faire une fonction pour lancer ton execution */
 
+	result = start_exec(cmd, env);
 
 	// Libérer la mémoire, il fautdrait tout libérer
 	free_command_list(cmd);
-
+	
 	// Faut delete cette ligne, c'est juste pour ne pas etre stop par un -Werror
 	printf("\n\n\n\n\nrl = %s, exp->ac = %d\n", rl, exp->ac);
 
-	return (0);
+	return (result);
 }
 
 /*
@@ -68,7 +72,6 @@ int	parsing(char *rl, t_args *args, t_exp *exp)
 	//print_all(args);
 	return (0);
 }
-
 
 void shell_loop(char *rl, t_args *args, t_exp *exp)
 {
@@ -110,6 +113,9 @@ int	main(int ac, char **av, char **env)
 	t_exp	*exp;
 	char *rl;
 
+	(void)ac;
+	(void)av;
+	env = ft_strdup_env(ev);
 	printf("%s\n\n\n", MINISHELL_TEST);
 	(void)ac;
 	(void)av;
@@ -118,12 +124,5 @@ int	main(int ac, char **av, char **env)
 	rl = NULL;
 	if (!args || !exp)
 		return (free_main("problem w/ malloc\n", args, exp, rl));
-	if (init_exp(exp, env) == -1)
-		return (free_main("\nEnv error\n", args, exp, rl));
-
-	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, SIG_IGN);
-
-	shell_loop(rl, args, exp);
 	return (0);
 }
