@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:31:16 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/04 01:05:55 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/04 23:48:21 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,14 @@ int	parsing(char *rl, t_args *args, t_exp *exp)
 		if (print_quote(args->av, args->ac) == -1)
 			return (-1);
 	}
-	//print_split_result(args->av); // DEL
+	print_split_result(args->av); // DEL
 	if (parse_exp(args, exp) == -1)
 		return (-1);
 	if (deal_with_quote(args) == -1)
 		return (-1);
-	//print_test_quote(args);
+	if (is_new_env(args->av, args, exp) == -2)
+		return (-2);
+	print_test_quote(args);
 	if (init_all(args) == -1)
 		return (-1);
 	//print_all(args);
@@ -70,6 +72,8 @@ int	parsing(char *rl, t_args *args, t_exp *exp)
 
 void shell_loop(char *rl, t_args *args, t_exp *exp)
 {
+	int	i;
+
 	while (1)
 	{
 		rl = readline (COMPUTER " Minishell > " RESET);
@@ -79,10 +83,15 @@ void shell_loop(char *rl, t_args *args, t_exp *exp)
 			exit(0);
 		}
 		add_history(rl);
-
-		if (parsing(rl, args, exp) == -1)
+		i = parsing(rl, args, exp);
+		if (i < 0)
 		{
-			free_main("pb parsing\n", args, NULL, rl);
+			if (i == -1)
+				free_main("pb parsing\n", args, NULL, rl);
+			if (i == -2)
+			{
+				free_main(NULL, args, NULL, rl);
+			}
 			continue;
 		}
 
@@ -91,25 +100,26 @@ void shell_loop(char *rl, t_args *args, t_exp *exp)
 			free_main("pb exec\n", args, NULL, rl);
 			continue;
 		}
-
-		//free_main(NULL, args, NULL, rl); // on ne libère pas exp si c'est correct
+		free_main(NULL, args, NULL, rl); // on ne libère pas exp si c'est correct
 	}
 }
 
-int	main(void)
+int	main(int ac, char **av, char **env)
 {
 	t_args	*args;
 	t_exp	*exp;
 	char *rl;
 
 	printf("%s\n\n\n", MINISHELL_TEST);
-
+	(void)ac;
+	(void)av;
 	args = malloc(sizeof(t_args));
 	exp = malloc(sizeof(t_exp));
 	rl = NULL;
 	if (!args || !exp)
 		return (free_main("problem w/ malloc\n", args, exp, rl));
-	init_exp(exp);
+	if (init_exp(exp, env) == -1)
+		return (free_main("\nEnv error\n", args, exp, rl));
 
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
