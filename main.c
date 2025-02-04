@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:31:16 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/04 16:33:55 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/04 23:44:27 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,7 @@ void shell_loop(char *rl, t_args *args, t_exp *exp)
 			free_main("pb exec\n", args, NULL, rl);
 			continue;
 		}
-
-		//free_main(NULL, args, NULL, rl); // on ne libère pas exp si c'est correct
+		free_main(NULL, args, NULL, rl); // on ne libère pas exp si c'est correct
 	}
 }
 

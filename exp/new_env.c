@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 13:50:28 by spike             #+#    #+#             */
-/*   Updated: 2025/02/04 17:01:03 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/04 23:44:23 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	modify_exp(char *s1, char *s2, t_exp *exp, int flag) // flag = 1 pour add f
 	{
 		if (i == exp->ac)
 		{
-		add_new_exp(exp, s1, s2);
+			add_new_exp(exp, s1, s2);
 		}
 		else
 		{
