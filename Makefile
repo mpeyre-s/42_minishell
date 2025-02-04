@@ -23,7 +23,7 @@ OBJ_DIR = objects
 SRC_FILES = init_av/count_args.c init_av/init_av.c init_av/parse_args.c \
 			exp/init_exp.c exp/parsing_exp.c exp/replace_exp.c exp/check_and_build.c \
 			errors/error_quote.c errors/errors.c \
-			execution/execution.c execution/file.c execution/env_manager.c\
+			execution/execution.c execution/file.c execution/env_manager.c execution/pipe.c\
 			execution/builtin/echo.c execution/builtin/exit.c execution/builtin/pwd.c  execution/builtin/env.c execution/builtin/export.c\
 			delete_quote/quote.c \
 			print_all.c \

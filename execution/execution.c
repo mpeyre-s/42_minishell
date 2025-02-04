@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:19:28 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/03 16:08:20 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/04 15:42:38 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	exec_builtin(t_command *cmd, char **env)
 		return (ft_env(&(*env)));
 	return (1);
 }
-
+/** Executes binary instructions with error recovery capabilities */
 static int	exec_bin(t_command *cmd, char **env, char *path)
 {
 	pid_t	pid;
@@ -49,13 +49,8 @@ static int	exec_bin(t_command *cmd, char **env, char *path)
 	}
 	else
 	{
-		// Waits for the child process with the given pid to finish execution.
-		//The &status argument is used to store the exit status of the child process.
 		waitpid(pid, &status, 0);
-		// checks if the child process terminated normally
 		if (WIFEXITED(status))
-			// If the child process terminated normally,
-			//this macro returns the exit status of the child process.
 			return (WEXITSTATUS(status));
 	}
 	return (0);
@@ -68,16 +63,26 @@ static int	exec_bin(t_command *cmd, char **env, char *path)
 int	start_exec(t_command *cmd, char **env)
 {
 	static char	**static_env = NULL;
+	t_command 	*next_cmd;
 
 	if (!static_env)
 		static_env = env;
 	while (cmd)
 	{
-		if (cmd->output_file)
-			modify_stdout_and_exec(cmd, &(*static_env));
+		next_cmd = cmd->next;
+		if (cmd->pipe_out && next_cmd)
+		{
+			execute_pipe(cmd, next_cmd, static_env);
+			cmd = next_cmd->next;
+		}
 		else
-			exec_cmd(cmd, &(*static_env));
-		cmd = cmd->next;
+		{
+			if (cmd->output_file)
+				modify_stdout_and_exec(cmd, &(*static_env));
+			else
+				exec_cmd(cmd, &(*static_env));
+			cmd = cmd->next;
+		}
 	}
 	static_env = env;
 	return (0);
@@ -87,8 +92,8 @@ int	start_exec(t_command *cmd, char **env)
 if it is an external command or an internal (builtin) command. */
 void	exec_cmd(t_command *cmd, char **env)
 {
-	int			builtin_result;
-	int			bin_result;
+	int	builtin_result;
+	int	bin_result;
 
 	builtin_result = exec_builtin(cmd, &(*env));
 	if (builtin_result == 0)

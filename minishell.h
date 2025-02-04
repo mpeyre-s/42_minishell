@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:34:03 by hduflos           #+#    #+#             */
-/*   Updated: 2025/01/29 11:25:57 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/04 15:22:50 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 # include <readline/history.h>
 # include <stdlib.h>
 # include <fcntl.h>
-#	include <dirent.h>
+# include <dirent.h>
+# include <sys/wait.h>
 # include "libft/libft.h"
 
 
@@ -130,6 +131,8 @@ int		quote(char *s);
 
 int		start_exec(t_command *cmd, char **env);
 void	exec_cmd(t_command *cmd, char **env);
+void	execute_pipe(t_command *cmd1, t_command *cmd2, char **env);
+
 int		ft_echo(t_command *cmd);
 int		ft_exit(t_command *cmd);
 int		ft_pwd(t_command *cmd);
