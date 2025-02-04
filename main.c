@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:31:16 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/04 23:48:21 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/04 19:28:23 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,20 @@
 C'est ce code qui va lancer ton execution, dans la partie que j'ai faite, je crée la liste chainée
 commande, depuis cette fonction t'as du coup "commande" et "exp" que tu pourras utiliser.
 */
-int	exec(char *rl, t_args *args, t_exp *exp, char **env)
+int	exec(char *rl, t_args *args, t_exp *exp, char ***env)
 {
 	t_command	*cmd;
 	int			result;
 
 	(void)rl;
 	(void)exp;
-
 	cmd = create_command(args, 0);
 	if (!cmd)
 	{
 		ft_putstr_fd("Error: failed to parse commands\n", 2);
 		return (-1);
 	}
-	print_command_list(cmd); // print de test, doit aussi etre delete
+	//print_command_list(cmd); // print de test, doit aussi etre delete
 
 	/* Ici tu devrais faire une fonction pour lancer ton execution */
 
@@ -38,9 +37,9 @@ int	exec(char *rl, t_args *args, t_exp *exp, char **env)
 
 	// Libérer la mémoire, il fautdrait tout libérer
 	free_command_list(cmd);
-	
+
 	// Faut delete cette ligne, c'est juste pour ne pas etre stop par un -Werror
-	printf("\n\n\n\n\nrl = %s, exp->ac = %d\n", rl, exp->ac);
+	//printf("\n\n\n\n\nrl = %s, exp->ac = %d\n", rl, exp->ac);
 
 	return (result);
 }
@@ -66,14 +65,14 @@ int	parsing(char *rl, t_args *args, t_exp *exp)
 		return (-1);
 	if (is_new_env(args->av, args, exp) == -2)
 		return (-2);
-	print_test_quote(args);
+	//print_test_quote(args);
 	if (init_all(args) == -1)
 		return (-1);
 	//print_all(args);
 	return (0);
 }
 
-void shell_loop(char *rl, t_args *args, t_exp *exp)
+void shell_loop(char *rl, t_args *args, t_exp *exp, char ***env)
 {
 	int	i;
 
@@ -98,7 +97,7 @@ void shell_loop(char *rl, t_args *args, t_exp *exp)
 			continue;
 		}
 
-		if (exec(rl, args, exp) == -1)
+		if (exec(rl, args, exp, env) == -1)
 		{
 			free_main("pb exec\n", args, NULL, rl);
 			continue;
@@ -112,10 +111,8 @@ int	main(int ac, char **av, char **env)
 	t_args	*args;
 	t_exp	*exp;
 	char *rl;
+	char ***shell_env = ft_strdup_env(env);
 
-	(void)ac;
-	(void)av;
-	env = ft_strdup_env(ev);
 	printf("%s\n\n\n", MINISHELL_TEST);
 	(void)ac;
 	(void)av;
@@ -124,5 +121,12 @@ int	main(int ac, char **av, char **env)
 	rl = NULL;
 	if (!args || !exp)
 		return (free_main("problem w/ malloc\n", args, exp, rl));
+	if (init_exp(exp, env) == -1)
+		return (free_main("\nEnv error\n", args, exp, rl));
+
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
+
+	shell_loop(rl, args, exp, shell_env);
 	return (0);
 }

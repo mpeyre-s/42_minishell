@@ -6,60 +6,109 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 10:01:43 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/03 16:14:54 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/04 19:44:18 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+static int	free_new_env(char **new_env, size_t i)
+{
+	while (i--)
+		free(new_env[i]);
+	free(new_env);
+	return (-1);
+}
+
+static char	*build_var_str(t_command *cmd, char **new_env, size_t i)
+{
+	char	*var_str;
+	char	*tmp;
+	size_t	j;
+
+	var_str = ft_strdup("");
+	if (!var_str)
+		return (NULL);
+	j = 1;
+	while (cmd->args[j])
+	{
+		tmp = var_str;
+		var_str = ft_strjoin(var_str, cmd->args[j]);
+		free(tmp);
+		if (!var_str)
+		{
+			free_new_env(new_env, i);
+			return (NULL);
+		}
+		j++;
+	}
+	return (var_str);
+}
+
+static char	**create_new_env(char **env, size_t *size)
+{
+	char	**new_env;
+
+	*size = 0;
+	while (env[*size])
+		(*size)++;
+	new_env = malloc(sizeof(char *) * (*size + 2));
+	return (new_env);
+}
+
+static int	copy_old_env(char ***env, char **new_env, size_t *i)
+{
+	*i = 0;
+	while ((*env)[*i])
+	{
+		new_env[*i] = ft_strdup((*env)[*i]);
+		if (!new_env[*i])
+			return (free_new_env(new_env, *i));
+		(*i)++;
+	}
+	return (0);
+}
+
 static int	add_env_var(t_command *cmd, char ***env)
 {
-	size_t	size;
 	char	**new_env;
+	size_t	size;
 	size_t	i;
+	char	*var_str;
 
-	size = 0;
-	while ((*env)[size])
-		size++;
-	new_env = malloc(sizeof(char *) * (size + 2));
+	new_env = create_new_env(*env, &size);
 	if (!new_env)
 		return (-1);
-	i = 0;
-	while (i < size)
-	{
-		new_env[i] = ft_strdup((*env)[i]);
-		if (!new_env[i])
-		{
-			while (i--)
-				free(new_env[i]);
-			free(new_env);
-			return (-1);
-		}
-		i++;
-	}
-	new_env[size] = ft_strdup(cmd->args[1]);
-	new_env[size + 1] = NULL;
+	if (copy_old_env(env, new_env, &i) == -1)
+		return (-1);
+	var_str = build_var_str(cmd, new_env, i);
+	if (!var_str)
+		return (-1);
+	new_env[i] = var_str;
+	new_env[i + 1] = NULL;
 	*env = new_env;
 	return (0);
 }
 
 static int	modify_env_var(t_command *cmd, char **env, int index)
 {
-	size_t	size;
-	size_t	i;
 	char	*new_value;
+	size_t	j;
+	char	*tmp;
 
-	size = ft_strlen(cmd->args[1]);
-	new_value = (char *)malloc((size + 1) * sizeof(char));
+	new_value = ft_strdup("");
 	if (!new_value)
 		return (-1);
-	i = 0;
-	while (cmd->args[1][i] && i < size)
+	j = 1;
+	while (cmd->args[j])
 	{
-		new_value[i] = cmd->args[1][i];
-		i++;
+		tmp = new_value;
+		new_value = ft_strjoin(new_value, cmd->args[j]);
+		free(tmp);
+		if (!new_value)
+			return (-1);
+		j++;
 	}
-	new_value[i] = '\0';
 	free(env[index]);
 	env[index] = new_value;
 	return (0);
@@ -86,16 +135,16 @@ static int	env_var_exist(t_command *cmd, char **env)
 	return (-1);
 }
 
-int ft_export(t_command *cmd, char **env)
+int ft_export(t_command *cmd, char ***env)
 {
 	int	index_to_modify;
+
 	if (!cmd->args[1])
-		return (ft_env(&(*env)));
-	index_to_modify = env_var_exist(cmd, &(*env));
+		return (ft_env(*env));
+	index_to_modify = env_var_exist(cmd, *env);
 	if (index_to_modify != -1)
-		modify_env_var(cmd, &(*env), index_to_modify);
+		modify_env_var(cmd, *env, index_to_modify);
 	else
-		add_env_var(cmd, &env);
-	*env = *env;
+		add_env_var(cmd, env);
 	return (EXIT_SUCCESS);
 }

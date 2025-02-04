@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 15:02:46 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/04 15:35:44 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/04 18:21:27 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #include "../minishell.h"
 
-void	execute_pipe(t_command *cmd1, t_command *cmd2, char **env)
+void	execute_pipe(t_command *cmd1, t_command *cmd2, char ***env)
 {
 	int	pipefd[2];
 
