@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:02:39 by spike             #+#    #+#             */
-/*   Updated: 2025/02/05 13:23:35 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/05 13:31:39 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ int	free_main(char *s, t_args *args, char *rl)
 	{
 		free_split(args->av, args->ac);
 		free_metachar(args);
+		args->ac = 0;
 	}
 	if (rl)
 	{
