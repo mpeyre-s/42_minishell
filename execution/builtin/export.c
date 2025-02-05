@@ -6,85 +6,26 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 10:01:43 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/04 19:44:18 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/05 13:00:24 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-static int	free_new_env(char **new_env, size_t i)
-{
-	while (i--)
-		free(new_env[i]);
-	free(new_env);
-	return (-1);
-}
-
-static char	*build_var_str(t_command *cmd, char **new_env, size_t i)
-{
-	char	*var_str;
-	char	*tmp;
-	size_t	j;
-
-	var_str = ft_strdup("");
-	if (!var_str)
-		return (NULL);
-	j = 1;
-	while (cmd->args[j])
-	{
-		tmp = var_str;
-		var_str = ft_strjoin(var_str, cmd->args[j]);
-		free(tmp);
-		if (!var_str)
-		{
-			free_new_env(new_env, i);
-			return (NULL);
-		}
-		j++;
-	}
-	return (var_str);
-}
-
-static char	**create_new_env(char **env, size_t *size)
-{
-	char	**new_env;
-
-	*size = 0;
-	while (env[*size])
-		(*size)++;
-	new_env = malloc(sizeof(char *) * (*size + 2));
-	return (new_env);
-}
-
-static int	copy_old_env(char ***env, char **new_env, size_t *i)
-{
-	*i = 0;
-	while ((*env)[*i])
-	{
-		new_env[*i] = ft_strdup((*env)[*i]);
-		if (!new_env[*i])
-			return (free_new_env(new_env, *i));
-		(*i)++;
-	}
-	return (0);
-}
 
 static int	add_env_var(t_command *cmd, char ***env)
 {
 	char	**new_env;
 	size_t	size;
 	size_t	i;
-	char	*var_str;
 
 	new_env = create_new_env(*env, &size);
 	if (!new_env)
 		return (-1);
 	if (copy_old_env(env, new_env, &i) == -1)
 		return (-1);
-	var_str = build_var_str(cmd, new_env, i);
-	if (!var_str)
-		return (-1);
-	new_env[i] = var_str;
+	new_env[i] = create_full_var(cmd->args[1], cmd->args[3]);
+	if (!new_env[i])
+		return (free_new_env(new_env, i));
 	new_env[i + 1] = NULL;
 	*env = new_env;
 	return (0);
@@ -92,23 +33,25 @@ static int	add_env_var(t_command *cmd, char ***env)
 
 static int	modify_env_var(t_command *cmd, char **env, int index)
 {
+	char	*var_name;
+	char	*var_value;
+	char	*full_var;
 	char	*new_value;
-	size_t	j;
-	char	*tmp;
 
-	new_value = ft_strdup("");
+	var_name = cmd->args[1];
+	var_value = cmd->args[3];
+	if (var_value && var_value[0] == '"' && var_value[ft_strlen(var_value)-1] == '"')
+	{
+		var_value++;
+		var_value[ft_strlen(var_value)-1] = '\0';
+	}
+	full_var = ft_strjoin(var_name, "=");
+	if (!full_var)
+		return (-1);
+	new_value = ft_strjoin(full_var, var_value);
+	free(full_var);
 	if (!new_value)
 		return (-1);
-	j = 1;
-	while (cmd->args[j])
-	{
-		tmp = new_value;
-		new_value = ft_strjoin(new_value, cmd->args[j]);
-		free(tmp);
-		if (!new_value)
-			return (-1);
-		j++;
-	}
 	free(env[index]);
 	env[index] = new_value;
 	return (0);
