@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
+/*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:31:16 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/04 19:28:23 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/05 13:22:09 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,6 @@ int	exec(char *rl, t_args *args, t_exp *exp, char ***env)
 	// Libérer la mémoire, il fautdrait tout libérer
 	free_command_list(cmd);
 
-	// Faut delete cette ligne, c'est juste pour ne pas etre stop par un -Werror
-	//printf("\n\n\n\n\nrl = %s, exp->ac = %d\n", rl, exp->ac);
-
 	return (result);
 }
 
@@ -63,8 +60,8 @@ int	parsing(char *rl, t_args *args, t_exp *exp)
 		return (-1);
 	if (deal_with_quote(args) == -1)
 		return (-1);
-	if (is_new_env(args->av, args, exp) == -2)
-		return (-2);
+	// if (is_new_env(args->av, args, exp) == -2)
+	// 	return (-2);
 	//print_test_quote(args);
 	if (init_all(args) == -1)
 		return (-1);
@@ -74,35 +71,27 @@ int	parsing(char *rl, t_args *args, t_exp *exp)
 
 void shell_loop(char *rl, t_args *args, t_exp *exp, char ***env)
 {
-	int	i;
-
 	while (1)
 	{
 		rl = readline (COMPUTER " Minishell > " RESET);
 		if (!rl || (strncmp(rl, "exit", 4) == 0 && (rl[4] == '\0' || rl[4] == ' ')))
 		{
-			free_main("\nbye bye\n", args, exp, rl); // doit gerer $?
+			stop_main("\nbye bye\n", args, exp, rl); // doit gerer $?
 			exit(0);
 		}
 		add_history(rl);
-		i = parsing(rl, args, exp);
-		if (i < 0)
+		if (parsing(rl, args, exp) == -1)
 		{
-			if (i == -1)
-				free_main("pb parsing\n", args, NULL, rl);
-			if (i == -2)
-			{
-				free_main(NULL, args, NULL, rl);
-			}
+			free_main("pb parsing\n", args, rl);
 			continue;
 		}
 
 		if (exec(rl, args, exp, env) == -1)
 		{
-			free_main("pb exec\n", args, NULL, rl);
+			free_main("pb exec\n", args, rl);
 			continue;
 		}
-		free_main(NULL, args, NULL, rl); // on ne libère pas exp si c'est correct
+		free_main(NULL, args, rl); // on ne libère pas exp si c'est correct
 	}
 }
 
@@ -120,9 +109,9 @@ int	main(int ac, char **av, char **env)
 	exp = malloc(sizeof(t_exp));
 	rl = NULL;
 	if (!args || !exp)
-		return (free_main("problem w/ malloc\n", args, exp, rl));
+		return (stop_main("problem w/ malloc\n", args, exp, rl));
 	if (init_exp(exp, env) == -1)
-		return (free_main("\nEnv error\n", args, exp, rl));
+		return (stop_main("\nEnv error\n", args, exp, rl));
 
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);

@@ -36,7 +36,7 @@ SRC_FILES = init_av/count_args.c init_av/init_av.c init_av/parse_args.c \
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
 
 # Compilateur et options
-CC = gcc
+CC = gcc -g
 CFLAGS = -Wall -Wextra -Werror
 INCLUDES = -I. -I$(LIBFT_DIR)
 
