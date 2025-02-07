@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 18:10:35 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/04 18:21:24 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/07 17:36:13 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,34 @@ int	modify_stdout_and_exec(t_command *cmd, char ***env)
 	}
 	close(file_fd);
 	close(original_stdout);
+	return (0);
+}
+/**
+ * Redirects stdin to a file and executes a command.
+ * @cmd: Command structure with command and input file path.
+ */
+int	modify_stdin_and_exec(t_command *cmd, char ***env)
+{
+	int	original_stdin;
+	int	file_fd;
+
+	original_stdin = dup(STDIN_FILENO);
+	file_fd = open(cmd->input_file, O_RDONLY);
+	if (file_fd < 0)
+		return (1);
+	if (dup2(file_fd, STDIN_FILENO) < 0)
+	{
+		close(file_fd);
+		return (1);
+	}
+	exec_cmd(cmd, env);
+	if (dup2(original_stdin, STDIN_FILENO) < 0)
+	{
+		close(file_fd);
+		close(original_stdin);
+		return (1);
+	}
+	close(file_fd);
+	close(original_stdin);
 	return (0);
 }

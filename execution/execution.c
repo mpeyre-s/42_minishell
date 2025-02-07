@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:19:28 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/07 15:47:16 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/07 17:16:55 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ int	start_exec(t_command *cmd, char ***env)
 		{
 			if (cmd->output_file)
 				modify_stdout_and_exec(cmd, env);
+			else if (cmd->input_file)
+				modify_stdin_and_exec(cmd, env);
 			else
 				exec_cmd(cmd, env);
 			cmd = cmd->next;
