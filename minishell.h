@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:34:03 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/05 14:13:19 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/07 16:47:17 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,9 +145,12 @@ int		ft_pwd(t_command *cmd);
 int		ft_env(char **env);
 int		ft_export(t_command *cmd, char ***env);
 int		ft_unset(t_command *cmd, char ***env);
+int		ft_cd(t_command *cmd, char ***env);
 
 // --------EXECUTION UTILS-----------
 char	***ft_strdup_env(char **env);
+char	*get_env_var(char **env, char *var);
+int		ft_arraylen(char **array);
 
 int		free_new_env(char **new_env, size_t i);
 char	**create_new_env(char **env, size_t *size);

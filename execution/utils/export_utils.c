@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 12:55:38 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/05 12:56:03 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/07 16:46:57 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,16 @@ char	*create_full_var(char *var_name, char *var_value)
 	result = ft_strjoin(full_var, var_value);
 	free(full_var);
 	return (result);
+}
+
+int	ft_arraylen(char **array)
+{
+	int	i;
+
+	if (!array)
+		return (0);
+	i = 0;
+	while (array[i])
+		i++;
+	return (i);
 }

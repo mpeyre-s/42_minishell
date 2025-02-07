@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 10:30:09 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/04 19:47:21 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/06 15:28:41 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,3 +71,30 @@ char	***ft_strdup_env(char **env)
 	*env_ptr = new_env;
 	return (env_ptr);
 }
+
+char	*get_env_var(char **env, char *var)
+{
+	char	*prefix;
+	int		i;
+	int		prefix_len;
+
+	if (!env || !var)
+		return (NULL);
+	prefix = ft_strjoin(var, "=");
+	if (!prefix)
+		return (NULL);
+	prefix_len = ft_strlen(prefix);
+	i = 0;
+	while (env[i])
+	{
+		if (ft_strncmp(env[i], prefix, prefix_len) == 0)
+		{
+			free(prefix);
+			return (env[i] + prefix_len);
+		}
+		i++;
+	}
+	free(prefix);
+	return (NULL);
+}
+

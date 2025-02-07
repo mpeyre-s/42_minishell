@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:31:16 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/05 15:20:10 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/07 16:51:01 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void shell_loop(char *rl, t_args *args, t_exp *exp, char ***env)
 {
 	while (1)
 	{
-		usleep(2000);
+		usleep(5000);
 		rl = readline (COMPUTER " Minishell > " RESET);
 		if (!rl || (strncmp(rl, "exit", 4) == 0 && (rl[4] == '\0' || rl[4] == ' ')))
 		{
