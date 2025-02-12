@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
+/*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:19:28 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/04 19:28:02 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/12 12:20:54 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,14 @@ static int	exec_bin(t_command *cmd, char ***env, char *path)
 * Execution of the entire commandS stocked in the linked list. Depending on the
 * presence of pipes or redirections, it modifies the standard input/output
 (stdin/stdout) accordingly. */
-int	start_exec(t_command *cmd, char ***env)
+int	start_exec(t_command *cmd, char ***env, int flag)
 {
 	t_command	*next_cmd;
-
+	if (flag == 0) // c'est la premiere fois au'on se trouve ici
+	{
+		if (cmd->input_file)
+			modify_stdin_and_exec(cmd, env, &flag);
+	}
 	while (cmd)
 	{
 		next_cmd = cmd->next;
