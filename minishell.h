@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hduflos <hduflos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:34:03 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/07 17:10:48 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/13 16:03:04 by hduflos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <dirent.h>
 # include <sys/wait.h>
 # include "libft/libft.h"
+# include <signal.h>
 
 
 // Color codes
@@ -135,11 +136,11 @@ int		quote(char *s);
 
 // --------EXECUTION-----------
 
-int		start_exec(t_command *cmd, char ***env);
+int		start_exec(t_command *cmd, char ***env, int flag);
 void	exec_cmd(t_command *cmd, char ***env);
 void	execute_pipe(t_command *cmd1, t_command *cmd2, char ***env);
 int		modify_stdout_and_exec(t_command *cmd, char ***env);
-int		modify_stdin_and_exec(t_command *cmd, char ***env);
+int		modify_stdin_and_exec(t_command *cmd, char ***env, int *flag);
 
 int		ft_echo(t_command *cmd);
 int		ft_exit(t_command *cmd);

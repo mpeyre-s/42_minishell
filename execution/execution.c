@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hduflos <hduflos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:19:28 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/07 17:16:55 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/13 16:02:30 by hduflos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,14 @@ static int	exec_bin(t_command *cmd, char ***env, char *path)
 * Execution of the entire commandS stocked in the linked list. Depending on the
 * presence of pipes or redirections, it modifies the standard input/output
 (stdin/stdout) accordingly. */
-int	start_exec(t_command *cmd, char ***env)
+int	start_exec(t_command *cmd, char ***env, int flag)
 {
 	t_command	*next_cmd;
-
+	if (flag == 0) // c'est la premiere fois au'on se trouve ici
+	{
+		if (cmd->input_file)
+			modify_stdin_and_exec(cmd, env, &flag);
+	}
 	while (cmd)
 	{
 		next_cmd = cmd->next;
@@ -76,8 +80,6 @@ int	start_exec(t_command *cmd, char ***env)
 		{
 			if (cmd->output_file)
 				modify_stdout_and_exec(cmd, env);
-			else if (cmd->input_file)
-				modify_stdin_and_exec(cmd, env);
 			else
 				exec_cmd(cmd, env);
 			cmd = cmd->next;

@@ -23,3 +23,4 @@ Total arguments: 0
 [?2004h💻 Minishell > [0m^C[?2004l
 
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+makefile
