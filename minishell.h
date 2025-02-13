@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:34:03 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/05 13:20:42 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/07 17:10:48 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,18 +138,26 @@ int		quote(char *s);
 int		start_exec(t_command *cmd, char ***env);
 void	exec_cmd(t_command *cmd, char ***env);
 void	execute_pipe(t_command *cmd1, t_command *cmd2, char ***env);
+int		modify_stdout_and_exec(t_command *cmd, char ***env);
+int		modify_stdin_and_exec(t_command *cmd, char ***env);
 
 int		ft_echo(t_command *cmd);
 int		ft_exit(t_command *cmd);
 int		ft_pwd(t_command *cmd);
 int		ft_env(char **env);
 int		ft_export(t_command *cmd, char ***env);
+int		ft_unset(t_command *cmd, char ***env);
+int		ft_cd(t_command *cmd, char ***env);
 
+// --------EXECUTION UTILS-----------
 char	***ft_strdup_env(char **env);
-
-// --------FILE MANAGMENT-----------
-
-int		modify_stdout_and_exec(t_command *cmd, char ***env);
+char	*get_env_var(char **env, char *var);
+int		ft_arraylen(char **array);
+int		free_new_env(char **new_env, size_t i);
+char	**create_new_env(char **env, size_t *size);
+int		copy_old_env(char ***env, char **new_env, size_t *i);
+char	*create_full_var(char *var_name, char *var_value);
+int		env_var_exist(t_command *cmd, char **env);
 
 //------------UTILS---------------
 

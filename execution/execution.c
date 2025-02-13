@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:19:28 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/04 19:28:02 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/07 17:16:55 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ static int	exec_builtin(t_command *cmd, char ***env)
 		return (ft_exit(cmd));
 	else if (ft_strncmp(cmd->args[0], "pwd", ft_strlen(cmd->args[0])) == 0)
 		return (ft_pwd(cmd));
-	// else if (ft_strncmp(cmd->args[0], "cd", ft_strlen(cmd->args[0])) == 0)
-	// 	return (ft_cd(cmd));
+	else if (ft_strncmp(cmd->args[0], "cd", ft_strlen(cmd->args[0])) == 0)
+		return (ft_cd(cmd, env));
 	else if (ft_strncmp(cmd->args[0], "export", ft_strlen(cmd->args[0])) == 0)
 		return (ft_export(cmd, env));
-	// else if (ft_strncmp(cmd->args[0], "unset", ft_strlen(cmd->args[0])) == 0)
-	// 	return (ft_unset(cmd));
+	else if (ft_strncmp(cmd->args[0], "unset", ft_strlen(cmd->args[0])) == 0)
+		return (ft_unset(cmd, env));
 	else if (ft_strncmp(cmd->args[0], "env", ft_strlen(cmd->args[0])) == 0)
 		return (ft_env(*env));
 	return (1);
@@ -76,6 +76,8 @@ int	start_exec(t_command *cmd, char ***env)
 		{
 			if (cmd->output_file)
 				modify_stdout_and_exec(cmd, env);
+			else if (cmd->input_file)
+				modify_stdin_and_exec(cmd, env);
 			else
 				exec_cmd(cmd, env);
 			cmd = cmd->next;

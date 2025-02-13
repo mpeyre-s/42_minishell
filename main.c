@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:31:16 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/05 13:28:23 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/07 17:37:18 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	parsing(char *rl, t_args *args, t_exp *exp)
 		if (print_quote(args->av, args->ac) == -1)
 			return (-1);
 	}
-	print_split_result(args->av); // DEL
+	//print_split_result(args->av); // DEL
 	if (parse_exp(args, exp) == -1)
 		return (-1);
 	if (deal_with_quote(args) == -1)
@@ -73,6 +73,7 @@ void shell_loop(char *rl, t_args *args, t_exp *exp, char ***env)
 {
 	while (1)
 	{
+		usleep(5000);
 		rl = readline (COMPUTER " Minishell > " RESET);
 		if (!rl || (strncmp(rl, "exit", 4) == 0 && (rl[4] == '\0' || rl[4] == ' ')))
 		{
