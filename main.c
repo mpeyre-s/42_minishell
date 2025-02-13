@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:31:16 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/05 13:28:23 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/13 20:54:13 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	exec(char *rl, t_args *args, t_exp *exp, char ***env)
 
 	/* Ici tu devrais faire une fonction pour lancer ton execution */
 
-	result = start_exec(cmd, env);
+	result = start_exec(cmd, env, 0);
 
 	// Libérer la mémoire, il fautdrait tout libérer
 	free_command_list(cmd);

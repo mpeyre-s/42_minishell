@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 18:10:35 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/12 12:20:24 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/13 20:53:01 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,7 @@
  * @cmd: Command structure with command and output file path.
  */
 
-int	modify_stdout_and_exec(t_command *cmd, char ***env)
-{
-	if (cmd->append == 1) // >
-		return (modify_stdout(cmd, env));
-	else if (cmd->append == 2) // >>
-		return (modify_stdout_append(cmd, env));
-	return (0);
-}
+
 int	modify_stdout(t_command *cmd, char ***env)
 {
 	int	original_stdout;
@@ -78,7 +71,14 @@ int	modify_stdout_append(t_command *cmd, char ***env)
 	return (0);
 }
 
-
+int	modify_stdout_and_exec(t_command *cmd, char ***env)
+{
+	if (cmd->append == 1) // >
+		return (modify_stdout(cmd, env));
+	else if (cmd->append == 2) // >>
+		return (modify_stdout_append(cmd, env));
+	return (0);
+}
 
 // TEST
 

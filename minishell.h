@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:34:03 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/05 13:20:42 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/13 20:53:49 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ int		quote(char *s);
 
 // --------EXECUTION-----------
 
-int		start_exec(t_command *cmd, char ***env);
+int		start_exec(t_command *cmd, char ***env, int flag);
 void	exec_cmd(t_command *cmd, char ***env);
 void	execute_pipe(t_command *cmd1, t_command *cmd2, char ***env);
 
@@ -150,6 +150,7 @@ char	***ft_strdup_env(char **env);
 // --------FILE MANAGMENT-----------
 
 int		modify_stdout_and_exec(t_command *cmd, char ***env);
+int	modify_stdin_and_exec(t_command *cmd, char ***env, int *flag);
 
 //------------UTILS---------------
 
