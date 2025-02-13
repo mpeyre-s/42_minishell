@@ -6,7 +6,7 @@
 /*   By: hduflos <hduflos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:19:28 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/13 16:02:30 by hduflos          ###   ########.fr       */
+/*   Updated: 2025/02/13 17:03:38 by hduflos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	start_exec(t_command *cmd, char ***env, int flag)
 	{
 		if (cmd->input_file)
 			modify_stdin_and_exec(cmd, env, &flag);
+		return (0);
 	}
 	while (cmd)
 	{
