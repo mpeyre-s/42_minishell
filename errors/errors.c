@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:02:39 by spike             #+#    #+#             */
-/*   Updated: 2025/02/05 13:31:39 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/13 21:26:36 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,10 +102,8 @@ int	free_main(char *s, t_args *args, char *rl)
 		args->ac = 0;
 	}
 	if (rl)
-	{
-		clear_history();
 		free (rl);
-	}
+
 	if (s) // si il y a un message d'erreur mettre env $? a 1 sinon a 0
 		ft_putstr_fd(s, 2);
 	return (1);
