@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:19:28 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/13 18:22:41 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/14 15:32:17 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ static int	exec_bin(t_command *cmd, char ***env, char *path)
 int	start_exec(t_command *cmd, char ***env, int flag)
 {
 	t_command	*next_cmd;
-	if (flag == 0) // c'est la premiere fois au'on se trouve ici
+
+	if (flag == 0)
 	{
 		if (cmd->input_file)
 			modify_stdin_and_exec(cmd, env, &flag);
@@ -73,8 +74,11 @@ int	start_exec(t_command *cmd, char ***env, int flag)
 		next_cmd = cmd->next;
 		if (cmd->pipe_out && next_cmd)
 		{
-			execute_pipe(cmd, next_cmd, env);
-			cmd = next_cmd->next;
+			execute_pipe(cmd, env);
+			while (cmd && cmd->pipe_out)
+				cmd = cmd->next;
+			if (cmd)
+				cmd = cmd->next;
 		}
 		else
 		{
