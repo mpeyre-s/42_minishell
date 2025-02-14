@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:19:28 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/14 22:51:47 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/14 23:23:32 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,7 @@ static int	exec_bin(t_command *cmd, char ***env, char *path)
 			exit(EXIT_FAILURE);
 	}
 	else if (pid < 0)
-	{
-		printf("\nFailed to fork\n");
-		return (-1);
-	}
+		return (ft_putstr_fd("\nFailed to fork\n", 2), -1);
 	else
 	{
 		signal(SIGINT, SIG_IGN);
@@ -63,23 +60,11 @@ static int	exec_bin(t_command *cmd, char ***env, char *path)
 	return (0);
 }
 
-/** Unique entry point for command execution.
-* Execution of the entire commandS stocked in the linked list. Depending on the
-* presence of pipes or redirections, it modifies the standard input/output
-(stdin/stdout) accordingly. */
-int	start_exec(t_command *cmd, char ***env, int flag)
+static int	process_cmd_sequence(t_command *cmd, char ***env)
 {
 	t_command	*next_cmd;
 	int			result;
 
-	if (!flag && (cmd->heredoc_delim || cmd->input_file))
-	{
-		if (cmd->heredoc_delim)
-			result = stdin_heredoc(cmd, cmd->heredoc_delim, env, &flag);
-		else if (cmd->input_file)
-			result = modify_stdin_and_exec(cmd, env, &flag);
-		return (0);
-	}
 	while (cmd)
 	{
 		next_cmd = cmd->next;
@@ -100,6 +85,27 @@ int	start_exec(t_command *cmd, char ***env, int flag)
 			cmd = cmd->next;
 		}
 	}
+	return (result);
+}
+
+/** Unique entry point for command execution.
+* Execution of the entire commandS stocked in the linked list. Depending on the
+* presence of pipes or redirections, it modifies the standard input/output
+(stdin/stdout) accordingly. */
+int	start_exec(t_command *cmd, char ***env, int flag)
+{
+	int	result;
+
+	result = 0;
+	if (!flag && (cmd->heredoc_delim || cmd->input_file))
+	{
+		if (cmd->heredoc_delim)
+			result = stdin_heredoc(cmd, cmd->heredoc_delim, env, &flag);
+		else if (cmd->input_file)
+			result = modify_stdin_and_exec(cmd, env, &flag);
+		return (result);
+	}
+	result = process_cmd_sequence(cmd, env);
 	return (result);
 }
 
