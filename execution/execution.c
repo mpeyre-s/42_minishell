@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:19:28 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/14 22:40:09 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/14 22:51:47 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static int	exec_builtin(t_command *cmd, char ***env)
 		return (ft_env(*env));
 	return (-1);
 }
+
 /** Executes binary instructions with error recovery capabilities */
 static int	exec_bin(t_command *cmd, char ***env, char *path)
 {
@@ -54,10 +55,8 @@ static int	exec_bin(t_command *cmd, char ***env, char *path)
 		signal(SIGINT, SIG_IGN);
 		waitpid(pid, &status, 0);
 		signal(SIGINT, handle_sigint);
-
 		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 			write(STDOUT_FILENO, "\n", 1);
-
 		if (WIFEXITED(status))
 			return (WEXITSTATUS(status));
 	}
@@ -78,7 +77,7 @@ int	start_exec(t_command *cmd, char ***env, int flag)
 		if (cmd->heredoc_delim)
 			result = stdin_heredoc(cmd, cmd->heredoc_delim, env, &flag);
 		else if (cmd->input_file)
-		result = modify_stdin_and_exec(cmd, env, &flag);
+			result = modify_stdin_and_exec(cmd, env, &flag);
 		return (0);
 	}
 	while (cmd)

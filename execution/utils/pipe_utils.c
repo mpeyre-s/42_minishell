@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 16:07:03 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/14 16:09:48 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/14 23:08:04 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	(*allocate_pipe_fds(int count))[2]
 {
 	int	(*pipe_fds)[2];
 
-	pipe_fds = malloc(sizeof(int[2]) * count);
+	pipe_fds = malloc(count * sizeof(*pipe_fds));
 	if (!pipe_fds)
 		handle_error("malloc", NULL, pipe_fds);
 	return (pipe_fds);

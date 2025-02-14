@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:34:03 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/14 22:40:57 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/14 22:47:23 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 # include "libft/libft.h"
 # include <signal.h>
 
-
 // Color codes
 # define RED     "\033[0;31m"
 # define GREEN   "\033[0;32m"
@@ -38,11 +37,9 @@
 # define COMPUTER "💻"
 # define BYE "👋😊"
 
-
 # define RESET_COLOR "\033[0m"
 
-// Définition d'une fonction qui génère un code de couleur basé sur un indice
-# define COLOR(i) "\033[38;5;" #i "m"  // Utilisation des couleurs 256 disponibles en ANSI
+# define COLOR(i) "\033[38;5;" #i "m"
 
 # define MINISHELL_TEST  \
   COLOR(51) "            _         _       _            _  _\n" \
@@ -51,9 +48,6 @@
   COLOR(33) "| '_ ` _ \\ | || '_ \\ | |/ __|| '_ \\  / _ \\| || |\n" \
   COLOR(63) "| | | | | || || | | || |\\__ \\| | | ||  __/| || |\n" \
   COLOR(57) "|_| |_| |_||_||_| |_||_||___/|_| |_| \\___||_||_|" RESET_COLOR
-
-
-
 
 typedef struct s_args
 {
@@ -76,7 +70,6 @@ typedef struct s_exp
 	char	**translate; // ici on a la traduction de ceux-ci
 }				t_exp;
 
-
 // CE QUE TU VAS RECUPERER
 typedef struct s_command
 {
@@ -88,7 +81,6 @@ typedef struct s_command
 	int		pipe_out;        // 1 si cette commande envoie sa sortie dans un pipe
 	struct s_command *next;  // Pointeur vers la commande suivante (liste chaînée)
 }				t_command;
-
 
 // --------INIT_AV-----------
 
@@ -170,7 +162,8 @@ int			(*allocate_pipe_fds(int count))[2];
 void		create_pipes(int (*pipe_fds)[2], int count, pid_t *pids);
 void		setup_fds(int i, int count, int (*pipe_fds)[2], t_command *cur);
 void		close_pipes(int (*pipe_fds)[2], int count);
-int			execute_command(t_command *cmd, char ***env, int (*pipe_fds)[2], int count, pid_t *pids);
+int			execute_command(t_command *cmd, char ***env, int (*pipe_fds)[2],
+				int count, pid_t *pids);
 void		wait_for_children(pid_t *pids, int count);
 
 //------------UTILS---------------

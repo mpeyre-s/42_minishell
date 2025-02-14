@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 14:06:46 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/14 22:09:16 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/14 22:58:44 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static int	change_directory(const char *path, char ***env)
 	if (chdir(path) != 0)
 	{
 		free(old_pwd);
-		return (ft_putstr_fd("cd: no such file or directory\n", STDERR_FILENO), 1);
+		return (ft_putstr_fd("cd: no such file or directory\n", 2), 1);
 	}
 	new_pwd = getcwd(NULL, 0);
 	if (!new_pwd)

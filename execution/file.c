@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 18:10:35 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/14 22:34:53 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/14 22:50:05 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,11 @@ int	modify_stdout(t_command *cmd, char ***env)
 	return (result);
 }
 
-
 int	modify_stdout_append(t_command *cmd, char ***env)
 {
 	int	original_stdout;
 	int	file_fd;
-	int result;
+	int	result;
 
 	original_stdout = dup(STDOUT_FILENO);
 	file_fd = open(cmd->output_file, O_WRONLY | O_CREAT | O_APPEND, 0644);

@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 10:30:09 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/06 15:28:41 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/14 22:54:27 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,4 +97,3 @@ char	*get_env_var(char **env, char *var)
 	free(prefix);
 	return (NULL);
 }
-

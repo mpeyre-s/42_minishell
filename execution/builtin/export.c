@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 10:01:43 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/14 22:07:39 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/14 22:57:41 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,11 @@ static int	modify_env_var(t_command *cmd, char **env, int index)
 
 	var_name = cmd->args[1];
 	var_value = cmd->args[3];
-	if (var_value && var_value[0] == '"' && var_value[ft_strlen(var_value)-1] == '"')
+	if (var_value && var_value[0] == '"'
+		&& var_value[ft_strlen(var_value)-1] == '"')
 	{
 		var_value++;
-		var_value[ft_strlen(var_value)-1] = '\0';
+		var_value[ft_strlen(var_value) - 1] = '\0';
 	}
 	full_var = ft_strjoin(var_name, "=");
 	if (!full_var)
@@ -78,7 +79,7 @@ int	env_var_exist(t_command *cmd, char **env)
 	return (-1);
 }
 
-int ft_export(t_command *cmd, char ***env)
+int	ft_export(t_command *cmd, char ***env)
 {
 	int	index_to_modify;
 
