@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
+/*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:19:28 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/13 18:22:41 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/14 10:17:13 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,14 @@ static int	exec_bin(t_command *cmd, char ***env, char *path)
 int	start_exec(t_command *cmd, char ***env, int flag)
 {
 	t_command	*next_cmd;
-	if (flag == 0) // c'est la premiere fois au'on se trouve ici
+
+	if (!flag && (cmd->heredoc_delim || cmd->input_file)) // c'est la premiere fois au'on se trouve ici
 	{
-		if (cmd->input_file)
+		if (cmd->heredoc_delim)
+			stdin_heredoc(cmd, cmd->heredoc_delim, env, &flag);
+		else if (cmd->input_file)
 			modify_stdin_and_exec(cmd, env, &flag);
+		return (0);
 	}
 	while (cmd)
 	{

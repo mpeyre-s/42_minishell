@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:02:39 by spike             #+#    #+#             */
-/*   Updated: 2025/02/05 13:31:39 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/14 10:22:35 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,18 +65,15 @@ int	free_split(char **str, int index)
 		if (str[index])
 			free(str[index]);
 	}
-	free(str);
+	if (str)
+		free(str);
 	return (-1);
 }
 
 int	stop_main(char *s, t_args *args, t_exp *exp, char *rl)
 {
 	if (args)
-	{
-		free_split(args->av, args->ac);
-		free_metachar(args);
 		free (args);
-	}
 	if (exp)
 	{
 		free_split(exp->av, exp->ac);
@@ -102,10 +99,7 @@ int	free_main(char *s, t_args *args, char *rl)
 		args->ac = 0;
 	}
 	if (rl)
-	{
-		clear_history();
 		free (rl);
-	}
 	if (s) // si il y a un message d'erreur mettre env $? a 1 sinon a 0
 		ft_putstr_fd(s, 2);
 	return (1);
