@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:19:28 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/15 00:27:02 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/15 00:31:07 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	exec_builtin(t_command *cmd, char ***env)
 	return (-1);
 }
 
-static int exec_bin(t_command *cmd, char ***env, char *path)
+static int	exec_bin(t_command *cmd, char ***env, char *path)
 {
 	pid_t	pid;
 	int		status;
@@ -41,7 +41,6 @@ static int exec_bin(t_command *cmd, char ***env, char *path)
 		return (handle_child_process(cmd, env, path));
 	else if (pid < 0)
 		return (ft_putstr_fd("\nFailed to fork\n", 2), -1);
-
 	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
 	signal(SIGINT, handle_sigint);
