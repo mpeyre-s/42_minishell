@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 11:04:34 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/01/28 12:57:20 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/14 22:07:20 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static int	print_path(t_command *cmd)
 int	ft_pwd(t_command *cmd)
 {
 	int		pid;
+	int		status;
 
 	pid = fork();
 	if (pid == -1)
@@ -49,8 +50,12 @@ int	ft_pwd(t_command *cmd)
 	}
 	else if (pid == 0)
 	{
-		print_path(cmd);
-		exit(EXIT_SUCCESS);
+		if (print_path(cmd) != 0)
+			exit(1);
+		exit(0);
 	}
-	return (EXIT_SUCCESS);
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	return (1);
 }

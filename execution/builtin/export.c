@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 10:01:43 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/05 15:37:43 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/14 22:07:39 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,17 +85,17 @@ int ft_export(t_command *cmd, char ***env)
 	if (!cmd->args[1])
 		return (ft_env(*env));
 	if (!cmd || !env || !*env)
-		return (EXIT_FAILURE);
+		return (1);
 	index_to_modify = env_var_exist(cmd, *env);
 	if (index_to_modify != -1)
 	{
 		if (modify_env_var(cmd, *env, index_to_modify) == -1)
-			return (EXIT_FAILURE);
+			return (1);
 	}
 	else
 	{
 		if (add_env_var(cmd, env) == -1)
-			return (EXIT_FAILURE);
+			return (1);
 	}
-	return (EXIT_SUCCESS);
+	return (0);
 }

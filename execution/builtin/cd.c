@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 14:06:46 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/07 16:47:21 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/14 22:09:16 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int	ft_cd(t_command *cmd, char ***env)
 
 	path = NULL;
 	if (ft_arraylen(cmd->args) > 2)
-		return (ft_putstr_fd("cd: too many arguments\n", STDERR_FILENO), 1);
+		return (ft_putstr_fd("cd: too many arguments\n", STDERR_FILENO), 2);
 	else if (!cmd->args[1])
 		path = ft_strdup(get_env_var(*env, "HOME"));
 	else if (ft_strncmp(cmd->args[1], "-", 2) == 0)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 18:10:35 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/14 17:44:01 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/14 22:34:53 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	modify_stdout(t_command *cmd, char ***env)
 {
 	int	original_stdout;
 	int	file_fd;
+	int	result;
 
 	original_stdout = dup(STDOUT_FILENO);
 	file_fd = open(cmd->output_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -26,7 +27,7 @@ int	modify_stdout(t_command *cmd, char ***env)
 		close(file_fd);
 		return (1);
 	}
-	exec_cmd(cmd, env);
+	result = exec_cmd(cmd, env);
 	if (dup2(original_stdout, STDOUT_FILENO) < 0)
 	{
 		close(file_fd);
@@ -35,7 +36,7 @@ int	modify_stdout(t_command *cmd, char ***env)
 	}
 	close(file_fd);
 	close(original_stdout);
-	return (0);
+	return (result);
 }
 
 
@@ -43,6 +44,7 @@ int	modify_stdout_append(t_command *cmd, char ***env)
 {
 	int	original_stdout;
 	int	file_fd;
+	int result;
 
 	original_stdout = dup(STDOUT_FILENO);
 	file_fd = open(cmd->output_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
@@ -53,7 +55,7 @@ int	modify_stdout_append(t_command *cmd, char ***env)
 		close(file_fd);
 		return (1);
 	}
-	exec_cmd(cmd, env);
+	result = exec_cmd(cmd, env);
 	if (dup2(original_stdout, STDOUT_FILENO) < 0)
 	{
 		close(file_fd);
@@ -62,7 +64,7 @@ int	modify_stdout_append(t_command *cmd, char ***env)
 	}
 	close(file_fd);
 	close(original_stdout);
-	return (0);
+	return (result);
 }
 
 /**
@@ -87,6 +89,7 @@ int	modify_stdin_and_exec(t_command *cmd, char ***env, int *flag)
 {
 	int	original_stdin;
 	int	file_fd;
+	int	result;
 
 	*flag = 1;
 	original_stdin = dup(STDIN_FILENO);
@@ -98,7 +101,7 @@ int	modify_stdin_and_exec(t_command *cmd, char ***env, int *flag)
 		close(file_fd);
 		return (1);
 	}
-	start_exec(cmd, env, *flag);
+	result = start_exec(cmd, env, *flag);
 	if (dup2(original_stdin, STDIN_FILENO) < 0)
 	{
 		close(file_fd);
@@ -107,5 +110,5 @@ int	modify_stdin_and_exec(t_command *cmd, char ***env, int *flag)
 	}
 	close(file_fd);
 	close(original_stdin);
-	return (0);
+	return (result);
 }

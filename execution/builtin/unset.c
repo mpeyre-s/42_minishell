@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 13:56:10 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/05 15:39:37 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/14 22:07:03 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,14 @@ int	ft_unset(t_command *cmd, char ***env)
 
 	if (!cmd->args[1])
 	{
-		perror("unset: not enough arguments\n");
-		return (EXIT_FAILURE);
+		ft_putstr_fd("unset: not enough arguments\n", STDERR_FILENO);
+		return (2);
 	}
 	index_to_modify = env_var_exist(cmd, *env);
 	if (index_to_modify != -1)
 	{
 		if (delete_env_var(env, index_to_modify) == -1)
-			return (EXIT_FAILURE);
+			return (1);
 	}
-	return (EXIT_SUCCESS);
+	return (0);
 }

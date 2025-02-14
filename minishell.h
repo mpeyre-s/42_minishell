@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:34:03 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/14 18:09:03 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/14 22:40:57 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,26 +25,26 @@
 
 
 // Color codes
-#define RED     "\033[0;31m"
-#define GREEN   "\033[0;32m"
-#define YELLOW  "\033[1;33m"
-#define RESET   "\033[0m"
+# define RED     "\033[0;31m"
+# define GREEN   "\033[0;32m"
+# define YELLOW  "\033[1;33m"
+# define RESET   "\033[0m"
 
 // Emojis
-#define ROCKET  "🚀"
-#define THUMBS_UP "👍"
-#define CHECK_MARK "✅"
-#define TRASH "🗑️"
-#define COMPUTER "💻"
-#define BYE "👋😊"
+# define ROCKET  "🚀"
+# define THUMBS_UP "👍"
+# define CHECK_MARK "✅"
+# define TRASH "🗑️"
+# define COMPUTER "💻"
+# define BYE "👋😊"
 
 
-#define RESET_COLOR "\033[0m"
+# define RESET_COLOR "\033[0m"
 
 // Définition d'une fonction qui génère un code de couleur basé sur un indice
-#define COLOR(i) "\033[38;5;" #i "m"  // Utilisation des couleurs 256 disponibles en ANSI
+# define COLOR(i) "\033[38;5;" #i "m"  // Utilisation des couleurs 256 disponibles en ANSI
 
-#define MINISHELL_TEST  \
+# define MINISHELL_TEST  \
   COLOR(51) "            _         _       _            _  _\n" \
   COLOR(45) "           (_)       (_)     | |          | || |\n" \
   COLOR(39) " _ __ ___   _  _ __   _  ___ | |__    ___ | || |\n" \
@@ -138,8 +138,8 @@ int			quote(char *s);
 // --------EXECUTION-----------
 
 int			start_exec(t_command *cmd, char ***env, int flag);
-void		exec_cmd(t_command *cmd, char ***env);
-void		execute_pipe(t_command *cmd, char ***env);
+int			exec_cmd(t_command *cmd, char ***env);
+int			execute_pipe(t_command *cmd, char ***env);
 int			modify_stdout_and_exec(t_command *cmd, char ***env);
 int			modify_stdin_and_exec(t_command *cmd, char ***env, int *flag);
 int			stdin_heredoc(t_command *cmd, char *delim, char ***env, int *flag);
@@ -170,9 +170,8 @@ int			(*allocate_pipe_fds(int count))[2];
 void		create_pipes(int (*pipe_fds)[2], int count, pid_t *pids);
 void		setup_fds(int i, int count, int (*pipe_fds)[2], t_command *cur);
 void		close_pipes(int (*pipe_fds)[2], int count);
-void		execute_command(t_command *cmd, char ***env, int (*pipe_fds)[2], int count, pid_t *pids);
+int			execute_command(t_command *cmd, char ***env, int (*pipe_fds)[2], int count, pid_t *pids);
 void		wait_for_children(pid_t *pids, int count);
-void		execute_pipe(t_command *cmd, char ***env);
 
 //------------UTILS---------------
 

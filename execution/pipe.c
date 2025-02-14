@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 15:02:46 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/14 16:10:37 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/14 22:43:20 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,15 @@ void	close_pipes(int (*pipe_fds)[2], int count)
 	}
 }
 
-void	execute_command(t_command *cmd, char ***env, int (*pipe_fds)[2], int count, pid_t *pids)
+int	execute_command(t_command *cmd, char ***env, int (*pipe_fds)[2], int count, pid_t *pids)
 {
 	int			i;
+	int			result;
 	t_command	*cur;
 
 	i = 0;
 	cur = cmd;
+	result = 1;
 	while (i <= count)
 	{
 		pids[i] = fork();
@@ -54,12 +56,13 @@ void	execute_command(t_command *cmd, char ***env, int (*pipe_fds)[2], int count,
 		{
 			setup_fds(i, count, pipe_fds, cur);
 			close_pipes(pipe_fds, count);
-			exec_cmd(cur, env);
+			result = exec_cmd(cur, env);
 			exit(EXIT_FAILURE);
 		}
 		cur = cur->next;
 		i++;
 	}
+	return (result);
 }
 
 void	wait_for_children(pid_t *pids, int count)
@@ -75,19 +78,21 @@ void	wait_for_children(pid_t *pids, int count)
 	}
 }
 
-void	execute_pipe(t_command *cmd, char ***env)
+int	execute_pipe(t_command *cmd, char ***env)
 {
 	int		count;
 	pid_t	*pids;
 	int		(*pipe_fds)[2];
+	int		result;
 
 	count = count_pipes(cmd);
 	pids = allocate_pids(count);
 	pipe_fds = allocate_pipe_fds(count);
 	create_pipes(pipe_fds, count, pids);
-	execute_command(cmd, env, pipe_fds, count, pids);
+	result = execute_command(cmd, env, pipe_fds, count, pids);
 	close_pipes(pipe_fds, count);
 	wait_for_children(pids, count);
 	free(pids);
 	free(pipe_fds);
+	return (result);
 }

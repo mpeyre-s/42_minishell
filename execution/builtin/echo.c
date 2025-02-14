@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:23:15 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/14 12:12:03 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/14 22:08:47 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static int	is_option(t_command *cmd)
 int	ft_echo(t_command *cmd)
 {
 	int	pid;
+	int	status;
 
 	pid = fork();
 	if (pid == -1)
@@ -53,7 +54,10 @@ int	ft_echo(t_command *cmd)
 	else if (pid == 0)
 	{
 		print_string(cmd->args, is_option(cmd));
-		exit(EXIT_SUCCESS);
+		exit(0);
 	}
-	return (EXIT_SUCCESS);
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	return (1);
 }
