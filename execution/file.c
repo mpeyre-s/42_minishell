@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 18:10:35 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/13 23:05:22 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/14 17:44:01 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ int	modify_stdout_append(t_command *cmd, char ***env)
  */
 int	modify_stdout_and_exec(t_command *cmd, char ***env)
 {
-	if (cmd->append == 1) // >
+	if (cmd->append == 1)
 		return (modify_stdout(cmd, env));
-	else if (cmd->append == 2) // >>
+	else if (cmd->append == 2)
 		return (modify_stdout_append(cmd, env));
 	return (0);
 }

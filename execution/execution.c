@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:19:28 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/14 17:03:46 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/14 17:43:44 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,14 @@ static int	exec_bin(t_command *cmd, char ***env, char *path)
 		printf("\nFailed to fork\n");
 		return (-1);
 	}
-	else // Processus parent
+	else
 	{
-		signal(SIGINT, SIG_IGN); // Ignore SIGINT pendant que le fils tourne
+		signal(SIGINT, SIG_IGN);
 		waitpid(pid, &status, 0);
-		signal(SIGINT, handle_sigint); // Réactive SIGINT après exécution
+		signal(SIGINT, handle_sigint);
 
 		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-			write(STDOUT_FILENO, "\n", 1); // Évite le double affichage
+			write(STDOUT_FILENO, "\n", 1);
 
 		if (WIFEXITED(status))
 			return (WEXITSTATUS(status));
@@ -122,6 +122,5 @@ void	exec_cmd(t_command *cmd, char ***env)
 	bin_result = exec_bin(cmd, env, "/usr/bin/");
 	if (bin_result == 0 || bin_result == -1)
 		return ;
-
 	printf("%s: command not found\n", cmd->args[0]);
 }

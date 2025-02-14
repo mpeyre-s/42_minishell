@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 22:30:31 by spike             #+#    #+#             */
-/*   Updated: 2025/01/28 13:22:56 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/14 17:38:09 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ void	parse_args_cmd(t_args *args, t_command *cmd, int start, int end)
 
 	len = len_args(args, start, end);
 	cmd->args = (char **)malloc((len + 1) * sizeof(char *));
-	if (!cmd->args)
-		return ;
 	i = 0;
 	j = 0;
 	while (start + j < end)
@@ -82,8 +80,6 @@ void	parse_metachar(t_args *args, t_command *cmd, int start, int end)
 		}
 		else if (args->heredoc[i] == 1)
 			cmd->heredoc_delim = ft_strdup(args->av[i + 1]);
-
-		// Passer l'argument suivant (le fichier ou le délimiteur)
 		if (args->metachar[i])
 			i++;
 		i++;
@@ -98,7 +94,6 @@ t_command	*parse_command(t_args *args, int start, int end)
 	if (!cmd)
 		return (NULL);
 	ft_memset(cmd, 0, sizeof(t_command));
-
 	parse_args_cmd(args, cmd, start, end);
 	if (!cmd->args)
 	{
@@ -120,7 +115,6 @@ t_command	*create_command(t_args *args, int start)
 	cmd = parse_command(args, start, i);
 	if (!cmd)
 		return (NULL);
-
 	if (i != args->ac)
 	{
 		start = i + 1;

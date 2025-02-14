@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 19:05:41 by spike             #+#    #+#             */
-/*   Updated: 2025/02/04 12:59:37 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/14 17:46:11 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ int	parse_each_env(t_exp *exp, char *env)
 	exp->av[exp->ac] = ft_substr(env, 0, i);
 	if (!exp->av[exp->ac])
 		return (-1);
-
-	// Valeur (après '=' si présent, sinon "")
 	if (env[i] == '=')
 		exp->translate[exp->ac] = ft_substr(env, i + 1, total_len - (i + 1));
 	else
@@ -43,11 +41,10 @@ int	init_exp(t_exp *exp, char **env)
 	i = 0;
 	while (env[i])
 		i++;
-	exp->av = calloc(i + 2, sizeof(char *)); // + 2 pour NULL et pour le 0 qui sera $?
+	exp->av = calloc(i + 2, sizeof(char *));
 	exp->translate = calloc(i + 2, sizeof(char *));
 	if (!exp->av || !exp->translate)
 		return (-1);
-
 	exp->av[0] = ft_strdup("?");
 	exp->translate[0] = ft_strdup("0");
 	exp->ac = 1;

@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 12:44:06 by spike             #+#    #+#             */
-/*   Updated: 2025/01/28 17:48:03 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/14 17:38:26 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	free_command(t_command *cmd)
 
 void	free_command_list(t_command *cmd)
 {
-	t_command *tmp;
+	t_command	*tmp;
 
 	while (cmd)
 	{

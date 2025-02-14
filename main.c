@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:31:16 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/14 10:21:48 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/14 17:37:07 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,6 @@ int	exec(char *rl, t_args *args, t_exp *exp, char ***env)
 		ft_putstr_fd("Error: failed to parse commands\n", 2);
 		return (-1);
 	}
-	//print_command_list(cmd); // print de test, doit aussi etre delete
-
-	/* Ici tu devrais faire une fonction pour lancer ton execution */
 
 	result = start_exec(cmd, env, 0);
 
@@ -41,9 +38,6 @@ int	exec(char *rl, t_args *args, t_exp *exp, char ***env)
 	return (result);
 }
 
-/*
-Ici je fais juste mon parsing avec ma structure perso, c'est pas interessant pour toi
-*/
 int	parsing(char *rl, t_args *args, t_exp *exp)
 {
 	args->ac = 0;
@@ -55,17 +49,12 @@ int	parsing(char *rl, t_args *args, t_exp *exp)
 		if (print_quote(args->av, args->ac) == -1)
 			return (-1);
 	}
-	//print_split_result(args->av); // DEL
 	if (parse_exp(args, exp) == -1)
 		return (-1);
 	if (deal_with_quote(args) == -1)
 		return (-1);
-	// if (is_new_env(args->av, args, exp) == -2)
-	// 	return (-2);
-	//print_test_quote(args);
 	if (init_all(args) == -1)
 		return (-1);
-	//print_all(args);
 	return (0);
 }
 

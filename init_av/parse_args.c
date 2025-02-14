@@ -6,19 +6,16 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:28:05 by hduflos           #+#    #+#             */
-/*   Updated: 2025/01/26 10:19:27 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/14 17:52:23 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-
-// Gère la détection et l'avancement des métacaractères
 int	forward_metachar(char *s, int *i)
 {
 	if (is_metachar(s[*i]))
 	{
-		// Gestion des métacaractères doubles (>> ou <<)
 		if ((s[*i] == '>' || s[*i] == '<') && s[*i + 1] == s[*i])
 			(*i) += 2;
 		else
@@ -28,7 +25,6 @@ int	forward_metachar(char *s, int *i)
 	return (0);
 }
 
-// Gère les guillemets
 int	handle_quotes(char *s, int *i, char *quote)
 {
 	if ((s[*i] == '\'' || s[*i] == '"') && *quote == '\0')
@@ -46,7 +42,6 @@ int	handle_quotes(char *s, int *i, char *quote)
 	return (0);
 }
 
-// Parse les arguments
 int	parse_args(char *s, int *i, int *start)
 {
 	char	quote;
@@ -56,29 +51,21 @@ int	parse_args(char *s, int *i, int *start)
 		(*i)++;
 	if (s[*i] == '\0')
 		return (0);
-
-	// Si on commence par un métacaractère, on le traite comme un token unique
 	if (is_metachar(s[*i]))
 	{
 		*start = *i;
 		forward_metachar(s, i);
 		return (1);
 	}
-
 	*start = *i;
 	while (s[*i] != '\0')
 	{
 		if (handle_quotes(s, i, &quote))
 			continue;
-
-		// Si on trouve un métacaractère hors des guillemets, on arrête
 		if (quote == '\0' && is_metachar(s[*i]))
 			break;
-
-		// Si on trouve un espace hors des guillemets, on arrête
 		if (quote == '\0' && s[*i] == ' ')
 			break;
-
 		(*i)++;
 	}
 	return (1);

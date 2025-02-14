@@ -6,18 +6,17 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 09:18:52 by spike             #+#    #+#             */
-/*   Updated: 2025/01/31 23:36:29 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/14 17:42:08 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int quoted(char *av)
+int quoted(char *av, int i, int count)
 {
-	int i = 0;
-	int count = 0;
-	char quote = '\0';
+	char	quote;
 
+	quote = '\0';
 	while (av[i])
 	{
 		if ((av[i] == '\'' || av[i] == '"'))
@@ -44,22 +43,21 @@ char	*remove_outer_quotes(char *av, char quote, int i, int j)
 	int		len;
 	char	*new_av;
 
-	nb_quote = quoted(av);
+	nb_quote = quoted(av, 0, 0);
 	len = ft_strlen(av) - nb_quote;
 	new_av = malloc(len + 1);
 	if (!new_av)
 		return (NULL);
-
 	while (av[++i])
 	{
 		if (av[i] == '\'' || av[i] == '"')
 		{
-			if (quote == '\0') // Ouvrir une quote
+			if (quote == '\0')
 				quote = av[i];
-			else if (quote == av[i]) // Fermer la quote
+			else if (quote == av[i])
 				quote = '\0';
 			else
-				new_av[j++] = av[i]; // Quote interne, on la garde
+				new_av[j++] = av[i];
 		}
 		else
 			new_av[j++] = av[i];
@@ -70,10 +68,11 @@ char	*remove_outer_quotes(char *av, char quote, int i, int j)
 
 int	delete_quote(char **av)
 {
-	char *new_av = remove_outer_quotes(*av, '\0', -1, 0);
+	char	*new_av;
+
+	new_av = remove_outer_quotes(*av, '\0', -1, 0);
 	if (!new_av)
 		return (-1);
-
 	free(*av);
 	*av = new_av;
 	return (0);
@@ -82,22 +81,19 @@ int	delete_quote(char **av)
 int	deal_with_quote(t_args *args)
 {
 	int	i;
-	// on initialise quote a 0
+
 	args->was_quoted = (int *)ft_calloc(args->ac, sizeof(int));
 	if (!args->was_quoted)
 		return (-1);
-
-	// on met quote a 1 si on a trouve un ' ou "
 	i = 0;
 	while (i < args->ac)
 	{
-		if (quoted(args->av[i]))
+		if (quoted(args->av[i], 0, 0))
 			args->was_quoted[i] = 1;
 		i++;
 	}
-
-	i = 0;
-	while (i < args->ac)
+	i = -1;
+	while (++i < args->ac)
 	{
 		if (args->was_quoted[i] == 1)
 		{
@@ -107,7 +103,6 @@ int	deal_with_quote(t_args *args)
 				return (-1);
 			}
 		}
-		i++;
 	}
 	return (0);
 }

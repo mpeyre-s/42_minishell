@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 16:52:18 by spike             #+#    #+#             */
-/*   Updated: 2025/02/04 17:08:24 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/14 17:45:03 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,13 @@ void	add_new_exp(t_exp *exp, char *s1, char *s2)
 	new_translate = malloc((exp->ac + 1) * sizeof(char *));
 	if (!new_av || !new_translate)
 		return ;
-
 	add_and_free(exp, new_av, new_translate);
-
 	new_av[exp->ac] = ft_strdup(s1);
 	new_translate[exp->ac] = ft_strdup(s2);
-
 	free(exp->av);
 	free(exp->translate);
-
 	exp->av = new_av;
 	exp->translate = new_translate;
-
 	exp->ac++;
 }
 
@@ -74,7 +69,6 @@ void	del_one(t_exp *exp, int n, char **new_av, char **new_translate)
 		free(exp->av[i]);
 		free(exp->translate[i]);
 	}
-
 }
 
 void	delete_one_exp(t_exp *exp, int n)
@@ -84,19 +78,14 @@ void	delete_one_exp(t_exp *exp, int n)
 
 	if (n == exp->ac)
 		return ;
-
 	new_av = malloc((exp->ac - 1) * sizeof(char *));
 	new_translate = malloc((exp->ac - 1) * sizeof(char *));
 	if (!new_av || !new_translate)
 		return ;
-
 	del_one(exp, n, new_av, new_translate);
-
 	free(exp->av);
 	free(exp->translate);
-
 	exp->av = new_av;
 	exp->translate = new_translate;
-
 	exp->ac--;
 }

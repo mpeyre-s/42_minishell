@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 23:00:11 by spike             #+#    #+#             */
-/*   Updated: 2025/02/14 09:46:58 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/14 17:44:25 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,6 @@ int	modify_stdin_heredoc(t_command *cmd, char ***env, int *flag)
 	unlink("heredoc.txt");
 	return (0);
 }
-
-// int	is_heredoc_delimiter(const char *txt, const char *delim)
-// {
-// 	return (strncmp(txt, delim, strlen(delim)) == 0 &&
-// 		txt[strlen(delim)] == '\0');
-// }
 
 char	*append_heredoc_line(char *temp, char *delim)
 {
@@ -115,7 +109,6 @@ int	stdin_heredoc(t_command *cmd, char *delim, char ***env, int *flag)
 	char	*temp;
 
 	*flag = 1;
-
 	temp = read_heredoc_input(delim);
 	if (!temp)
 		return (-1);

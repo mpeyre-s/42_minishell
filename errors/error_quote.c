@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:55:27 by spike             #+#    #+#             */
-/*   Updated: 2025/02/13 22:08:04 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/14 17:42:52 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	print_quote(char **result, int index)
 		free(qline);
 		if (!temp)
 		{
-			ft_putstr_fd("Memory alloc error while concatenating strings", 2);
+			ft_putstr_fd("Mem alloc pb while concatenating strings", 2);
 			return (-1);
 		}
 		result[index - 1] = temp;

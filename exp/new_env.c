@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 13:50:28 by spike             #+#    #+#             */
-/*   Updated: 2025/02/04 23:44:23 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/14 17:47:00 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,15 @@
 
 int	ft_strcmp(char *s1, char *s2)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	while((s1[i] == s2[i]) && s1[i] && s2[i])
 		i++;
 	return (s1[i]-s2[i]);
 }
 
-void	modify_exp(char *s1, char *s2, t_exp *exp, int flag) // flag = 1 pour add flag = -1 pour delete
+void	modify_exp(char *s1, char *s2, t_exp *exp, int flag)
 {
 	int	i;
 
@@ -53,8 +54,8 @@ int	is_new_env(char **av, t_args *args, t_exp *exp)
 	int	i;
 	int	len;
 	int	quote;
-	(void)exp;
 
+	(void)exp;
 	i = 0;
 	while (av[i])
 		i++;

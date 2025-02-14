@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:02:39 by spike             #+#    #+#             */
-/*   Updated: 2025/02/14 15:48:30 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/14 17:43:09 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	free_metachar(t_args *args)
 
 int	free_split(char **str, int index)
 {
-	while (index > 0)  // Assurer que index est toujours positif
+	while (index > 0)
 	{
 		index--;
 		if (str[index])
