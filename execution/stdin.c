@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 23:00:11 by spike             #+#    #+#             */
-/*   Updated: 2025/02/14 22:35:22 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/14 23:27:34 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ char	*append_heredoc_line(char *temp, char *delim)
 		free(temp);
 		return (NULL);
 	}
-	if (strncmp(txt, delim, strlen(delim)) == 0 &&
-		txt[strlen(delim)] == '\0')
+	if (strncmp(txt, delim, strlen(delim)) == 0
+		&& txt[strlen(delim)] == '\0')
 	{
 		free(txt);
 		return (temp);
@@ -73,18 +73,18 @@ char	*append_heredoc_line(char *temp, char *delim)
 char	*read_heredoc_input(char *delim)
 {
 	char	*temp;
+	char	*new_temp;
 
 	temp = ft_strdup("");
 	if (!temp)
 		return (NULL);
-
 	while (1)
 	{
-		char *new_temp = append_heredoc_line(temp, delim);
+		new_temp = append_heredoc_line(temp, delim);
 		if (!new_temp)
 			return (NULL);
 		if (new_temp == temp)
-			break;
+			break ;
 		temp = new_temp;
 	}
 	return (temp);
@@ -97,7 +97,6 @@ int	write_heredoc_to_file(char *content)
 	fd = open("heredoc.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 		return (-1);
-
 	write(fd, content, strlen(content));
 	write(fd, "\n", 1);
 	close(fd);
@@ -112,16 +111,13 @@ int	stdin_heredoc(t_command *cmd, char *delim, char ***env, int *flag)
 	temp = read_heredoc_input(delim);
 	if (!temp)
 		return (-1);
-
 	if (write_heredoc_to_file(temp) < 0)
 	{
 		free(temp);
 		return (-1);
 	}
 	free(temp);
-
 	if (modify_stdin_heredoc(cmd, env, flag) == -1)
 		return (-1);
-
 	return (0);
 }
