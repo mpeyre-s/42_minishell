@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
+/*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:19:28 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/14 16:38:58 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/14 17:03:46 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,17 @@ static int	exec_bin(t_command *cmd, char ***env, char *path)
 		printf("\nFailed to fork\n");
 		return (-1);
 	}
-	else
+	else // Processus parent
 	{
+		signal(SIGINT, SIG_IGN); // Ignore SIGINT pendant que le fils tourne
 		waitpid(pid, &status, 0);
+		signal(SIGINT, handle_sigint); // Réactive SIGINT après exécution
+
+		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+			write(STDOUT_FILENO, "\n", 1); // Évite le double affichage
+
 		if (WIFEXITED(status))
 			return (WEXITSTATUS(status));
-		else if (WIFSIGNALED(status))
-			return (-1);
 	}
 	return (0);
 }
