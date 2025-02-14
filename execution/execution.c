@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:19:28 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/14 16:31:22 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/14 16:38:58 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	start_exec(t_command *cmd, char ***env, int flag)
 {
 	t_command	*next_cmd;
 
-	if (flag == 0)
+	if (!flag && (cmd->heredoc_delim || cmd->input_file))
 	{
 		if (cmd->heredoc_delim)
 			stdin_heredoc(cmd, cmd->heredoc_delim, env, &flag);
