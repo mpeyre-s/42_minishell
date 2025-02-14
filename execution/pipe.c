@@ -6,105 +6,88 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 15:02:46 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/14 15:43:36 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/14 16:10:37 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void execute_pipe(t_command *cmd, char ***env)
+void	setup_fds(int i, int count, int (*pipe_fds)[2], t_command *cur)
 {
-    t_command *cur;
-    int count = 0;
-    pid_t *pids;  // Tableau pour stocker les PIDs
-    int i;
+	if (i == 0 && cur->pipe_out)
+		dup2(pipe_fds[0][1], STDOUT_FILENO);
+	else if (i == count)
+		dup2(pipe_fds[i - 1][0], STDIN_FILENO);
+	else
+	{
+		dup2(pipe_fds[i - 1][0], STDIN_FILENO);
+		dup2(pipe_fds[i][1], STDOUT_FILENO);
+	}
+}
 
-    // Compter le nombre de pipes
-    cur = cmd;
-    while (cur->next)
-    {
-        if (cur->pipe_out == 1)
-            count++;
-        cur = cur->next;
-    }
+void	close_pipes(int (*pipe_fds)[2], int count)
+{
+	int	i;
 
-    // Allouer le tableau des PIDs
-    pids = malloc(sizeof(pid_t) * (count + 1));
-    if (!pids)
-    {
-        perror("malloc");
-        exit(EXIT_FAILURE);
-    }
+	i = 0;
+	while (i < count)
+	{
+		close(pipe_fds[i][0]);
+		close(pipe_fds[i][1]);
+		i++;
+	}
+}
 
-    // Créer un tableau de pipes
-    int pipe_fds[count][2];
+void	execute_command(t_command *cmd, char ***env, int (*pipe_fds)[2], int count, pid_t *pids)
+{
+	int			i;
+	t_command	*cur;
 
-    // Créer tous les pipes
-    for (i = 0; i < count; i++)
-    {
-        if (pipe(pipe_fds[i]) == -1)
-        {
-            perror("pipe");
-            free(pids);
-            exit(EXIT_FAILURE);
-        }
-    }
+	i = 0;
+	cur = cmd;
+	while (i <= count)
+	{
+		pids[i] = fork();
+		if (pids[i] == -1)
+			handle_error("fork", pids, pipe_fds);
+		if (pids[i] == 0)
+		{
+			setup_fds(i, count, pipe_fds, cur);
+			close_pipes(pipe_fds, count);
+			exec_cmd(cur, env);
+			exit(EXIT_FAILURE);
+		}
+		cur = cur->next;
+		i++;
+	}
+}
 
-    // Exécuter les commandes
-    cur = cmd;
-    for (i = 0; i <= count; i++)
-    {
-        pids[i] = fork();
-        if (pids[i] == -1)
-        {
-            perror("fork");
-            free(pids);
-            exit(EXIT_FAILURE);
-        }
+void	wait_for_children(pid_t *pids, int count)
+{
+	int	i;
+	int	status;
 
-        if (pids[i] == 0)
-        {
-            // Configuration des pipes pour le processus enfant
-            if (i == 0 && cur->pipe_out)
-            {
-                dup2(pipe_fds[0][1], STDOUT_FILENO);
-            }
-            else if (i == count)
-            {
-                dup2(pipe_fds[i-1][0], STDIN_FILENO);
-            }
-            else
-            {
-                dup2(pipe_fds[i-1][0], STDIN_FILENO);
-                dup2(pipe_fds[i][1], STDOUT_FILENO);
-            }
+	i = 0;
+	while (i <= count)
+	{
+		waitpid(pids[i], &status, 0);
+		i++;
+	}
+}
 
-            // Fermer tous les descripteurs de fichiers dans l'enfant
-            for (int j = 0; j < count; j++)
-            {
-                close(pipe_fds[j][0]);
-                close(pipe_fds[j][1]);
-            }
+void	execute_pipe(t_command *cmd, char ***env)
+{
+	int		count;
+	pid_t	*pids;
+	int		(*pipe_fds)[2];
 
-            exec_cmd(cur, env);
-            exit(EXIT_FAILURE);
-        }
-        cur = cur->next;
-    }
-
-    // Parent : fermer tous les pipes
-    for (i = 0; i < count; i++)
-    {
-        close(pipe_fds[i][0]);
-        close(pipe_fds[i][1]);
-    }
-
-    // Attendre tous les processus enfants dans l'ordre
-    int status;
-    for (i = 0; i <= count; i++)
-    {
-        waitpid(pids[i], &status, 0);
-    }
-
-    free(pids);
+	count = count_pipes(cmd);
+	pids = allocate_pids(count);
+	pipe_fds = allocate_pipe_fds(count);
+	create_pipes(pipe_fds, count, pids);
+	execute_command(cmd, env, pipe_fds, count, pids);
+	close_pipes(pipe_fds, count);
+	wait_for_children(pids, count);
+	free(pids);
+	free(pipe_fds);
 }
