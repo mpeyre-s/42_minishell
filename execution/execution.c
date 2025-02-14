@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:19:28 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/14 10:17:13 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/14 14:56:47 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ static int	exec_bin(t_command *cmd, char ***env, char *path)
 	pid = fork();
 	if (pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		if (execve(ft_strjoin(path, cmd->args[0]), cmd->args, *env) == -1)
 			exit(EXIT_FAILURE);
 	}
@@ -52,6 +54,8 @@ static int	exec_bin(t_command *cmd, char ***env, char *path)
 		waitpid(pid, &status, 0);
 		if (WIFEXITED(status))
 			return (WEXITSTATUS(status));
+		else if (WIFSIGNALED(status))
+			return (-1);
 	}
 	return (0);
 }
@@ -103,13 +107,14 @@ void	exec_cmd(t_command *cmd, char ***env)
 	if (builtin_result == 0)
 		return ;
 	bin_result = exec_bin(cmd, env, "");
-	if (bin_result == 0)
+	if (bin_result == 0 || bin_result == -1)
 		return ;
 	bin_result = exec_bin(cmd, env, "/bin/");
-	if (bin_result == 0)
+	if (bin_result == 0 || bin_result == -1)
 		return ;
 	bin_result = exec_bin(cmd, env, "/usr/bin/");
-	if (bin_result == 0)
+	if (bin_result == 0 || bin_result == -1)
 		return ;
+
 	printf("%s: command not found\n", cmd->args[0]);
 }

@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:34:03 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/14 08:53:12 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/14 12:03:43 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,9 @@ int		env_var_exist(t_command *cmd, char **env);
 
 
 void	handle_sigint(int sig);
+int		fork_signal(void);
+
+
 
 void	print_split_result(char **lines);
 void	print_test_quote(t_args *args);
