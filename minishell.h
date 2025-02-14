@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:34:03 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/14 23:13:24 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/14 23:31:52 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,6 @@ void		free_str(char **str);
 void		free_command_list(t_command *cmd);
 void		free_command(t_command *cmd);
 
-
 // -------- QUOTE -----------
 int			deal_with_quote(t_args *args);
 
@@ -162,7 +161,8 @@ int			(*allocate_pipe_fds(int count))[2];
 void		create_pipes(int (*pipe_fds)[2], int count, pid_t *pids);
 void		setup_fds(int i, int count, int (*pipe_fds)[2], t_command *cur);
 void		close_pipes(int (*pipe_fds)[2], int count);
-int			execute_command(t_command *cmd, char ***env, int (*pipe_fds)[2], pid_t *pids);
+int			execute_command(t_command *cmd, char ***env, int (*pipe_fds)[2],
+				pid_t *pids);
 void		wait_for_children(pid_t *pids, int count);
 
 //------------UTILS---------------
