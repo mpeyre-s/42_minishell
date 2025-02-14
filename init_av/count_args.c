@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 14:47:39 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/14 18:00:53 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/14 18:04:45 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	is_metachar(int c)
 	return (c == '|' || c == '>' || c == '<' || c == '=');
 }
 
-int	handle_quotes(char *s, int *i, char *quote)
+static int	handle_quotes(char *s, int *i, char *quote)
 {
 	if (s[*i] == '\'' || s[*i] == '"')
 	{

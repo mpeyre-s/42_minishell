@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:34:03 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/14 16:57:20 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/14 18:09:03 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 #define CHECK_MARK "✅"
 #define TRASH "🗑️"
 #define COMPUTER "💻"
+#define BYE "👋😊"
 
 
 #define RESET_COLOR "\033[0m"
@@ -91,99 +92,90 @@ typedef struct s_command
 
 // --------INIT_AV-----------
 
-char	**init_av(char *str, int *index, int i);
-int		count_args(char *s);
-int		parse_args(char *s, int *i, int *start);
-int		is_metachar(int c);
+char		**init_av(char *str, int *index, int i);
+int			count_args(char *s);
+int			parse_args(char *s, int *i, int *start);
+int			is_metachar(int c);
 
 // --------INIT_EXP-----------
 
-int		init_exp(t_exp *exp, char **env);
-int		parse_exp(t_args *args, t_exp *exp);
-int		replace_av(char *substr, char **av, int start, t_exp *exp);
-char	*build_new_av(char *before, char *exp, char *after);
-int		check_expansion(char *s, t_exp *exp);
-int		inside_single_quote(char *av, int limit);
-int		init_all(t_args *args);
-int		is_new_env(char **av, t_args *args, t_exp *exp);
-void	modify_exp(char *s1, char *s2, t_exp *exp, int flag);
+int			init_exp(t_exp *exp, char **env);
+int			parse_exp(t_args *args, t_exp *exp);
+int			replace_av(char *substr, char **av, int start, t_exp *exp);
+char		*build_new_av(char *before, char *exp, char *after);
+int			check_expansion(char *s, t_exp *exp);
+int			inside_single_quote(char *av, int limit);
+int			init_all(t_args *args);
+int			is_new_env(char **av, t_args *args, t_exp *exp);
+void		modify_exp(char *s1, char *s2, t_exp *exp, int flag);
 
-void	delete_one_exp(t_exp *exp, int n);
-void	add_new_exp(t_exp *exp, char *s1, char *s2);
+void		delete_one_exp(t_exp *exp, int n);
+void		add_new_exp(t_exp *exp, char *s1, char *s2);
 
 // --------FINAL_INIT-----------
 t_command	*create_command(t_args *args, int start);
 void		free_str(char **str);
-void	free_command_list(t_command *cmd);
-void	free_command(t_command *cmd);
+void		free_command_list(t_command *cmd);
+void		free_command(t_command *cmd);
 
 
 // -------- QUOTE -----------
-int	deal_with_quote(t_args *args);
+int			deal_with_quote(t_args *args);
 
 // --------ERRORS-----------
 
-int		free_main(char *s, t_args *args, char *rl);
-int		free_split(char **str, int index);
-int		free_metachar(t_args *args);
-int		stop_main(char *s, t_args *args, t_exp *exp, char *rl);
+int			free_main(char *s, t_args *args, char *rl);
+int			free_split(char **str, int index);
+int			free_metachar(t_args *args);
+int			stop_main(char *s, t_args *args, t_exp *exp, char *rl);
 
 // --------ERRORS QUOTE-----------
 
-int		print_quote(char **result, int index);
-int		check_error_quote(char **str, int index);
-int		quote(char *s);
+int			print_quote(char **result, int index);
+int			check_error_quote(char **str, int index);
+int			quote(char *s);
 
 // --------EXECUTION-----------
 
-int		start_exec(t_command *cmd, char ***env, int flag);
-void	exec_cmd(t_command *cmd, char ***env);
-void 	execute_pipe(t_command *cmd, char ***env);
-int		modify_stdout_and_exec(t_command *cmd, char ***env);
-int		modify_stdin_and_exec(t_command *cmd, char ***env, int *flag);
-int		stdin_heredoc(t_command *cmd, char *delim, char ***env, int *flag);
+int			start_exec(t_command *cmd, char ***env, int flag);
+void		exec_cmd(t_command *cmd, char ***env);
+void		execute_pipe(t_command *cmd, char ***env);
+int			modify_stdout_and_exec(t_command *cmd, char ***env);
+int			modify_stdin_and_exec(t_command *cmd, char ***env, int *flag);
+int			stdin_heredoc(t_command *cmd, char *delim, char ***env, int *flag);
 
-int		ft_echo(t_command *cmd);
-int		ft_exit(t_command *cmd);
-int		ft_pwd(t_command *cmd);
-int		ft_env(char **env);
-int		ft_export(t_command *cmd, char ***env);
-int		ft_unset(t_command *cmd, char ***env);
-int		ft_cd(t_command *cmd, char ***env);
+int			ft_echo(t_command *cmd);
+int			ft_exit(t_command *cmd);
+int			ft_pwd(t_command *cmd);
+int			ft_env(char **env);
+int			ft_export(t_command *cmd, char ***env);
+int			ft_unset(t_command *cmd, char ***env);
+int			ft_cd(t_command *cmd, char ***env);
 
 // --------EXECUTION UTILS-----------
-char	***ft_strdup_env(char **env);
-char	*get_env_var(char **env, char *var);
-int		ft_arraylen(char **array);
-int		free_new_env(char **new_env, size_t i);
-char	**create_new_env(char **env, size_t *size);
-int		copy_old_env(char ***env, char **new_env, size_t *i);
-char	*create_full_var(char *var_name, char *var_value);
-int		env_var_exist(t_command *cmd, char **env);
+char		***ft_strdup_env(char **env);
+char		*get_env_var(char **env, char *var);
+int			ft_arraylen(char **array);
+int			free_new_env(char **new_env, size_t i);
+char		**create_new_env(char **env, size_t *size);
+int			copy_old_env(char ***env, char **new_env, size_t *i);
+char		*create_full_var(char *var_name, char *var_value);
+int			env_var_exist(t_command *cmd, char **env);
 
 // --------PIPE & Co-----------
-void	handle_error(const char *msg, pid_t *pids, int (*pipe_fds)[2]);
-int		count_pipes(t_command *cmd);
-pid_t	*allocate_pids(int count);
-int		(*allocate_pipe_fds(int count))[2];
-void	create_pipes(int (*pipe_fds)[2], int count, pid_t *pids);
-void	setup_fds(int i, int count, int (*pipe_fds)[2], t_command *cur);
-void	close_pipes(int (*pipe_fds)[2], int count);
-void	execute_command(t_command *cmd, char ***env, int (*pipe_fds)[2], int count, pid_t *pids);
-void	wait_for_children(pid_t *pids, int count);
-void	execute_pipe(t_command *cmd, char ***env);
+void		handle_error(const char *msg, pid_t *pids, int (*pipe_fds)[2]);
+int			count_pipes(t_command *cmd);
+pid_t		*allocate_pids(int count);
+int			(*allocate_pipe_fds(int count))[2];
+void		create_pipes(int (*pipe_fds)[2], int count, pid_t *pids);
+void		setup_fds(int i, int count, int (*pipe_fds)[2], t_command *cur);
+void		close_pipes(int (*pipe_fds)[2], int count);
+void		execute_command(t_command *cmd, char ***env, int (*pipe_fds)[2], int count, pid_t *pids);
+void		wait_for_children(pid_t *pids, int count);
+void		execute_pipe(t_command *cmd, char ***env);
 
 //------------UTILS---------------
 
-
-void	handle_sigint(int sig);
-
-
-
-void	print_split_result(char **lines);
-void	print_test_quote(t_args *args);
-void	print_all(t_args *args);
-void	print_command_list(t_command *cmd_list);
-void	print_exp(t_exp *exp);
+void		handle_sigint(int sig);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:31:16 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/14 17:37:07 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/14 18:11:39 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,10 @@ int	exec(char *rl, t_args *args, t_exp *exp, char ***env)
 		ft_putstr_fd("Error: failed to parse commands\n", 2);
 		return (-1);
 	}
-
 	result = start_exec(cmd, env, 0);
 
 	// Libérer la mémoire, il fautdrait tout libérer
 	free_command_list(cmd);
-
 	return (result);
 }
 
@@ -66,7 +64,7 @@ void shell_loop(char *rl, t_args *args, t_exp *exp, char ***env)
 		rl = readline (COMPUTER " Minishell > " RESET);
 		if (!rl || (strncmp(rl, "exit", 4) == 0 && (rl[4] == '\0' || rl[4] == ' ')))
 		{
-			stop_main("\nbye bye\n", args, exp, rl); // doit gerer $?
+			stop_main(BYE " bye bye \n\n" RESET, args, exp, rl); // doit gerer $?
 			exit(0);
 		}
 		add_history(rl);
