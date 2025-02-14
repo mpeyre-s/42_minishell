@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:34:03 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/14 12:03:43 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/14 16:31:53 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ int		quote(char *s);
 
 int		start_exec(t_command *cmd, char ***env, int flag);
 void	exec_cmd(t_command *cmd, char ***env);
-void	execute_pipe(t_command *cmd1, t_command *cmd2, char ***env);
+void 	execute_pipe(t_command *cmd, char ***env);
 int		modify_stdout_and_exec(t_command *cmd, char ***env);
 int		modify_stdin_and_exec(t_command *cmd, char ***env, int *flag);
 int		stdin_heredoc(t_command *cmd, char *delim, char ***env, int *flag);
@@ -160,6 +160,18 @@ char	**create_new_env(char **env, size_t *size);
 int		copy_old_env(char ***env, char **new_env, size_t *i);
 char	*create_full_var(char *var_name, char *var_value);
 int		env_var_exist(t_command *cmd, char **env);
+
+// --------PIPE & Co-----------
+void	handle_error(const char *msg, pid_t *pids, int (*pipe_fds)[2]);
+int		count_pipes(t_command *cmd);
+pid_t	*allocate_pids(int count);
+int		(*allocate_pipe_fds(int count))[2];
+void	create_pipes(int (*pipe_fds)[2], int count, pid_t *pids);
+void	setup_fds(int i, int count, int (*pipe_fds)[2], t_command *cur);
+void	close_pipes(int (*pipe_fds)[2], int count);
+void	execute_command(t_command *cmd, char ***env, int (*pipe_fds)[2], int count, pid_t *pids);
+void	wait_for_children(pid_t *pids, int count);
+void	execute_pipe(t_command *cmd, char ***env);
 
 //------------UTILS---------------
 

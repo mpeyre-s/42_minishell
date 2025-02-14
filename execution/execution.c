@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:19:28 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/14 14:56:47 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/14 16:31:22 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	start_exec(t_command *cmd, char ***env, int flag)
 {
 	t_command	*next_cmd;
 
-	if (!flag && (cmd->heredoc_delim || cmd->input_file)) // c'est la premiere fois au'on se trouve ici
+	if (flag == 0)
 	{
 		if (cmd->heredoc_delim)
 			stdin_heredoc(cmd, cmd->heredoc_delim, env, &flag);
@@ -81,8 +81,11 @@ int	start_exec(t_command *cmd, char ***env, int flag)
 		next_cmd = cmd->next;
 		if (cmd->pipe_out && next_cmd)
 		{
-			execute_pipe(cmd, next_cmd, env);
-			cmd = next_cmd->next;
+			execute_pipe(cmd, env);
+			while (cmd && cmd->pipe_out)
+				cmd = cmd->next;
+			if (cmd)
+				cmd = cmd->next;
 		}
 		else
 		{
