@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:34:03 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/14 23:50:11 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/15 00:28:22 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ char		**create_new_env(char **env, size_t *size);
 int			copy_old_env(char ***env, char **new_env, size_t *i);
 char		*create_full_var(char *var_name, char *var_value);
 int			env_var_exist(t_command *cmd, char **env);
+int			handle_child_process(t_command *cmd, char ***env, char *path);
 
 // --------PIPE & Co-----------
 void		handle_error(const char *msg, pid_t *pids, int (*pipe_fds)[2]);
