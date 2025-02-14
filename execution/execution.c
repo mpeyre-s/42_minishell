@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:19:28 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/14 23:23:32 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/15 00:19:49 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,12 @@ static int	exec_bin(t_command *cmd, char ***env, char *path)
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		if (execve(ft_strjoin(path, cmd->args[0]), cmd->args, *env) == -1)
-			exit(EXIT_FAILURE);
+		{
+			if (errno == ENOENT)
+				exit(127);
+			else
+				exit(1);
+		}
 	}
 	else if (pid < 0)
 		return (ft_putstr_fd("\nFailed to fork\n", 2), -1);
@@ -120,13 +125,13 @@ int	exec_cmd(t_command *cmd, char ***env)
 	if (builtin_result >= 0)
 		return (builtin_result);
 	bin_result = exec_bin(cmd, env, "");
-	if (bin_result != 1)
+	if (bin_result != 127)
 		return (bin_result);
 	bin_result = exec_bin(cmd, env, "/bin/");
-	if (bin_result != 1)
+	if (bin_result != 127)
 		return (bin_result);
 	bin_result = exec_bin(cmd, env, "/usr/bin/");
-	if (bin_result != 1)
+	if (bin_result != 127)
 		return (bin_result);
 	printf("%s: command not found\n", cmd->args[0]);
 	return (127);

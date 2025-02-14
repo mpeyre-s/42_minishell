@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:34:03 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/14 23:31:52 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/14 23:50:11 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <sys/wait.h>
 # include "libft/libft.h"
 # include <signal.h>
+# include <errno.h>
 
 // Color codes
 # define RED     "\033[0;31m"
