@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 12:44:06 by spike             #+#    #+#             */
-/*   Updated: 2025/02/14 17:38:26 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/15 13:35:15 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,3 +55,18 @@ void	free_command_list(t_command *cmd)
 	}
 }
 
+void	free_env(char ***env)
+{
+	int	i;
+
+	if (!env || !*env)
+		return;
+	i = 0;
+	while ((*env)[i])
+	{
+		free((*env)[i]);
+		i++;
+	}
+	free(*env);
+	*env = NULL;
+}
