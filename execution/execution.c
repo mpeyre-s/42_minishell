@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
+/*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:19:28 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/15 00:31:07 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/15 09:49:22 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ static int	exec_builtin(t_command *cmd, char ***env)
 {
 	if (ft_strncmp(cmd->args[0], "echo", ft_strlen(cmd->args[0])) == 0)
 		return (ft_echo(cmd));
-	else if (ft_strncmp(cmd->args[0], "exit", ft_strlen(cmd->args[0])) == 0)
-		return (ft_exit(cmd));
+	//else if (ft_strncmp(cmd->args[0], "exit", ft_strlen(cmd->args[0])) == 0)
+	//	return (ft_exit(cmd));
 	else if (ft_strncmp(cmd->args[0], "pwd", ft_strlen(cmd->args[0])) == 0)
 		return (ft_pwd(cmd));
 	else if (ft_strncmp(cmd->args[0], "cd", ft_strlen(cmd->args[0])) == 0)
