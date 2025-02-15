@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 17:25:43 by spike             #+#    #+#             */
-/*   Updated: 2025/02/14 17:45:41 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/15 10:41:46 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,8 @@ int	check_expansion(char *s, t_exp *exp)
 	int	i;
 
 	i = 0;
-	printf("exp->ac = %d\n", exp->ac);
 	while (i < exp->ac)
 	{
-		printf("%s VS %s\n", s, exp->av[i]);
 		if (ft_strncmp(s + 1, exp->av[i], ft_strlen(s)) == 0)
 			return (i);
 		i++;

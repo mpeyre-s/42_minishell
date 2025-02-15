@@ -26,7 +26,7 @@ SRC_FILES = init_av/count_args.c init_av/init_av.c init_av/parse_args.c \
 			errors/error_quote.c errors/errors.c \
 			execution/execution.c execution/file.c execution/pipe.c execution/stdin.c\
 			execution/utils/env_manager.c execution/utils/export_utils.c execution/utils/pipe_utils.c execution/utils/bin_utils.c\
-			execution/builtin/echo.c execution/builtin/exit.c execution/builtin/pwd.c  execution/builtin/env.c execution/builtin/export.c execution/builtin/unset.c execution/builtin/cd.c\
+			execution/builtin/echo.c execution/builtin/pwd.c  execution/builtin/env.c execution/builtin/export.c execution/builtin/unset.c execution/builtin/cd.c\
 			delete_quote/quote.c \
 			metachar/init_metachar.c \
 			before_exec/command.c before_exec/free.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
+/*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:34:03 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/15 00:28:22 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/15 10:32:49 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,8 @@ char		*build_new_av(char *before, char *exp, char *after);
 int			check_expansion(char *s, t_exp *exp);
 int			inside_single_quote(char *av, int limit);
 int			init_all(t_args *args);
-int			is_new_env(char **av, t_args *args, t_exp *exp);
-void		modify_exp(char *s1, char *s2, t_exp *exp, int flag);
+// int			is_new_env(char **av, t_args *args, t_exp *exp);
+// void		modify_exp(char *s1, char *s2, t_exp *exp, int flag);
 
 void		delete_one_exp(t_exp *exp, int n);
 void		add_new_exp(t_exp *exp, char *s1, char *s2);
@@ -137,7 +137,6 @@ int			modify_stdin_and_exec(t_command *cmd, char ***env, int *flag);
 int			stdin_heredoc(t_command *cmd, char *delim, char ***env, int *flag);
 
 int			ft_echo(t_command *cmd);
-int			ft_exit(t_command *cmd);
 int			ft_pwd(t_command *cmd);
 int			ft_env(char **env);
 int			ft_export(t_command *cmd, char ***env);

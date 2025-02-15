@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 16:08:11 by spike             #+#    #+#             */
-/*   Updated: 2025/02/14 17:49:03 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/15 10:41:10 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ int	replace_av(char *substr, char **av, int start, t_exp *exp)
 	if (split_av(*av, start, &before, &after) == -1)
 		return (-1);
 	i = check_expansion(substr, exp);
-	printf("check and found expansion ? i = %d\n", i);
 	if (i == -1)
 		expansion = ft_strdup("");
 	else
