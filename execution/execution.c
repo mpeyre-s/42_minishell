@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:19:28 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/15 10:31:52 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/17 23:24:11 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,10 @@ int	start_exec(t_command *cmd, char ***env, int flag)
 		if (cmd->heredoc_delim)
 			result = stdin_heredoc(cmd, cmd->heredoc_delim, env, &flag);
 		else if (cmd->input_file)
-			result = modify_stdin_and_exec(cmd, env, &flag);
+			result = modify_stdin_and_exec(cmd, env, &flag); // mais du coup ici aussi
 		return (result);
 	}
+	// faire pareil pour le stdout ?
 	result = process_cmd_sequence(cmd, env);
 	return (result);
 }
