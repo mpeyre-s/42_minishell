@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:31:16 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/17 18:11:33 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/17 20:35:46 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,20 @@ void	free_exp(t_exp **exp)
 {
 	if (!exp || !*exp)
 		return;
-	if (*exp)
-	{
-		free_split((*exp)->av, (*exp)->ac);
-		free_split((*exp)->translate, (*exp)->ac);
-	}
-	free (*exp);
+
+	free_split(&(*exp)->av, (*exp)->ac);
+	free_split(&(*exp)->translate, (*exp)->ac);
+
+	free(*exp);
 	*exp = NULL;
 }
+
+
 /*
 C'est ce code qui va lancer ton execution, dans la partie que j'ai faite, je crée la liste chainée
 commande, depuis cette fonction t'as du coup "commande" et "exp" que tu pourras utiliser.
 */
-int	exec(t_args *args, t_exp *exp, char ***env)
+int	exec(t_args *args, t_exp **exp, char ***env)
 {
 	t_command	*cmd;
 	int			result;
@@ -41,13 +42,13 @@ int	exec(t_args *args, t_exp *exp, char ***env)
 		return (-1);
 	}
 	result = start_exec(cmd, env, 0);
-	free_exp(&exp);
-	exp = malloc(sizeof(t_exp));
-	if (init_exp(exp, *env) == -1)
+	free_exp(exp);
+	*exp = malloc(sizeof(t_exp));
+	if (!*exp || init_exp(*exp, *env) == -1)
 		return (-1);
-	free(exp->translate[0]);
-	exp->translate[0] = ft_itoa(result);
-	if (!exp->translate[0])
+	free((*exp)->translate[0]);
+	(*exp)->translate[0] = ft_itoa(result);
+	if (!(*exp)->translate[0])
 	{
 		ft_putstr_fd("Error result allocation\n", 2);
 		free_command_list(cmd);
@@ -56,6 +57,7 @@ int	exec(t_args *args, t_exp *exp, char ***env)
 	free_command_list(cmd);
 	return (result);
 }
+
 
 int	parsing(char *rl, t_args *args, t_exp *exp)
 {
@@ -97,7 +99,7 @@ void shell_loop(char *rl, t_args *args, t_exp *exp, char ***env)
 			continue;
 		}
 
-		if (exec(args, exp, env) == -1)
+		if (exec(args, &exp, env) == -1)
 		{
 			free_main("pb exec\n", args, rl);
 			continue;

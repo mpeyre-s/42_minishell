@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:02:39 by spike             #+#    #+#             */
-/*   Updated: 2025/02/14 17:43:09 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/17 20:09:48 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,18 +58,25 @@ int	free_metachar(t_args *args)
 	return (-1);
 }
 
-int	free_split(char **str, int index)
+int	free_split(char ***str, int index)
 {
+	if (!str || !*str)
+		return (-1);
 	while (index > 0)
 	{
 		index--;
-		if (str[index])
-			free(str[index]);
+		if ((*str)[index])
+		{
+			free((*str)[index]);
+			(*str)[index] = NULL;
+		}
 	}
-	if (str)
-		free(str);
+	free(*str);
+	*str = NULL;
 	return (-1);
 }
+
+
 
 int	stop_main(char *s, t_args *args, t_exp *exp, char *rl)
 {
@@ -77,8 +84,8 @@ int	stop_main(char *s, t_args *args, t_exp *exp, char *rl)
 		free (args);
 	if (exp)
 	{
-		free_split(exp->av, exp->ac);
-		free_split(exp->translate, exp->ac);
+		free_split(&exp->av, exp->ac);
+		free_split(&exp->translate, exp->ac);
 		free (exp);
 	}
 	if (rl)
@@ -95,7 +102,7 @@ int	free_main(char *s, t_args *args, char *rl)
 {
 	if (args)
 	{
-		free_split(args->av, args->ac);
+		free_split(&args->av, args->ac);
 		free_metachar(args);
 		args->ac = 0;
 	}
