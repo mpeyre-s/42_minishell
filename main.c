@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:31:16 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/15 13:35:20 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/17 13:01:37 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,11 @@
 C'est ce code qui va lancer ton execution, dans la partie que j'ai faite, je crée la liste chainée
 commande, depuis cette fonction t'as du coup "commande" et "exp" que tu pourras utiliser.
 */
-int	exec(char *rl, t_args *args, t_exp *exp, char ***env)
+int	exec(t_args *args, t_exp *exp, char ***env)
 {
 	t_command	*cmd;
 	int			result;
 
-	(void)rl;
-	(void)exp;
 	cmd = create_command(args, 0);
 	if (!cmd)
 	{
@@ -30,8 +28,14 @@ int	exec(char *rl, t_args *args, t_exp *exp, char ***env)
 		return (-1);
 	}
 	result = start_exec(cmd, env, 0);
-
-	// Libérer la mémoire, il fautdrait tout libérer
+	free(exp->translate[0]);
+	exp->translate[0] = ft_itoa(result);
+	if (!exp->translate[0])
+	{
+		ft_putstr_fd("Error result allocation\n", 2);
+		free_command_list(cmd);
+		return (-1);
+	}
 	free_command_list(cmd);
 	return (result);
 }
@@ -75,7 +79,7 @@ void shell_loop(char *rl, t_args *args, t_exp *exp, char ***env)
 			continue;
 		}
 
-		if (exec(rl, args, exp, env) == -1)
+		if (exec(args, exp, env) == -1)
 		{
 			free_main("pb exec\n", args, rl);
 			continue;
