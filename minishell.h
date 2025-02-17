@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:34:03 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/17 20:11:27 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/17 21:48:20 by mathispeyre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,8 @@ int			copy_old_env(char ***env, char **new_env, size_t *i);
 char		*create_full_var(char *var_name, char *var_value);
 int			env_var_exist(t_command *cmd, char **env);
 int			handle_child_process(t_command *cmd, char ***env, char *path);
+char		**split_path(char *path_env);
+void		free_str(char **str);
 
 // --------PIPE & Co-----------
 void		handle_error(const char *msg, pid_t *pids, int (*pipe_fds)[2]);
