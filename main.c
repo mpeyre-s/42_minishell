@@ -3,28 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpeyre-s <mpeyre-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:31:16 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/17 16:43:21 by mpeyre-s         ###   ########.fr       */
+/*   Updated: 2025/02/17 18:11:33 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-// void	free_exp(t_exp **exp)
-// {
-// 	if (!exp || !*exp)
-// 		return;
-// 	if (*exp)
-// 	{
-// 		free_split((*exp)->av, (*exp)->ac);
-// 		free_split((*exp)->translate, (*exp)->ac);
-// 	}
-// 	free (*exp);
-// 	exp = NULL;
-// }
+void	free_exp(t_exp **exp)
+{
+	if (!exp || !*exp)
+		return;
+	if (*exp)
+	{
+		free_split((*exp)->av, (*exp)->ac);
+		free_split((*exp)->translate, (*exp)->ac);
+	}
+	free (*exp);
+	*exp = NULL;
+}
 /*
 C'est ce code qui va lancer ton execution, dans la partie que j'ai faite, je crée la liste chainée
 commande, depuis cette fonction t'as du coup "commande" et "exp" que tu pourras utiliser.
@@ -42,6 +42,7 @@ int	exec(t_args *args, t_exp *exp, char ***env)
 	}
 	result = start_exec(cmd, env, 0);
 	free_exp(&exp);
+	exp = malloc(sizeof(t_exp));
 	if (init_exp(exp, *env) == -1)
 		return (-1);
 	free(exp->translate[0]);
