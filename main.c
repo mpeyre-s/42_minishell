@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hduflos <hduflos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:31:16 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/17 13:01:37 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/17 15:08:39 by hduflos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ void shell_loop(char *rl, t_args *args, t_exp *exp, char ***env)
 		rl = readline (COMPUTER " Minishell > " RESET);
 		if (!rl || (strncmp(rl, "exit", 4) == 0 && (rl[4] == '\0' || rl[4] == ' ')))
 		{
-			stop_main(BYE " bye bye \n\n" RESET, args, exp, rl); // doit gerer $?
 			free_env(env);
+			stop_main(BYE " bye bye \n\n" RESET, args, exp, rl); // doit gerer $?
 			exit(0);
 		}
 		add_history(rl);
@@ -93,8 +93,9 @@ int	main(int ac, char **av, char **env)
 	t_args	*args;
 	t_exp	*exp;
 	char *rl;
-	char ***shell_env = ft_strdup_env(env);
+	char ***shell_env;
 
+	shell_env = ft_strdup_env(env);
 	printf("%s\n\n\n", MINISHELL_TEST);
 	(void)ac;
 	(void)av;
