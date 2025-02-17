@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mpeyre-s <mpeyre-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 10:01:43 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/14 22:57:41 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/17 16:22:52 by mpeyre-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static int	add_env_var(t_command *cmd, char ***env)
 	if (!new_env[i])
 		return (free_new_env(new_env, i));
 	new_env[i + 1] = NULL;
+	free_env(env);
 	*env = new_env;
 	return (0);
 }
