@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 15:02:46 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/18 18:57:26 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/18 23:00:01 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,29 +68,14 @@ int	execute_command(t_command *cmd, char ***env, int (*pipe_fds)[2],
 	return (result);
 }
 
-int	wait_for_children(pid_t *pids, int count)
+int	(*allocate_pipe_fds(int count))[2]
 {
-	int	i;
-	int	status;
-	int	exit_code;
+	int	(*pipe_fds)[2];
 
-	exit_code = 0;
-	signal(SIGINT, SIG_IGN);
-	i = 0;
-	while (i <= count)
-	{
-		waitpid(pids[i], &status, 0);
-		if (WIFSIGNALED(status))
-		{
-			if (WTERMSIG(status) == SIGINT)
-				write(STDOUT_FILENO, "\n", 1);
-		}
-		else if (WIFEXITED(status))
-			exit_code = WEXITSTATUS(status);
-		i++;
-	}
-	signal(SIGINT, handle_sigint);
-	return (exit_code);
+	pipe_fds = malloc(count * sizeof(*pipe_fds));
+	if (!pipe_fds)
+		handle_error("malloc", NULL, pipe_fds);
+	return (pipe_fds);
 }
 
 int	execute_pipe(t_command *cmd, char ***env)
@@ -100,13 +85,14 @@ int	execute_pipe(t_command *cmd, char ***env)
 	int		(*pipe_fds)[2];
 	int		result;
 
+
 	count = count_pipes(cmd);
 	pids = allocate_pids(count);
 	pipe_fds = allocate_pipe_fds(count);
 	create_pipes(pipe_fds, count, pids);
-	result = execute_command(cmd, env, pipe_fds, pids);
+	execute_command(cmd, env, pipe_fds, pids);
 	close_pipes(pipe_fds, count);
-	wait_for_children(pids, count);
+	result = wait_for_children(pids, count);
 	free(pids);
 	free(pipe_fds);
 	return (result);

@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:34:03 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/18 17:24:35 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/18 22:18:59 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,6 @@ void		free_str(char **str);
 void		handle_error(const char *msg, pid_t *pids, int (*pipe_fds)[2]);
 int			count_pipes(t_command *cmd);
 pid_t		*allocate_pids(int count);
-int			(*allocate_pipe_fds(int count))[2];
 void		create_pipes(int (*pipe_fds)[2], int count, pid_t *pids);
 void		setup_fds(int i, int count, int (*pipe_fds)[2], t_command *cur);
 void		close_pipes(int (*pipe_fds)[2], int count);
@@ -138,7 +137,9 @@ int			wait_for_children(pid_t *pids, int count);
 //------------UTILS---------------
 void		handle_sigint(int sig);
 void		handle_signals(void);
+void		handle_signal_status(int status);
 int			empty_rl(char *rl);
 void		shell_lvl(char ***env);
+void		handle_signals_and_wait(pid_t pid, int *status);
 
 #endif

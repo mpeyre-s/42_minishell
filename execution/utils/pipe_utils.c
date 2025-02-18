@@ -3,14 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
+/*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 16:07:03 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/14 23:10:07 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/18 23:05:09 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+int	wait_for_children(pid_t *pids, int count)
+{
+	int	i;
+	int	status;
+	int	exit_code;
+
+	exit_code = 0;
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+	i = 0;
+	while (i <= count)
+	{
+		waitpid(pids[i], &status, 0);
+		handle_signal_status(status);
+		if (WIFSIGNALED(status))
+			exit_code = 128 + WTERMSIG(status);
+		if (WIFEXITED(status))
+			exit_code = WEXITSTATUS(status);
+		i++;
+	}
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_DFL);
+	return (exit_code);
+}
 
 void	handle_error(const char *msg, pid_t *pids, int (*pipe_fds)[2])
 {
@@ -46,16 +71,6 @@ pid_t	*allocate_pids(int count)
 	if (!pids)
 		handle_error("malloc", NULL, NULL);
 	return (pids);
-}
-
-int	(*allocate_pipe_fds(int count))[2]
-{
-	int	(*pipe_fds)[2];
-
-	pipe_fds = malloc(count * sizeof(*pipe_fds));
-	if (!pipe_fds)
-		handle_error("malloc", NULL, pipe_fds);
-	return (pipe_fds);
 }
 
 void	create_pipes(int (*pipe_fds)[2], int count, pid_t *pids)
