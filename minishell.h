@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:34:03 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/18 12:26:47 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/18 14:01:53 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,5 +170,6 @@ int			wait_for_children(pid_t *pids, int count);
 //------------UTILS---------------
 
 void		handle_sigint(int sig);
+int			empty_rl(char *rl);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:31:16 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/17 20:35:46 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/18 14:08:57 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,13 @@ void	free_exp(t_exp **exp)
 C'est ce code qui va lancer ton execution, dans la partie que j'ai faite, je crée la liste chainée
 commande, depuis cette fonction t'as du coup "commande" et "exp" que tu pourras utiliser.
 */
-int	exec(t_args *args, t_exp **exp, char ***env)
+int	exec(char *rl, t_args *args, t_exp **exp, char ***env)
 {
 	t_command	*cmd;
 	int			result;
 
+	if (empty_rl(rl))
+		return (0);
 	cmd = create_command(args, 0);
 	if (!cmd)
 	{
@@ -50,7 +52,6 @@ int	exec(t_args *args, t_exp **exp, char ***env)
 	(*exp)->translate[0] = ft_itoa(result);
 	if (!(*exp)->translate[0])
 	{
-		ft_putstr_fd("Error result allocation\n", 2);
 		free_command_list(cmd);
 		return (-1);
 	}
@@ -61,6 +62,8 @@ int	exec(t_args *args, t_exp **exp, char ***env)
 
 int	parsing(char *rl, t_args *args, t_exp *exp)
 {
+	if (empty_rl(rl))
+		return (-2);
 	args->ac = 0;
 	args->av = init_av(rl, &args->ac, 0);
 	if (!args->av)
@@ -99,7 +102,7 @@ void shell_loop(char *rl, t_args *args, t_exp *exp, char ***env)
 			continue;
 		}
 
-		if (exec(args, &exp, env) == -1)
+		if (exec(rl, args, &exp, env) == -1)
 		{
 			free_main("pb exec\n", args, rl);
 			continue;
@@ -117,7 +120,8 @@ int	main(int ac, char **av, char **env)
 
 	shell_env = ft_strdup_env(env);
 	printf("%s\n\n\n", MINISHELL_TEST);
-	(void)ac;
+	if (ac > 1)
+		return (0);
 	(void)av;
 	args = malloc(sizeof(t_args));
 	exp = malloc(sizeof(t_exp));

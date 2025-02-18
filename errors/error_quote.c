@@ -6,12 +6,33 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:55:27 by spike             #+#    #+#             */
-/*   Updated: 2025/02/14 17:42:52 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/18 14:01:25 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+
+
+static int	ft_isspace(int c)
+{
+	return (c == ' ' || c == '\t' || c == '\n'
+		|| c == '\v' || c == '\f' || c == '\r');
+}
+
+int	empty_rl(char *rl)
+{
+	int	i;
+
+	i = 0;
+	while (rl[i])
+	{
+		if (ft_isspace(rl[i]) == 0)
+			return (0);
+		i++;
+	}
+	return (1);
+}
 /* verifie si les quotes se ferment correctement */
 int	quote(char *s)
 {
