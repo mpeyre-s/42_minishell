@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:19:28 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/17 22:14:01 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/18 12:13:58 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ static int	process_cmd_sequence(t_command *cmd, char ***env)
 		next_cmd = cmd->next;
 		if (cmd->pipe_out && next_cmd)
 		{
+			if (cmd->output_file)
+				result = modify_stdout_and_exec(cmd, env);
 			result = execute_pipe(cmd, env);
 			while (cmd && cmd->pipe_out)
 				cmd = cmd->next;
@@ -99,9 +101,10 @@ int	start_exec(t_command *cmd, char ***env, int flag)
 		if (cmd->heredoc_delim)
 			result = stdin_heredoc(cmd, cmd->heredoc_delim, env, &flag);
 		else if (cmd->input_file)
-			result = modify_stdin_and_exec(cmd, env, &flag);
+			result = modify_stdin_and_exec(cmd, env, &flag); // mais du coup ici aussi
 		return (result);
 	}
+	// faire pareil pour le stdout ?
 	result = process_cmd_sequence(cmd, env);
 	return (result);
 }

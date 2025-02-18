@@ -6,7 +6,7 @@
 /*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:34:03 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/17 21:48:20 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/18 12:26:47 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ void		setup_fds(int i, int count, int (*pipe_fds)[2], t_command *cur);
 void		close_pipes(int (*pipe_fds)[2], int count);
 int			execute_command(t_command *cmd, char ***env, int (*pipe_fds)[2],
 				pid_t *pids);
-void		wait_for_children(pid_t *pids, int count);
+int			wait_for_children(pid_t *pids, int count);
 
 //------------UTILS---------------
 
