@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 15:27:31 by spike             #+#    #+#             */
-/*   Updated: 2025/01/27 18:05:33 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/18 18:50:30 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,10 @@ void	check_metachar(t_args *args, char *av, int quote, int i)
 		args->redirect_input[i] = 1;
 	if (ft_strncmp(av, "<<", len) == 0 && quote == 0 && len == 2)
 		args->heredoc[i] = 1;
-	if (args->pipe[i] == 1 || args->redirect_input[i] == 1 ||
-		args->redirect_output[i] == 1 || args->append_redirect[i] == 1 ||
-		args->heredoc[i] == 1)
+	if (args->pipe[i] == 1 || args->redirect_input[i] == 1
+		|| args->redirect_output[i] == 1
+		|| args->append_redirect[i] == 1
+		|| args->heredoc[i] == 1)
 		args->metachar[i] = 1;
 }
 
@@ -65,7 +66,6 @@ int	init_all(t_args *args)
 		free_metachar(args);
 		return (-1);
 	}
-
 	i = 0;
 	while (i < args->ac)
 	{

@@ -6,35 +6,29 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:31:16 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/17 20:35:46 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/18 18:48:33 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
 void	free_exp(t_exp **exp)
 {
 	if (!exp || !*exp)
-		return;
-
+		return ;
 	free_split(&(*exp)->av, (*exp)->ac);
 	free_split(&(*exp)->translate, (*exp)->ac);
-
 	free(*exp);
 	*exp = NULL;
 }
 
-
-/*
-C'est ce code qui va lancer ton execution, dans la partie que j'ai faite, je crée la liste chainée
-commande, depuis cette fonction t'as du coup "commande" et "exp" que tu pourras utiliser.
-*/
-int	exec(t_args *args, t_exp **exp, char ***env)
+int	exec(char *rl, t_args *args, t_exp **exp, char ***env)
 {
 	t_command	*cmd;
 	int			result;
 
+	if (empty_rl(rl))
+		return (0);
 	cmd = create_command(args, 0);
 	if (!cmd)
 	{
@@ -50,7 +44,6 @@ int	exec(t_args *args, t_exp **exp, char ***env)
 	(*exp)->translate[0] = ft_itoa(result);
 	if (!(*exp)->translate[0])
 	{
-		ft_putstr_fd("Error result allocation\n", 2);
 		free_command_list(cmd);
 		return (-1);
 	}
@@ -58,9 +51,10 @@ int	exec(t_args *args, t_exp **exp, char ***env)
 	return (result);
 }
 
-
 int	parsing(char *rl, t_args *args, t_exp *exp)
 {
+	if (empty_rl(rl))
+		return (0);
 	args->ac = 0;
 	args->av = init_av(rl, &args->ac, 0);
 	if (!args->av)
@@ -79,32 +73,32 @@ int	parsing(char *rl, t_args *args, t_exp *exp)
 	return (0);
 }
 
-void shell_loop(char *rl, t_args *args, t_exp *exp, char ***env)
+void	shell_loop(char *rl, t_args *args, t_exp *exp, char ***env)
 {
 	while (1)
 	{
 		usleep(5000);
 		rl = readline (COMPUTER " Minishell > " RESET);
-		if (!rl || (strncmp(rl, "exit", 4) == 0 && (rl[4] == '\0' || rl[4] == ' ')))
+		if (!rl || (strncmp(rl, "exit", 4) == 0 && (rl[4] == '\0'
+					|| rl[4] == ' ')))
 		{
 			free_env(env);
 			free(env);
-			stop_main(BYE " bye bye \n\n" RESET, args, exp, rl); // doit gerer $?
+			stop_main(BYE " bye bye \n\n" RESET, args, exp, rl);
 			exit(0);
 		}
 		add_history(rl);
 		if (parsing(rl, args, exp) == -1)
 		{
 			free_main("pb parsing\n", args, rl);
-			continue;
+			continue ;
 		}
-
-		if (exec(args, &exp, env) == -1)
+		if (exec(rl, args, &exp, env) == -1)
 		{
 			free_main("pb exec\n", args, rl);
-			continue;
+			continue ;
 		}
-		free_main(NULL, args, rl); // on ne libère pas exp si c'est correct
+		free_main(NULL, args, rl);
 	}
 }
 
@@ -112,13 +106,17 @@ int	main(int ac, char **av, char **env)
 {
 	t_args	*args;
 	t_exp	*exp;
-	char *rl;
-	char ***shell_env;
+	char	*rl;
+	char	***shell_env;
 
-	shell_env = ft_strdup_env(env);
-	printf("%s\n\n\n", MINISHELL_TEST);
-	(void)ac;
+	if (ac > 1)
+	{
+		printf("problem with arguments");
+		return (0);
+	}
 	(void)av;
+	shell_env = ft_strdup_env(env);
+	shell_lvl(shell_env);
 	args = malloc(sizeof(t_args));
 	exp = malloc(sizeof(t_exp));
 	rl = NULL;
@@ -126,10 +124,7 @@ int	main(int ac, char **av, char **env)
 		return (stop_main("problem w/ malloc\n", args, exp, rl));
 	if (init_exp(exp, env) == -1)
 		return (stop_main("\nEnv error\n", args, exp, rl));
-
-	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, SIG_IGN);
-
+	handle_signals();
 	shell_loop(rl, args, exp, shell_env);
 	return (0);
 }

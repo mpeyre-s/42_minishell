@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 17:25:43 by spike             #+#    #+#             */
-/*   Updated: 2025/02/15 10:41:46 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/18 19:04:26 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ int	check_expansion(char *s, t_exp *exp)
 	}
 	return (-1);
 }
-char *ft_strcat(char *dest, char *s)
+
+char	*ft_strcat(char *dest, char *s)
 {
 	int	i;
 	int	j;
@@ -57,4 +58,3 @@ char	*build_new_av(char *before, char *exp, char *after)
 	result = ft_strcat(result, after);
 	return (result);
 }
-

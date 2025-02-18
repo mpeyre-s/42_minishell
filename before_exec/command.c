@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 22:30:31 by spike             #+#    #+#             */
-/*   Updated: 2025/02/14 17:38:09 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/18 18:53:16 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,13 @@ void	parse_args_cmd(t_args *args, t_command *cmd, int start, int end)
 		{
 			cmd->args[i] = ft_strdup(args->av[start + j]);
 			if (!cmd->args[i])
-				return (free_str(cmd->args)) ;
+				return (free_str(cmd->args));
 			i++;
 		}
-		else if (args->redirect_input[start + j] ||
-				args->redirect_output[start + j] ||
-				args->append_redirect[start + j] ||
-				args->heredoc[start + j])
+		else if (args->redirect_input[start + j]
+			|| args->redirect_output[start + j]
+			|| args->append_redirect[start + j]
+			|| args->heredoc[start + j])
 			j++;
 		j++;
 	}
@@ -88,7 +88,7 @@ void	parse_metachar(t_args *args, t_command *cmd, int start, int end)
 
 t_command	*parse_command(t_args *args, int start, int end)
 {
-	t_command *cmd;
+	t_command	*cmd;
 
 	cmd = (t_command *)malloc(sizeof(t_command));
 	if (!cmd)
@@ -106,8 +106,8 @@ t_command	*parse_command(t_args *args, int start, int end)
 
 t_command	*create_command(t_args *args, int start)
 {
-	int	i;
-	t_command *cmd;
+	int			i;
+	t_command	*cmd;
 
 	i = start;
 	while (i < args->ac && !args->pipe[i])

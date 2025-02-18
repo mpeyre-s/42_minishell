@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 15:30:41 by spike             #+#    #+#             */
-/*   Updated: 2025/02/15 10:35:54 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/18 19:05:59 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ int	search_and_count_dollars(char *av)
 
 char	*substr_dollar(char *av)
 {
-	int	i;
-	int	start;
-	char *sub_av;
+	int		i;
+	int		start;
+	char	*sub_av;
 
 	i = 0;
 	while (av[i])
@@ -75,9 +75,9 @@ char	*substr_dollar(char *av)
 
 int	parse_exp(t_args *args, t_exp *exp)
 {
-	int	i;
-	int dollars;
-	char *sub_av;
+	int		i;
+	int		dollars;
+	char	*sub_av;
 
 	i = -1;
 	while (++i < args->ac)

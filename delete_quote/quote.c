@@ -6,13 +6,13 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 09:18:52 by spike             #+#    #+#             */
-/*   Updated: 2025/02/14 17:42:08 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/18 18:51:00 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int quoted(char *av, int i, int count)
+int	quoted(char *av, int i, int count)
 {
 	char	quote;
 
@@ -34,7 +34,7 @@ int quoted(char *av, int i, int count)
 		}
 		i++;
 	}
-	return count;
+	return (count);
 }
 
 char	*remove_outer_quotes(char *av, char quote, int i, int j)

@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 16:52:18 by spike             #+#    #+#             */
-/*   Updated: 2025/02/14 17:45:03 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/18 19:04:42 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	add_and_free(t_exp *exp, char **new_av, char **new_translate)
 		new_av[i] = ft_strdup(exp->av[i]);
 		new_translate[i] = ft_strdup(exp->translate[i]);
 	}
-
 	i = -1;
 	while (++i < exp->ac)
 	{

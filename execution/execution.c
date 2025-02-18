@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
+/*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:19:28 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/18 14:38:03 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/18 19:06:36 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,9 @@ static int	exec_bin(t_command *cmd, char ***env, char *path)
 	return (0);
 }
 
-static int	process_cmd_sequence(t_command *cmd, char ***env)
+static int	process_cmd_sequence(t_command *cmd, char ***env, int result)
 {
 	t_command	*next_cmd;
-	int			result;
 
 	while (cmd)
 	{
@@ -87,10 +86,6 @@ static int	process_cmd_sequence(t_command *cmd, char ***env)
 	return (result);
 }
 
-/** Unique entry point for command execution.
-* Execution of the entire commandS stocked in the linked list. Depending on the
-* presence of pipes or redirections, it modifies the standard input/output
-(stdin/stdout) accordingly. */
 int	start_exec(t_command *cmd, char ***env, int flag)
 {
 	int	result;
@@ -101,16 +96,13 @@ int	start_exec(t_command *cmd, char ***env, int flag)
 		if (cmd->heredoc_delim)
 			result = stdin_heredoc(cmd, cmd->heredoc_delim, env, &flag);
 		else if (cmd->input_file)
-			result = modify_stdin_and_exec(cmd, env, &flag); // mais du coup ici aussi
+			result = modify_stdin_and_exec(cmd, env, &flag);
 		return (result);
 	}
-	// faire pareil pour le stdout ?
-	result = process_cmd_sequence(cmd, env);
+	result = process_cmd_sequence(cmd, env, 0);
 	return (result);
 }
 
-/** This function is called only to execute the command after checking
-if it is an external command or an internal (builtin) command. */
 int	exec_cmd(t_command *cmd, char ***env)
 {
 	int		builtin_result;

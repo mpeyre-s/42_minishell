@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 15:02:46 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/18 12:30:33 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/18 18:57:26 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,9 @@ int	wait_for_children(pid_t *pids, int count)
 {
 	int	i;
 	int	status;
-	int	exit_code = 0;
+	int	exit_code;
 
+	exit_code = 0;
 	signal(SIGINT, SIG_IGN);
 	i = 0;
 	while (i <= count)
@@ -91,7 +92,6 @@ int	wait_for_children(pid_t *pids, int count)
 	signal(SIGINT, handle_sigint);
 	return (exit_code);
 }
-
 
 int	execute_pipe(t_command *cmd, char ***env)
 {

@@ -6,10 +6,9 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:02:39 by spike             #+#    #+#             */
-/*   Updated: 2025/02/17 20:09:48 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/18 19:02:11 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../minishell.h"
 
@@ -76,8 +75,6 @@ int	free_split(char ***str, int index)
 	return (-1);
 }
 
-
-
 int	stop_main(char *s, t_args *args, t_exp *exp, char *rl)
 {
 	if (args)
@@ -93,7 +90,7 @@ int	stop_main(char *s, t_args *args, t_exp *exp, char *rl)
 		clear_history();
 		free (rl);
 	}
-	if (s) // si il y a un message d'erreur mettre env $? a 1 sinon a 0
+	if (s)
 		ft_putstr_fd(s, 2);
 	return (1);
 }
@@ -108,8 +105,7 @@ int	free_main(char *s, t_args *args, char *rl)
 	}
 	if (rl)
 		free (rl);
-	if (s) // si il y a un message d'erreur mettre env $? a 1 sinon a 0
+	if (s)
 		ft_putstr_fd(s, 2);
 	return (1);
 }
-

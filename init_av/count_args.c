@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 14:47:39 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/14 18:04:45 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/18 18:56:08 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,17 @@ int	handle_metachar(char *s, int *i)
 
 int	logic_count_args(char *s, int *i, char *quote)
 {
-	int ret;
+	int	ret;
 
-	if ((ret = handle_quotes(s, i, quote)) != 0)
+	ret = handle_quotes(s, i, quote);
+	if (ret != 0)
 		return (ret);
 	else if (is_metachar(s[*i]))
-		return handle_metachar(s, i);
+		return (handle_metachar(s, i));
 	else
 	{
 		while (s[*i] != ' ' && s[*i] != '\0'
-				&& !is_metachar(s[*i]) && s[*i] != '\'' && s[*i] != '"')
+			&& !is_metachar(s[*i]) && s[*i] != '\'' && s[*i] != '"')
 			(*i)++;
 	}
 	return (0);

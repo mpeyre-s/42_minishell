@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:28:05 by hduflos           #+#    #+#             */
-/*   Updated: 2025/02/14 17:52:23 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/18 18:54:12 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,11 @@ int	parse_args(char *s, int *i, int *start)
 	while (s[*i] != '\0')
 	{
 		if (handle_quotes(s, i, &quote))
-			continue;
+			continue ;
 		if (quote == '\0' && is_metachar(s[*i]))
-			break;
+			break ;
 		if (quote == '\0' && s[*i] == ' ')
-			break;
+			break ;
 		(*i)++;
 	}
 	return (1);

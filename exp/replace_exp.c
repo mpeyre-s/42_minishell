@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 16:08:11 by spike             #+#    #+#             */
-/*   Updated: 2025/02/15 10:41:10 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/18 19:05:04 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ int	find_variable_start(char *av)
 	}
 	return (-1);
 }
-
 
 int	replace_av(char *substr, char **av, int start, t_exp *exp)
 {

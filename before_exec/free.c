@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 12:44:06 by spike             #+#    #+#             */
-/*   Updated: 2025/02/15 13:35:15 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/18 18:53:44 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	free_str(char **str)
 void	free_command(t_command *cmd)
 {
 	if (!cmd)
-		return;
+		return ;
 	if (cmd->args)
 		free_str(cmd->args);
 	if (cmd->input_file)
@@ -60,7 +60,7 @@ void	free_env(char ***env)
 	int	i;
 
 	if (!env || !*env)
-		return;
+		return ;
 	i = 0;
 	while ((*env)[i])
 	{
