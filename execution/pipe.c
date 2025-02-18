@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathispeyre <mathispeyre@student.42.fr>    +#+  +:+       +#+        */
+/*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 15:02:46 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/14 23:14:36 by mathispeyre      ###   ########.fr       */
+/*   Updated: 2025/02/18 12:30:33 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,18 +68,30 @@ int	execute_command(t_command *cmd, char ***env, int (*pipe_fds)[2],
 	return (result);
 }
 
-void	wait_for_children(pid_t *pids, int count)
+int	wait_for_children(pid_t *pids, int count)
 {
 	int	i;
 	int	status;
+	int	exit_code = 0;
 
+	signal(SIGINT, SIG_IGN);
 	i = 0;
 	while (i <= count)
 	{
 		waitpid(pids[i], &status, 0);
+		if (WIFSIGNALED(status))
+		{
+			if (WTERMSIG(status) == SIGINT)
+				write(STDOUT_FILENO, "\n", 1);
+		}
+		else if (WIFEXITED(status))
+			exit_code = WEXITSTATUS(status);
 		i++;
 	}
+	signal(SIGINT, handle_sigint);
+	return (exit_code);
 }
+
 
 int	execute_pipe(t_command *cmd, char ***env)
 {

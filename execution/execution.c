@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:19:28 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/17 23:24:11 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/18 12:13:58 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ static int	process_cmd_sequence(t_command *cmd, char ***env)
 		next_cmd = cmd->next;
 		if (cmd->pipe_out && next_cmd)
 		{
+			if (cmd->output_file)
+				result = modify_stdout_and_exec(cmd, env);
 			result = execute_pipe(cmd, env);
 			while (cmd && cmd->pipe_out)
 				cmd = cmd->next;
