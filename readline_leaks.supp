@@ -4,3 +4,5 @@
     ...
     obj:*/libreadline.so.*
 }
+
+valgrind --suppressions=readline_leaks.supp --leak-check=full --show-leak-kinds=all ./minishell
