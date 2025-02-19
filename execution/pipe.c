@@ -6,7 +6,7 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 15:02:46 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/18 23:00:01 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/19 14:34:13 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,34 @@
 
 void	setup_fds(int i, int count, int (*pipe_fds)[2], t_command *cur)
 {
+	int f;
+
 	if (i == 0 && cur->pipe_out)
 		dup2(pipe_fds[0][1], STDOUT_FILENO);
 	else if (i == count)
+	{
 		dup2(pipe_fds[i - 1][0], STDIN_FILENO);
+		if (cur->output_file)
+		{
+			if (cur->append == 2)
+				f = open(cur->output_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			else
+				f = open(cur->output_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (f == -1)
+				handle_error("open output_file", NULL, NULL);
+			dup2(f, STDOUT_FILENO);
+			close(f);
+		}
+	}
 	else
 	{
 		dup2(pipe_fds[i - 1][0], STDIN_FILENO);
 		dup2(pipe_fds[i][1], STDOUT_FILENO);
 	}
+	close_pipes(pipe_fds, count);
 }
+
+
 
 void	close_pipes(int (*pipe_fds)[2], int count)
 {
