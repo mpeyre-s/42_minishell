@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpeyre-s <mpeyre-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 15:02:46 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/19 14:41:13 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/19 15:13:50 by mpeyre-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	setup_fds(int i, int count, int (*pipe_fds)[2], t_command *cur)
 {
-	int f;
+	int	f;
 
 	if (i == 0 && cur->pipe_out)
 		dup2(pipe_fds[0][1], STDOUT_FILENO);
@@ -40,8 +40,6 @@ void	setup_fds(int i, int count, int (*pipe_fds)[2], t_command *cur)
 	}
 	close_pipes(pipe_fds, count);
 }
-
-
 
 void	close_pipes(int (*pipe_fds)[2], int count)
 {
