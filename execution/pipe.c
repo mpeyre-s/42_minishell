@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hduflos <hduflos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 15:02:46 by mathispeyre       #+#    #+#             */
-/*   Updated: 2025/02/18 23:00:01 by spike            ###   ########.fr       */
+/*   Updated: 2025/02/19 13:23:05 by hduflos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ int	execute_pipe(t_command *cmd, char ***env)
 	pid_t	*pids;
 	int		(*pipe_fds)[2];
 	int		result;
-
 
 	count = count_pipes(cmd);
 	pids = allocate_pids(count);
